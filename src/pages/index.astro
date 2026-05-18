@@ -16,6 +16,7 @@ import Layout from '../layouts/Layout.astro';
         <li><a href="#experience">Experience</a></li>
         <li><a href="#projects">Projects</a></li>
         <li><a href="#research">Research</a></li>
+        <li><a href="#hackathons">Hackathons</a></li>
         <li><a href="#skills">Skills</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
@@ -34,10 +35,19 @@ import Layout from '../layouts/Layout.astro';
       <a href="#experience" role="menuitem">Experience</a>
       <a href="#projects" role="menuitem">Projects</a>
       <a href="#research" role="menuitem">Research</a>
+      <a href="#hackathons" role="menuitem">Hackathons</a>
       <a href="#skills" role="menuitem">Skills</a>
       <a href="#contact" role="menuitem">Contact</a>
     </div>
   </nav>
+
+  <!-- Boot sequence overlay -->
+  <div id="boot-overlay" aria-hidden="true">
+    <div id="boot-scanline"></div>
+    <div id="boot-text">
+      <span id="boot-name"></span><span class="boot-cursor">&#9608;</span>
+    </div>
+  </div>
 
   <main>
     <!-- HERO -->
@@ -244,6 +254,7 @@ import Layout from '../layouts/Layout.astro';
                 <span class="stack-tag">Gemini 2.5 Flash</span>
               </div>
               <p class="card-description">Computer vision pipeline for basketball jump-shot analysis using markerless pose estimation and ball tracking. Integrates MediaPipe and RTMPose into a pluggable pose architecture that generates a canonical 12-joint schema for kinematic analysis. Extracts an 8D kinematic fingerprint matched against NBA player profiles via ChromaDB vector search with LLM-generated coaching feedback. Implements injury-risk indicators including knee valgus, landing mechanics, and upper-extremity load derived from pose trajectories.</p>
+              <div class="card-origin-note">Shipped at YC x Google DeepMind Hackathon &bull; with Yashvardhan Gupta, Dishaa Bornare, Vineeth Sakhamuru</div>
               <span class="card-metric"><span class="count-up" data-target="500">0</span>+ NBA players indexed</span>
               <a
                 href="https://github.com/parvpatodia/Laksh_AI"
@@ -328,12 +339,14 @@ import Layout from '../layouts/Layout.astro';
                   </tr>
                 </tbody>
               </table>
-              <div class="code-block" aria-label="Code snippet: attention mechanism implementation">
-                <pre><span class="code-kw">def</span> <span class="code-fn">attention</span><span class="code-punc">(</span><span class="code-var">self</span><span class="code-punc">,</span> Q<span class="code-punc">,</span> K<span class="code-punc">,</span> V<span class="code-punc">):</span>
-    <span class="code-var">d_k</span> <span class="code-op">=</span> Q<span class="code-punc">.</span>shape<span class="code-punc">[-</span><span class="code-num">1</span><span class="code-punc">]</span>
-    <span class="code-var">scores</span> <span class="code-op">=</span> <span class="code-punc">(</span>Q <span class="code-op">@</span> K<span class="code-punc">.</span><span class="code-fn">transpose</span><span class="code-punc">(-</span><span class="code-num">2</span><span class="code-punc">, -</span><span class="code-num">1</span><span class="code-punc">))</span> <span class="code-op">/</span> math<span class="code-punc">.</span><span class="code-fn">sqrt</span><span class="code-punc">(</span>d_k<span class="code-punc">)</span>
-    <span class="code-var">weights</span> <span class="code-op">=</span> F<span class="code-punc">.</span><span class="code-fn">softmax</span><span class="code-punc">(</span>scores<span class="code-punc">,</span> dim<span class="code-op">=-</span><span class="code-num">1</span><span class="code-punc">)</span>
-    <span class="code-kw">return</span> weights <span class="code-op">@</span> V<span class="code-punc">,</span> weights</pre>
+              <!-- Attention map canvas -->
+              <div class="attn-map-wrap" aria-label="Live attention map visualization from ViT encoder">
+                <div class="attn-map-label">
+                  <span class="attn-label-text">Encoder attention weights &mdash; head 3 / layer 6</span>
+                  <span class="attn-label-badge">live</span>
+                </div>
+                <canvas id="attn-canvas" width="224" height="224" style="width:100%;max-width:224px;display:block;margin:0 auto;border-radius:4px;"></canvas>
+                <div class="attn-map-hint">hover a patch to highlight attention</div>
               </div>
             </div>
           </div>
@@ -371,6 +384,33 @@ import Layout from '../layouts/Layout.astro';
 
         <h3 class="projects-subheading fade-in">Past</h3>
         <div class="past-projects-grid">
+
+          <!-- Multimodal RAG -->
+          <article class="past-card fade-in" aria-label="Multimodal RAG system project">
+            <div class="card-header">
+              <h4 class="card-title">Multimodal RAG System</h4>
+              <span class="status-badge status-active">Active</span>
+            </div>
+            <p class="card-period">2025 &ndash; Present</p>
+            <div class="stack-tags" style="margin-bottom:0.875rem;">
+              <span class="stack-tag">ColPali</span>
+              <span class="stack-tag">CLIP</span>
+              <span class="stack-tag">VLM</span>
+              <span class="stack-tag">FastAPI</span>
+              <span class="stack-tag">React</span>
+            </div>
+            <p class="card-description">Retrieval-augmented generation pipeline that indexes and queries over both text and images using ColPali page-level embeddings and CLIP visual representations. VLM handles grounded answer generation over retrieved visual context.</p>
+            <a
+              href="https://github.com/parvpatodia"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="card-link"
+              aria-label="View Multimodal RAG on GitHub (opens in new tab)"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+              View on GitHub
+            </a>
+          </article>
 
           <!-- MediTrack -->
           <article class="past-card fade-in" aria-label="MediTrack project">
@@ -461,7 +501,13 @@ import Layout from '../layouts/Layout.astro';
         <div class="research-card fade-in" aria-label="NTU Final Year Project">
           <div class="research-institution">School of Mechanical and Aerospace Engineering &bull; Nanyang Technological University, Singapore</div>
           <h3 class="research-title">Next Generation E-Drivetrain for Automated Mobile Robot Part I: Condition Monitoring</h3>
-          <div class="research-meta">Final Year Project &bull; 2024</div>
+          <div class="research-meta">
+            Final Year Project &bull; 2024
+            <span class="research-award-badge">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              Final Year Project Research Award
+            </span>
+          </div>
           <p class="research-abstract">Autonomous Mobile Robots perform navigation, sensor detection, and collaborative tasks across warehouses, manufacturing plants, and clinics. This study focuses on condition monitoring in electric drivetrains, using MATLAB and neural network models to visualise sensor data and predict drivetrain performance parameters. The investigation examined the effect of training data volume on prediction accuracy and produced results demonstrating the viability of real-time multi-parameter monitoring for mobile robot drivetrains.</p>
           <div class="research-cite" aria-label="Citation">Patodia, P. (2024). Final Year Project, NTU Singapore. hdl.handle.net/10356/177667</div>
           <div style="margin-top:1.25rem;">
@@ -480,11 +526,181 @@ import Layout from '../layouts/Layout.astro';
       </div>
     </section>
 
+    <!-- HACKATHONS -->
+    <section id="hackathons" aria-label="Hackathons and events">
+      <div class="container">
+        <div class="section-heading-wrap">
+          <span class="section-number" aria-hidden="true">05</span>
+          <h2 class="section-heading fade-in">Hackathons</h2>
+        </div>
+        <div class="section-line fade-in"></div>
+        <div class="hackathon-grid">
+
+          <article class="hackathon-card hackathon-card--win fade-in" aria-label="YC x Google DeepMind Hackathon">
+            <div class="hackathon-card-top">
+              <div class="hackathon-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              </div>
+              <div>
+                <h3 class="hackathon-name">YC x Google DeepMind Hackathon</h3>
+                <span class="hackathon-date">Dec 2024</span>
+              </div>
+            </div>
+            <p class="hackathon-desc">Shipped Laksh.ai from scratch: a full computer vision pipeline for basketball shot analysis with markerless pose estimation, kinematic fingerprinting, and LLM coaching feedback. Built in 48 hours with Yashvardhan Gupta, Dishaa Bornare, and Vineeth Sakhamuru.</p>
+            <div class="hackathon-tags">
+              <span class="hackathon-tag">MediaPipe</span>
+              <span class="hackathon-tag">YOLOv8</span>
+              <span class="hackathon-tag">ChromaDB</span>
+              <span class="hackathon-tag">Gemini 2.5</span>
+            </div>
+          </article>
+
+          <article class="hackathon-card hackathon-card--win fade-in" aria-label="Stanford GREEN AI Hackathon">
+            <div class="hackathon-card-top">
+              <div class="hackathon-icon hackathon-icon--gold" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              </div>
+              <div>
+                <h3 class="hackathon-name">Stanford GREEN AI Hackathon</h3>
+                <span class="hackathon-date">2025 &bull; Sponsored by Google &amp; Microsoft</span>
+              </div>
+            </div>
+            <p class="hackathon-desc">Won the Microsoft Sponsor Award. Built an AI sustainability solution with Nida Esen. The hackathon focused on applying AI to climate and environmental challenges.</p>
+            <div class="hackathon-tags">
+              <span class="hackathon-tag hackathon-tag--award">Microsoft Sponsor Award</span>
+            </div>
+          </article>
+
+          <article class="hackathon-card fade-in" aria-label="Northeastern University Silicon Valley Showcase">
+            <div class="hackathon-card-top">
+              <div class="hackathon-icon hackathon-icon--nu" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              </div>
+              <div>
+                <h3 class="hackathon-name">Northeastern SV Startup Showcase</h3>
+                <span class="hackathon-date">Late 2024</span>
+              </div>
+            </div>
+            <p class="hackathon-desc">PrismAI won the startup showcase at Northeastern Silicon Valley. Used AI analytics to turn raw sales data into actionable insights, tackling the "black box" problem in enterprise sales pipelines.</p>
+            <div class="hackathon-tags">
+              <span class="hackathon-tag hackathon-tag--award">Showcase Winner</span>
+              <span class="hackathon-tag">PrismAI</span>
+            </div>
+          </article>
+
+          <article class="hackathon-card fade-in" aria-label="NVIDIA GTC 2025">
+            <div class="hackathon-card-top">
+              <div class="hackathon-icon hackathon-icon--gtc" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+              </div>
+              <div>
+                <h3 class="hackathon-name">NVIDIA GTC 2025</h3>
+                <span class="hackathon-date">March 2025 &bull; San Jose, CA</span>
+              </div>
+            </div>
+            <p class="hackathon-desc">Attended Jensen Huang's keynote and sessions on autonomous vehicles, Blackwell architecture, and physical AI. Walked away with a concrete understanding of where the compute stack for robotics is heading.</p>
+            <div class="hackathon-tags">
+              <span class="hackathon-tag">Attended</span>
+              <span class="hackathon-tag">AV + Robotics</span>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- BEYOND CODE -->
+    <section id="beyond-code" aria-label="Hobbies and interests">
+      <div class="container">
+        <div class="section-heading-wrap">
+          <span class="section-number" aria-hidden="true">06</span>
+          <h2 class="section-heading fade-in">Beyond Code</h2>
+        </div>
+        <div class="section-line fade-in"></div>
+        <p class="beyond-intro fade-in">What I am actually like when I am not debugging a training loop.</p>
+        <div class="beyond-grid">
+
+          <div class="beyond-card fade-in" aria-label="Basketball interest">
+            <div class="beyond-card-vis" aria-hidden="true">
+              <!-- Basketball shot arc SVG -->
+              <svg class="beyond-sport-svg" viewBox="0 0 120 90" xmlns="http://www.w3.org/2000/svg">
+                <line x1="10" y1="80" x2="110" y2="80" stroke="var(--muted)" stroke-width="1" opacity="0.4"/>
+                <rect x="100" y="60" width="4" height="20" fill="var(--muted)" opacity="0.5"/>
+                <rect x="96" y="58" width="12" height="2" fill="var(--muted)" opacity="0.5"/>
+                <path class="shot-arc-anim" d="M20,78 C20,30 80,15 100,60" fill="none" stroke="var(--accent-green)" stroke-width="2" stroke-linecap="round" stroke-dasharray="200" stroke-dashoffset="200"/>
+                <circle class="ball-anim" cx="20" cy="78" r="5" fill="none" stroke="#F97316" stroke-width="2"/>
+              </svg>
+            </div>
+            <div class="beyond-card-text">
+              <h3 class="beyond-card-title">Basketball</h3>
+              <p class="beyond-card-desc">NBA obsessive. Grew up watching Steph and Kobe, started analyzing shot mechanics which eventually became Laksh.ai. Still playing pickup whenever I can.</p>
+            </div>
+          </div>
+
+          <div class="beyond-card fade-in" aria-label="Formula 1 interest">
+            <div class="beyond-card-vis" aria-hidden="true">
+              <!-- F1 circuit squiggle -->
+              <svg class="beyond-sport-svg" viewBox="0 0 120 90" xmlns="http://www.w3.org/2000/svg">
+                <path class="f1-circuit" d="M20,60 Q30,30 50,25 Q70,20 80,35 Q90,50 85,65 Q75,80 55,78 Q35,76 20,60Z" fill="none" stroke="var(--accent-blue)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="300" stroke-dashoffset="300"/>
+                <circle class="f1-car" cx="20" cy="60" r="4" fill="var(--accent-blue)"/>
+                <text x="55" y="52" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="7" fill="var(--muted)">Monaco</text>
+              </svg>
+            </div>
+            <div class="beyond-card-text">
+              <h3 class="beyond-card-title">Formula 1</h3>
+              <p class="beyond-card-desc">Follow every race, every strategy call. The gap between a 1:10.xxx and a 1:09.xxx lap fascinates me the same way the gap between a 87% and 88% F1 score does.</p>
+            </div>
+          </div>
+
+          <div class="beyond-card fade-in" aria-label="Cricket interest">
+            <div class="beyond-card-vis" aria-hidden="true">
+              <svg class="beyond-sport-svg" viewBox="0 0 120 90" xmlns="http://www.w3.org/2000/svg">
+                <!-- Cricket pitch -->
+                <rect x="52" y="20" width="16" height="50" fill="none" stroke="var(--muted)" stroke-width="0.8" opacity="0.4"/>
+                <!-- Stumps -->
+                <line x1="56" y1="65" x2="56" y2="72" stroke="var(--accent-cyan)" stroke-width="2"/>
+                <line x1="60" y1="65" x2="60" y2="72" stroke="var(--accent-cyan)" stroke-width="2"/>
+                <line x1="64" y1="65" x2="64" y2="72" stroke="var(--accent-cyan)" stroke-width="2"/>
+                <!-- Bat sweep -->
+                <path class="bat-sweep" d="M68,64 Q80,50 75,35" fill="none" stroke="var(--muted)" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+                <!-- Ball trajectory -->
+                <circle class="cricket-ball" cx="35" cy="48" r="4" fill="none" stroke="#EF4444" stroke-width="2"/>
+              </svg>
+            </div>
+            <div class="beyond-card-text">
+              <h3 class="beyond-card-title">Cricket</h3>
+              <p class="beyond-card-desc">Grew up playing gully cricket in India. Test cricket fan. Watching a proper pace bowler find line and length is as satisfying as a loss curve converging.</p>
+            </div>
+          </div>
+
+          <div class="beyond-card fade-in" aria-label="Tennis interest">
+            <div class="beyond-card-vis" aria-hidden="true">
+              <svg class="beyond-sport-svg" viewBox="0 0 120 90" xmlns="http://www.w3.org/2000/svg">
+                <!-- Net -->
+                <line x1="20" y1="45" x2="100" y2="45" stroke="var(--muted)" stroke-width="1" opacity="0.4"/>
+                <line x1="60" y1="25" x2="60" y2="65" stroke="var(--muted)" stroke-width="0.8" opacity="0.4"/>
+                <!-- Court outline -->
+                <rect x="20" y="25" width="80" height="40" fill="none" stroke="var(--muted)" stroke-width="0.8" opacity="0.3"/>
+                <!-- Ball arc -->
+                <path class="tennis-arc" d="M25,55 Q45,20 95,38" fill="none" stroke="var(--accent-green)" stroke-width="1.5" stroke-dasharray="150" stroke-dashoffset="150"/>
+                <circle class="tennis-ball" cx="25" cy="55" r="4" fill="none" stroke="var(--accent-green)" stroke-width="2"/>
+              </svg>
+            </div>
+            <div class="beyond-card-text">
+              <h3 class="beyond-card-title">Tennis</h3>
+              <p class="beyond-card-desc">Picked up tennis in Singapore. Big Djokovic fan. The tactical chess match between serve-and-volley and baseline play is underrated.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
     <!-- SKILLS -->
     <section id="skills" aria-label="Skills and education">
       <div class="container">
         <div class="section-heading-wrap">
-          <span class="section-number" aria-hidden="true">05</span>
+          <span class="section-number" aria-hidden="true">07</span>
           <h2 class="section-heading section-heading--terminal fade-in">
             <span class="terminal-path">~/parv</span>
             <span class="terminal-dollar"> $ </span>
@@ -574,7 +790,7 @@ import Layout from '../layouts/Layout.astro';
     <section id="contact" aria-label="Contact information">
       <div class="container">
         <div class="section-heading-wrap">
-          <span class="section-number" aria-hidden="true">06</span>
+          <span class="section-number" aria-hidden="true">08</span>
           <h2 class="section-heading fade-in">Contact</h2>
         </div>
         <div class="section-line fade-in"></div>
@@ -622,6 +838,49 @@ import Layout from '../layouts/Layout.astro';
 </Layout>
 
 <style>
+  /* ── Boot overlay ─────────────────────────────────────────────────────────── */
+  #boot-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+  #boot-overlay.done {
+    opacity: 0;
+    transition: opacity 0.35s ease 0.1s;
+    pointer-events: none;
+  }
+  #boot-scanline {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent-cyan);
+    box-shadow: 0 0 18px 4px var(--accent-cyan);
+    animation: scanline-sweep 0.55s ease-in forwards;
+  }
+  @keyframes scanline-sweep {
+    from { top: 0; opacity: 1; }
+    to   { top: 100%; opacity: 0.3; }
+  }
+  #boot-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(1.1rem, 3vw, 1.5rem);
+    color: var(--accent-cyan);
+    letter-spacing: 0.04em;
+    opacity: 0;
+    animation: boot-fadein 0.2s ease 0.45s forwards;
+  }
+  @keyframes boot-fadein { to { opacity: 1; } }
+  .boot-cursor {
+    animation: blink 0.6s step-end infinite;
+    color: var(--accent-cyan);
+  }
+
+  /* ── Projects subheading ─────────────────────────────────────────────────── */
   .projects-subheading {
     font-family: 'Space Grotesk', sans-serif;
     font-size: 0.9rem;
@@ -632,12 +891,8 @@ import Layout from '../layouts/Layout.astro';
     margin-bottom: 1.25rem;
   }
 
-  /* Code syntax classes */
-  .code-block pre {
-    white-space: pre;
-    overflow-x: auto;
-  }
-
+  /* ── Code syntax ─────────────────────────────────────────────────────────── */
+  .code-block pre { white-space: pre; overflow-x: auto; }
   .code-comment { color: var(--muted); }
   .code-kw      { color: var(--accent-blue); }
   .code-fn      { color: var(--accent-cyan); }
@@ -646,6 +901,263 @@ import Layout from '../layouts/Layout.astro';
   .code-op      { color: var(--body); }
   .code-punc    { color: var(--body); }
   .code-num     { color: #F59E0B; }
+
+  /* ── Laksh.ai origin note ────────────────────────────────────────────────── */
+  .card-origin-note {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-bottom: 0.875rem;
+    font-family: 'JetBrains Mono', monospace;
+    border-left: 2px solid var(--accent-cyan);
+    padding-left: 0.625rem;
+  }
+
+  /* ── Attention map ───────────────────────────────────────────────────────── */
+  .attn-map-wrap {
+    margin-top: 1.25rem;
+  }
+  .attn-map-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .attn-label-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+  }
+  .attn-label-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--accent-green);
+    border: 1px solid var(--accent-green);
+    padding: 0 0.35rem;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    animation: pulse-badge 2s ease-in-out infinite;
+  }
+  @keyframes pulse-badge {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.4; }
+  }
+  .attn-map-hint {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    text-align: center;
+    margin-top: 0.375rem;
+    opacity: 0.7;
+  }
+
+  /* ── Research award badge ────────────────────────────────────────────────── */
+  .research-award-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.75rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    color: #F59E0B;
+    border: 1px solid rgba(245,158,11,0.4);
+    background: rgba(245,158,11,0.08);
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    margin-left: 0.75rem;
+    vertical-align: middle;
+  }
+  .research-award-badge svg { stroke: #F59E0B; flex-shrink: 0; }
+
+  /* ── Hackathons section ──────────────────────────────────────────────────── */
+  .hackathon-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  .hackathon-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .hackathon-card:hover {
+    border-color: rgba(59,130,246,0.4);
+    transform: translateY(-2px);
+  }
+  .hackathon-card--win {
+    border-color: rgba(16,185,129,0.25);
+    background: rgba(16,185,129,0.03);
+  }
+  .hackathon-card--win:hover { border-color: rgba(16,185,129,0.5); }
+  .hackathon-card-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.875rem;
+    margin-bottom: 1rem;
+  }
+  .hackathon-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    background: rgba(59,130,246,0.12);
+    border: 1px solid rgba(59,130,246,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--accent-blue);
+  }
+  .hackathon-icon--gold {
+    background: rgba(245,158,11,0.12);
+    border-color: rgba(245,158,11,0.25);
+    color: #F59E0B;
+  }
+  .hackathon-icon--nu {
+    background: rgba(220,38,38,0.1);
+    border-color: rgba(220,38,38,0.2);
+    color: #EF4444;
+  }
+  .hackathon-icon--gtc {
+    background: rgba(16,185,129,0.1);
+    border-color: rgba(16,185,129,0.2);
+    color: var(--accent-green);
+  }
+  .hackathon-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--heading);
+    margin: 0 0 0.25rem;
+  }
+  .hackathon-date {
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .hackathon-desc {
+    font-size: 0.875rem;
+    color: var(--body);
+    line-height: 1.65;
+    margin-bottom: 1rem;
+  }
+  .hackathon-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .hackathon-tag {
+    font-size: 0.72rem;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    padding: 0.18rem 0.55rem;
+    border-radius: 4px;
+  }
+  .hackathon-tag--award {
+    color: #F59E0B;
+    border-color: rgba(245,158,11,0.4);
+    background: rgba(245,158,11,0.07);
+    font-weight: 600;
+  }
+
+  /* ── Beyond Code section ─────────────────────────────────────────────────── */
+  .beyond-intro {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .beyond-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+  .beyond-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .beyond-card:hover { border-color: rgba(59,130,246,0.3); transform: translateY(-2px); }
+  .beyond-card-vis {
+    background: rgba(0,0,0,0.2);
+    padding: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .beyond-sport-svg {
+    width: 100%;
+    height: 80px;
+    display: block;
+  }
+  .beyond-card-text { padding: 1.125rem 1.25rem; }
+  .beyond-card-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--heading);
+    margin: 0 0 0.5rem;
+  }
+  .beyond-card-desc {
+    font-size: 0.84rem;
+    color: var(--body);
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  /* ── Sport SVG animations ────────────────────────────────────────────────── */
+  @keyframes draw-path {
+    to { stroke-dashoffset: 0; }
+  }
+  @keyframes ball-travel-basketball {
+    0%   { cx: 20; cy: 78; }
+    40%  { cx: 60; cy: 25; }
+    100% { cx: 100; cy: 60; }
+  }
+  @keyframes ball-travel-tennis {
+    0%   { cx: 25; cy: 55; }
+    50%  { cx: 60; cy: 18; }
+    100% { cx: 95; cy: 38; }
+  }
+  @keyframes f1-car-travel {
+    0%   { cx: 20; cy: 60; }
+    15%  { cx: 35; cy: 32; }
+    30%  { cx: 55; cy: 23; }
+    50%  { cx: 75; cy: 30; }
+    65%  { cx: 87; cy: 48; }
+    80%  { cx: 80; cy: 68; }
+    95%  { cx: 48; cy: 77; }
+    100% { cx: 20; cy: 60; }
+  }
+  @keyframes cricket-ball-in {
+    0%   { cx: 90; cy: 30; opacity: 0; }
+    10%  { opacity: 1; }
+    100% { cx: 35; cy: 60; opacity: 1; }
+  }
+
+  .beyond-card:hover .shot-arc-anim {
+    animation: draw-path 0.9s ease forwards;
+  }
+  .beyond-card:hover .ball-anim {
+    animation: ball-travel-basketball 0.9s ease forwards;
+  }
+  .beyond-card:hover .tennis-arc {
+    animation: draw-path 0.8s ease forwards;
+  }
+  .beyond-card:hover .tennis-ball {
+    animation: ball-travel-tennis 0.85s ease forwards;
+  }
+  .beyond-card:hover .f1-circuit {
+    animation: draw-path 1.1s ease forwards;
+  }
+  .beyond-card:hover .f1-car {
+    animation: f1-car-travel 2.2s ease-in-out infinite;
+  }
+  .beyond-card:hover .cricket-ball {
+    animation: cricket-ball-in 0.7s ease forwards;
+  }
 </style>
 
 <script>
@@ -727,7 +1239,7 @@ window.addEventListener(
 );
 
 // ─── Active section nav highlight + breadcrumb ───────────────────────────────
-const sectionIds = ["about", "experience", "projects", "research", "skills", "contact"];
+const sectionIds = ["about", "experience", "projects", "research", "hackathons", "beyond-code", "skills", "contact"];
 const navAnchors = document.querySelectorAll<HTMLAnchorElement>(".nav-links a");
 const breadcrumb = document.getElementById("nav-breadcrumb");
 
@@ -835,5 +1347,155 @@ if (cursorDot && window.matchMedia("(pointer: fine)").matches) {
     el.addEventListener("mouseenter", () => cursorDot.classList.add("cursor-dot--hover"));
     el.addEventListener("mouseleave", () => cursorDot.classList.remove("cursor-dot--hover"));
   });
+}
+
+// ─── Boot sequence (plays once per session) ───────────────────────────────────
+const bootOverlay = document.getElementById("boot-overlay");
+const bootNameEl  = document.getElementById("boot-name");
+if (bootOverlay && bootNameEl && !sessionStorage.getItem("booted")) {
+  sessionStorage.setItem("booted", "1");
+  const bootStr = "Parv Patodia";
+  let bi = 0;
+  const bootInterval = setInterval(() => {
+    bootNameEl.textContent = bootStr.slice(0, bi + 1);
+    bi++;
+    if (bi >= bootStr.length) {
+      clearInterval(bootInterval);
+      setTimeout(() => {
+        bootOverlay.classList.add("done");
+        setTimeout(() => bootOverlay.remove(), 500);
+      }, 350);
+    }
+  }, 50);
+} else {
+  bootOverlay?.remove();
+}
+
+// ─── Attention map canvas (ViT section) ───────────────────────────────────────
+const attnCanvas = document.getElementById("attn-canvas") as HTMLCanvasElement | null;
+if (attnCanvas) {
+  const ctx = attnCanvas.getContext("2d")!;
+  const N = 7; // 7×7 grid of patches (simulates ViT-S/32 over 224px)
+  const W = attnCanvas.width;
+  const H = attnCanvas.height;
+  const cellW = W / N;
+  const cellH = H / N;
+
+  // Three pre-baked attention patterns (row-major, 49 values each)
+  function softmax(arr: number[]): number[] {
+    const max = Math.max(...arr);
+    const exps = arr.map(v => Math.exp(v - max));
+    const sum = exps.reduce((a, b) => a + b, 0);
+    return exps.map(v => v / sum);
+  }
+  function makePattern(fn: (r: number, c: number) => number): number[] {
+    const raw: number[] = [];
+    for (let r = 0; r < N; r++) for (let c = 0; c < N; c++) raw.push(fn(r, c));
+    return softmax(raw);
+  }
+
+  const patterns: number[][] = [
+    // Center-focus: high attention toward middle patches
+    makePattern((r, c) => {
+      const dr = r - (N - 1) / 2, dc = c - (N - 1) / 2;
+      return 4 - (dr * dr + dc * dc) * 0.9;
+    }),
+    // Diagonal band: attention along main diagonal
+    makePattern((r, c) => {
+      const diff = Math.abs(r - c);
+      return diff === 0 ? 4 : diff === 1 ? 2 : diff === 2 ? 0.5 : -1;
+    }),
+    // Top-left quadrant / corner focus
+    makePattern((r, c) => {
+      return (r < 4 && c < 4) ? 3 - r * 0.4 - c * 0.4 : -0.5;
+    }),
+  ];
+
+  let t = 0;
+  let hoveredCell = -1;
+
+  // Viridis-like colormap: dark navy -> cyan -> yellow-green
+  function viridis(v: number): string {
+    const r = Math.round(68  + v * (253 - 68));
+    const g = Math.round(1   + v * (231 - 1));
+    const b = Math.round(84  + v * (37  - 84));
+    return `rgb(${r},${g},${b})`;
+  }
+
+  function lerp(a: number, b: number, t: number) { return a + (b - a) * t; }
+
+  function getWeight(patIdx: number, next: number, blend: number, i: number): number {
+    return lerp(patterns[patIdx][i], patterns[next][i], blend);
+  }
+
+  function draw() {
+    const speed = 0.0008;
+    const cyclePos = (t * speed) % 1;
+    const segLen = 1 / patterns.length;
+    const seg = Math.floor(cyclePos / segLen);
+    const blend = (cyclePos % segLen) / segLen;
+    const nextSeg = (seg + 1) % patterns.length;
+
+    // Softmax-weighted attention for highlighted cell
+    let rowWeights: number[] = [];
+    if (hoveredCell >= 0) {
+      for (let j = 0; j < N * N; j++) {
+        rowWeights.push(getWeight(seg, nextSeg, blend, j));
+      }
+      // Normalize so hovered row sums to 1
+      const rowSum = rowWeights.reduce((s, v) => s + v, 0);
+      rowWeights = rowWeights.map(v => v / rowSum);
+    }
+
+    ctx.clearRect(0, 0, W, H);
+
+    for (let r = 0; r < N; r++) {
+      for (let c = 0; c < N; c++) {
+        const i = r * N + c;
+        let w = getWeight(seg, nextSeg, blend, i);
+        // Scale: map [min, max] -> [0,1]
+        const pat = patterns[seg];
+        const wMin = Math.min(...pat), wMax = Math.max(...pat);
+        w = (w - wMin) / (wMax - wMin + 1e-8);
+
+        let alpha = 0.82;
+        if (hoveredCell >= 0) {
+          // Highlight: use attention from hovered cell to all others
+          const hw = rowWeights[i] / Math.max(...rowWeights);
+          w = hw;
+          alpha = i === hoveredCell ? 1 : 0.7;
+        }
+
+        ctx.fillStyle = viridis(w);
+        ctx.globalAlpha = alpha;
+        ctx.fillRect(c * cellW + 1, r * cellH + 1, cellW - 2, cellH - 2);
+
+        // Hovered cell border
+        if (i === hoveredCell) {
+          ctx.globalAlpha = 1;
+          ctx.strokeStyle = "#ffffff";
+          ctx.lineWidth = 1.5;
+          ctx.strokeRect(c * cellW + 1, r * cellH + 1, cellW - 2, cellH - 2);
+        }
+      }
+    }
+    ctx.globalAlpha = 1;
+    t++;
+    requestAnimationFrame(draw);
+  }
+
+  attnCanvas.addEventListener("mousemove", (e: MouseEvent) => {
+    const rect = attnCanvas.getBoundingClientRect();
+    const scaleX = W / rect.width;
+    const scaleY = H / rect.height;
+    const px = (e.clientX - rect.left) * scaleX;
+    const py = (e.clientY - rect.top)  * scaleY;
+    const col = Math.floor(px / cellW);
+    const row = Math.floor(py / cellH);
+    hoveredCell = (row >= 0 && row < N && col >= 0 && col < N) ? row * N + col : -1;
+  });
+  attnCanvas.addEventListener("mouseleave", () => { hoveredCell = -1; });
+
+  draw();
 }
 </script>

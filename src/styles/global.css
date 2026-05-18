@@ -1357,3 +1357,13 @@ footer {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* ── Hackathon section responsive ─────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .hackathon-grid {
+    grid-template-columns: 1fr;
+  }
+  .beyond-grid {
+    grid-template-columns: 1fr;
+  }
+}
