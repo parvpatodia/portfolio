@@ -3,8 +3,9 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout>
-  <!-- Cursor dot -->
-  <div class="cursor-dot" aria-hidden="true"></div>
+  <!-- Precision cursor -->
+  <div class="cursor-ring" aria-hidden="true"></div>
+  <div class="cursor-dot-inner" aria-hidden="true"></div>
 
   <!-- NAV -->
   <nav id="navbar" aria-label="Main navigation">
@@ -88,7 +89,7 @@ import Layout from '../layouts/Layout.astro';
           <span class="terminal-prompt" aria-hidden="true">&gt;</span>
           currently_building: av-policy-lab&nbsp;&nbsp;|&nbsp;&nbsp;San Jose, CA&nbsp;&nbsp;|&nbsp;&nbsp;open_to_2027
         </p>
-        <h1 class="hero-name">Parv Patodia</h1>
+        <h1 class="hero-name">Parv <span class="hero-name-light">Patodia</span></h1>
         <p class="hero-subtitle">MS AI @ Northeastern &middot; Silicon Valley</p>
         <p class="hero-tagline">I build things that learn from data and behave reliably in the real world.</p>
         <div class="hero-typewriter-wrap" aria-live="polite" aria-label="Current focus areas">
@@ -119,7 +120,7 @@ import Layout from '../layouts/Layout.astro';
       <div class="container">
         <div class="section-heading-wrap">
           <span class="section-number" aria-hidden="true">01</span>
-          <h2 class="section-heading fade-in">About</h2>
+          <h2 class="section-heading scramble-heading fade-in">About</h2>
         </div>
         <div class="section-line fade-in"></div>
         <div class="about-grid">
@@ -161,7 +162,7 @@ import Layout from '../layouts/Layout.astro';
       <div class="container">
         <div class="section-heading-wrap">
           <span class="section-number" aria-hidden="true">02</span>
-          <h2 class="section-heading fade-in">Experience</h2>
+          <h2 class="section-heading scramble-heading fade-in">Experience</h2>
         </div>
         <div class="section-line fade-in"></div>
         <div class="experience-list">
@@ -224,7 +225,7 @@ import Layout from '../layouts/Layout.astro';
       <div class="container">
         <div class="section-heading-wrap">
           <span class="section-number" aria-hidden="true">03</span>
-          <h2 class="section-heading fade-in">Projects</h2>
+          <h2 class="section-heading scramble-heading fade-in">Projects</h2>
         </div>
         <div class="section-line fade-in"></div>
 
@@ -495,7 +496,7 @@ import Layout from '../layouts/Layout.astro';
       <div class="container">
         <div class="section-heading-wrap">
           <span class="section-number" aria-hidden="true">04</span>
-          <h2 class="section-heading fade-in">Research</h2>
+          <h2 class="section-heading scramble-heading fade-in">Research</h2>
         </div>
         <div class="section-line fade-in"></div>
         <div class="research-card fade-in" aria-label="NTU Final Year Project">
@@ -531,7 +532,7 @@ import Layout from '../layouts/Layout.astro';
       <div class="container">
         <div class="section-heading-wrap">
           <span class="section-number" aria-hidden="true">05</span>
-          <h2 class="section-heading fade-in">Hackathons</h2>
+          <h2 class="section-heading scramble-heading fade-in">Hackathons</h2>
         </div>
         <div class="section-line fade-in"></div>
         <div class="hackathon-grid">
@@ -614,7 +615,7 @@ import Layout from '../layouts/Layout.astro';
       <div class="container">
         <div class="section-heading-wrap">
           <span class="section-number" aria-hidden="true">06</span>
-          <h2 class="section-heading fade-in">Beyond Code</h2>
+          <h2 class="section-heading scramble-heading fade-in">Beyond Code</h2>
         </div>
         <div class="section-line fade-in"></div>
         <p class="beyond-intro fade-in">What I am actually like when I am not debugging a training loop.</p>
@@ -791,7 +792,7 @@ import Layout from '../layouts/Layout.astro';
       <div class="container">
         <div class="section-heading-wrap">
           <span class="section-number" aria-hidden="true">08</span>
-          <h2 class="section-heading fade-in">Contact</h2>
+          <h2 class="section-heading scramble-heading fade-in">Contact</h2>
         </div>
         <div class="section-line fade-in"></div>
         <p class="contact-text fade-in">I am open to full-time roles starting summer 2027 in autonomous vehicles, robotics, and AI engineering. The best way to reach me is email.</p>
@@ -1334,20 +1335,78 @@ const countObserver = new IntersectionObserver(
 
 countEls.forEach((el) => countObserver.observe(el));
 
-// ─── Cursor dot ───────────────────────────────────────────────────────────────
-const cursorDot = document.querySelector<HTMLElement>(".cursor-dot");
-if (cursorDot && window.matchMedia("(pointer: fine)").matches) {
-  cursorDot.style.display = "block";
+// ─── Precision dual-ring cursor ──────────────────────────────────────────────
+const cursorRing     = document.querySelector<HTMLElement>(".cursor-ring");
+const cursorDotInner = document.querySelector<HTMLElement>(".cursor-dot-inner");
+
+if (cursorRing && cursorDotInner && window.matchMedia("(pointer: fine)").matches) {
+  cursorRing.style.display     = "block";
+  cursorDotInner.style.display = "block";
+
+  let mouseX = 0, mouseY = 0;
+  let ringX  = 0, ringY  = 0;
+
   document.addEventListener("mousemove", (e: MouseEvent) => {
-    cursorDot.style.transform = `translate(${e.clientX - 3}px, ${e.clientY - 3}px)`;
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    cursorDotInner.style.transform = `translate(${mouseX - 2}px, ${mouseY - 2}px)`;
   });
 
-  const hoverTargets = document.querySelectorAll<HTMLElement>("a, .project-card, .featured-card, .past-card");
-  hoverTargets.forEach((el) => {
-    el.addEventListener("mouseenter", () => cursorDot.classList.add("cursor-dot--hover"));
-    el.addEventListener("mouseleave", () => cursorDot.classList.remove("cursor-dot--hover"));
+  (function animateRing() {
+    ringX += (mouseX - ringX) * 0.11;
+    ringY += (mouseY - ringY) * 0.11;
+    cursorRing.style.transform = `translate(${ringX - 15}px, ${ringY - 15}px)`;
+    requestAnimationFrame(animateRing);
+  })();
+
+  document.querySelectorAll<HTMLElement>(
+    "a, button, .featured-card, .past-card, .hackathon-card, .beyond-card, canvas"
+  ).forEach((el) => {
+    el.addEventListener("mouseenter", () => cursorRing.classList.add("cursor-ring--hover"));
+    el.addEventListener("mouseleave", () => cursorRing.classList.remove("cursor-ring--hover"));
   });
 }
+
+// ─── Text scramble on section headings ───────────────────────────────────────
+const SCRAMBLE_CHARS = "!<>-_\\/[]{}=+*^?#01";
+
+function scrambleText(el: HTMLElement) {
+  const final = el.dataset.finalText ?? el.textContent ?? "";
+  if (!el.dataset.finalText) el.dataset.finalText = final;
+  let iter = 0;
+  const iv = setInterval(() => {
+    el.textContent = final.split("").map((ch, i) => {
+      if (ch === " ") return " ";
+      if (i < iter)   return ch;
+      return SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
+    }).join("");
+    iter += 0.4;
+    if (iter > final.length) { el.textContent = final; clearInterval(iv); }
+  }, 38);
+}
+
+const scrambleObs = new IntersectionObserver(
+  (entries) => entries.forEach((e) => {
+    if (e.isIntersecting) { scrambleText(e.target as HTMLElement); scrambleObs.unobserve(e.target); }
+  }),
+  { threshold: 0.5 }
+);
+document.querySelectorAll<HTMLElement>(".scramble-heading").forEach((el) => scrambleObs.observe(el));
+
+// ─── Magnetic buttons ────────────────────────────────────────────────────────
+document.querySelectorAll<HTMLElement>(".btn-primary, .btn-secondary").forEach((btn) => {
+  btn.addEventListener("mousemove", (e: MouseEvent) => {
+    const r  = btn.getBoundingClientRect();
+    const dx = e.clientX - (r.left + r.width  / 2);
+    const dy = e.clientY - (r.top  + r.height / 2);
+    btn.style.transform  = `translate(${dx * 0.17}px, ${dy * 0.17}px)`;
+    btn.style.transition = "transform 0.08s ease";
+  });
+  btn.addEventListener("mouseleave", () => {
+    btn.style.transform  = "translate(0,0)";
+    btn.style.transition = "transform 0.4s cubic-bezier(0.22,1,0.36,1)";
+  });
+});
 
 // ─── Boot sequence (plays once per session) ───────────────────────────────────
 const bootOverlay = document.getElementById("boot-overlay");
