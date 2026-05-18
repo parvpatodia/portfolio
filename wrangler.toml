@@ -1,0 +1,8 @@
+name = "parv-portfolio"
+compatibility_date = "2024-01-01"
+
+[site]
+bucket = "./dist"
+
+# Deploy to Cloudflare Pages with:
+#   npm run build && npx wrangler pages deploy dist --project-name parv-portfolio

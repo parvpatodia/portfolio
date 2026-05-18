@@ -1,0 +1,684 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout>
+  <!-- NAV -->
+  <nav id="navbar" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo">Parv Patodia</a>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#research">Research</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="open-to-work" aria-label="Open to work status">
+        <span class="dot" aria-hidden="true"></span>
+        Open to Work
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobile-menu" role="menu">
+      <a href="#about" role="menuitem">About</a>
+      <a href="#experience" role="menuitem">Experience</a>
+      <a href="#projects" role="menuitem">Projects</a>
+      <a href="#research" role="menuitem">Research</a>
+      <a href="#skills" role="menuitem">Skills</a>
+      <a href="#contact" role="menuitem">Contact</a>
+    </div>
+  </nav>
+
+  <main>
+    <!-- HERO -->
+    <section id="hero" aria-label="Introduction">
+      <div class="hero-content">
+        <p class="hero-overline">AI Engineer</p>
+        <h1 class="hero-name">Parv Patodia</h1>
+        <p class="hero-subtitle">MS AI @ Northeastern &middot; Silicon Valley</p>
+        <p class="hero-tagline">I build things that learn from data and behave reliably in the real world.</p>
+        <div class="hero-typewriter-wrap" aria-live="polite" aria-label="Current focus areas">
+          <span id="typewriter-text"></span><span class="cursor" aria-hidden="true">&#9608;</span>
+        </div>
+        <div class="hero-ctas">
+          <a href="#projects" class="btn-primary">View Projects</a>
+          <a
+            href="/resume.pdf"
+            class="btn-secondary"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Download resume, opens in new tab"
+          >
+            Resume
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+              <polyline points="15 3 21 3 21 9"/>
+              <line x1="10" y1="14" x2="21" y2="3"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" aria-label="About Parv Patodia">
+      <div class="container">
+        <h2 class="section-heading fade-in">About</h2>
+        <div class="section-line fade-in"></div>
+        <div class="about-grid">
+          <div class="about-photo-wrap fade-in">
+            <!-- HEADSHOT: drop your photo at /public/headshot.jpg and swap the div below for:
+                 <img src="/headshot.jpg" alt="Parv Patodia" class="about-photo-img" />
+                 Then delete the about-photo-placeholder div. -->
+            <div class="about-photo-placeholder" aria-label="Photo placeholder with initials PP">PP</div>
+          </div>
+          <div class="about-text fade-in">
+            <p>I started out curious about how machines move through the world. That curiosity grew into a deeper interest in how they perceive, reason, and make decisions from data.</p>
+            <p>At Venti Technologies I tested autonomous vehicle perception systems in live port environments, including lane-change validation, LiDAR data analysis, and obstacle detection in real conditions. That experience taught me how different deployment is from a controlled setting and made me take edge cases seriously.</p>
+            <p>Since then I have been building closer to the models. I implemented a Vision Transformer from scratch to detect urban change in satellite imagery, built a pose estimation pipeline that analyzes basketball shooting mechanics and matches them against NBA players, and I am currently working on closed-loop driving policy research using nuPlan and CARLA.</p>
+            <p>I am pursuing my Master's in Artificial Intelligence at Northeastern University in Silicon Valley. I am most interested in roles where perception, policy, and real-world deployment come together.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience" aria-label="Work experience">
+      <div class="container">
+        <h2 class="section-heading fade-in">Experience</h2>
+        <div class="section-line fade-in"></div>
+        <div class="experience-list">
+
+          <article class="exp-item fade-in" aria-label="Graduate Teaching Assistant at Northeastern University">
+            <div class="exp-dot" aria-hidden="true"></div>
+            <div class="exp-header">
+              <div class="exp-title">Graduate Teaching Assistant, Foundations of AI</div>
+              <div class="exp-meta">
+                <span class="exp-company">Northeastern University</span>
+                <span class="exp-location">San Jose, CA</span>
+                <span class="exp-period">Jan 2026 &ndash; Present</span>
+              </div>
+            </div>
+            <ul class="exp-bullets">
+              <li>Led weekly office hours for 30+ students covering model reasoning, debugging, and ML evaluation</li>
+              <li>Designed course assignments on dataset selection, model architecture decisions, and result interpretation</li>
+            </ul>
+          </article>
+
+          <article class="exp-item fade-in" aria-label="Senior Officer SRE at United Overseas Bank">
+            <div class="exp-dot" aria-hidden="true"></div>
+            <div class="exp-header">
+              <div class="exp-title">Senior Officer, Site Reliability Engineering</div>
+              <div class="exp-meta">
+                <span class="exp-company">United Overseas Bank</span>
+                <span class="exp-location">Singapore</span>
+                <span class="exp-period">Jul 2024 &ndash; Jun 2025</span>
+              </div>
+            </div>
+            <ul class="exp-bullets">
+              <li>Monitored production banking infrastructure using GENEOS; improved incident visibility by 30%</li>
+              <li>Ran scalability checks across AWS and VMware systems under peak production loads</li>
+            </ul>
+          </article>
+
+          <article class="exp-item fade-in" aria-label="Autonomous Vehicle Test Engineer at Venti Technologies">
+            <div class="exp-dot" aria-hidden="true"></div>
+            <div class="exp-header">
+              <div class="exp-title">Autonomous Vehicle Test Engineer</div>
+              <div class="exp-meta">
+                <span class="exp-company">Venti Technologies</span>
+                <span class="exp-location">Singapore</span>
+                <span class="exp-period">Jun 2023 &ndash; Aug 2023</span>
+              </div>
+            </div>
+            <ul class="exp-bullets">
+              <li>Designed validation tests for lane-change and perception modules using RViz simulation and LiDAR data analysis</li>
+              <li>Reduced testing cycle time by 15% by improving validation workflows with Git and Jira</li>
+            </ul>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" aria-label="Projects">
+      <div class="container">
+        <h2 class="section-heading fade-in">Projects</h2>
+        <div class="section-line fade-in"></div>
+
+        <h3 class="projects-subheading fade-in">Current</h3>
+        <div class="projects-grid" style="margin-bottom:3.5rem;">
+
+          <!-- Laksh.ai -->
+          <article class="project-card fade-in tilt-card" aria-label="Laksh.ai project">
+            <div class="card-header">
+              <h4 class="card-title">Laksh.ai</h4>
+              <span class="status-badge status-active">Active</span>
+            </div>
+            <p class="card-period">Dec 2025 &ndash; Present</p>
+            <div class="stack-tags">
+              <span class="stack-tag">Python</span>
+              <span class="stack-tag">FastAPI</span>
+              <span class="stack-tag">MediaPipe</span>
+              <span class="stack-tag">RTMPose</span>
+              <span class="stack-tag">YOLOv8</span>
+              <span class="stack-tag">ChromaDB</span>
+              <span class="stack-tag">Gemini 2.5 Flash</span>
+            </div>
+            <p class="card-description">Computer vision pipeline for basketball jump-shot analysis using markerless pose estimation and ball tracking. Integrates MediaPipe and RTMPose into a pluggable pose architecture that generates a canonical 12-joint schema for kinematic analysis. Extracts an 8D kinematic fingerprint matched against NBA player profiles via ChromaDB vector search with LLM-generated coaching feedback. Implements injury-risk indicators including knee valgus, landing mechanics, and upper-extremity load derived from pose trajectories.</p>
+            <span class="card-metric">~500 NBA players indexed</span>
+            <div class="code-block" aria-label="Code snippet: 8D kinematic vector extraction">
+              <pre><span class="code-comment"># 8D kinematic vector extraction</span>
+<span class="code-var">metrics</span> <span class="code-op">=</span> &#123;
+    <span class="code-str">"release_velocity"</span><span class="code-op">:</span> <span class="code-fn">compute_velocity</span><span class="code-punc">(</span>wrist_traj<span class="code-punc">,</span> fps<span class="code-punc">),</span>
+    <span class="code-str">"shot_arc_angle"</span><span class="code-op">:</span>   <span class="code-fn">compute_arc</span><span class="code-punc">(</span>elbow<span class="code-punc">,</span> wrist<span class="code-punc">,</span> ball_peak<span class="code-punc">),</span>
+    <span class="code-str">"knee_angle"</span><span class="code-op">:</span>       <span class="code-fn">joint_angle</span><span class="code-punc">(</span>hip<span class="code-punc">,</span> knee<span class="code-punc">,</span> ankle<span class="code-punc">),</span>
+    <span class="code-str">"elbow_angle"</span><span class="code-op">:</span>      <span class="code-fn">joint_angle</span><span class="code-punc">(</span>shoulder<span class="code-punc">,</span> elbow<span class="code-punc">,</span> wrist<span class="code-punc">),</span>
+    <span class="code-str">"kinetic_sync"</span><span class="code-op">:</span>     <span class="code-fn">kinetic_chain_timing</span><span class="code-punc">(</span>hip_t<span class="code-punc">,</span> knee_t<span class="code-punc">,</span> elbow_t<span class="code-punc">),</span>
+    <span class="code-str">"fluidity_score"</span><span class="code-op">:</span>   <span class="code-num">1</span> <span class="code-op">-</span> <span class="code-var">np</span><span class="code-op">.</span><span class="code-fn">std</span><span class="code-punc">(</span>angular_velocities<span class="code-punc">),</span>
+    <span class="code-str">"hip_rotation"</span><span class="code-op">:</span>     <span class="code-fn">rotation_delta</span><span class="code-punc">(</span>hip_l<span class="code-punc">,</span> hip_r<span class="code-punc">),</span>
+    <span class="code-str">"balance_index"</span><span class="code-op">:</span>    <span class="code-fn">center_of_mass_stability</span><span class="code-punc">(</span>keypoints<span class="code-punc">),</span>
+&#125;</pre>
+            </div>
+            <a
+              href="https://github.com/parvpatodia/Laksh_AI"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="card-link"
+              aria-label="View Laksh.ai on GitHub (opens in new tab)"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+              View on GitHub
+            </a>
+          </article>
+
+          <!-- ViT for Urban Change Detection -->
+          <article class="project-card fade-in tilt-card" aria-label="Vision Transformer for Urban Change Detection project">
+            <div class="card-header">
+              <h4 class="card-title">Vision Transformer for Urban Change Detection</h4>
+              <span class="status-badge status-active">Active</span>
+            </div>
+            <p class="card-period">Jan 2025 &ndash; Present</p>
+            <div class="stack-tags">
+              <span class="stack-tag">PyTorch</span>
+              <span class="stack-tag">Albumentations</span>
+              <span class="stack-tag">TensorBoard</span>
+              <span class="stack-tag">LEVIR-CD</span>
+            </div>
+            <p class="card-description">Implemented a Vision Transformer from scratch in PyTorch for bi-temporal change detection using Sentinel-2 satellite imagery. Built patch embedding, positional encoding, multi-head self-attention, and transformer encoder blocks without pretrained modules. Built a Siamese encoder architecture with a segmentation decoder for urban growth detection. Produced segmentation change maps and evaluated performance using IoU, F1, Dice, precision, and recall against CNN baselines.</p>
+            <table class="results-table" aria-label="Model performance comparison">
+              <thead>
+                <tr>
+                  <th>Model</th>
+                  <th>F1</th>
+                  <th>IoU</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>U-Net</td>
+                  <td>0.8843</td>
+                  <td>0.7927</td>
+                </tr>
+                <tr>
+                  <td>Swin</td>
+                  <td>0.8613</td>
+                  <td>0.7564</td>
+                </tr>
+                <tr>
+                  <td>ViT</td>
+                  <td>0.8236</td>
+                  <td>0.7001</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="code-block" aria-label="Code snippet: attention mechanism implementation">
+              <pre><span class="code-kw">def</span> <span class="code-fn">attention</span><span class="code-punc">(</span><span class="code-var">self</span><span class="code-punc">,</span> Q<span class="code-punc">,</span> K<span class="code-punc">,</span> V<span class="code-punc">):</span>
+    <span class="code-var">d_k</span> <span class="code-op">=</span> Q<span class="code-punc">.</span>shape<span class="code-punc">[-</span><span class="code-num">1</span><span class="code-punc">]</span>
+    <span class="code-var">scores</span> <span class="code-op">=</span> <span class="code-punc">(</span>Q <span class="code-op">@</span> K<span class="code-punc">.</span><span class="code-fn">transpose</span><span class="code-punc">(-</span><span class="code-num">2</span><span class="code-punc">, -</span><span class="code-num">1</span><span class="code-punc">))</span> <span class="code-op">/</span> math<span class="code-punc">.</span><span class="code-fn">sqrt</span><span class="code-punc">(</span>d_k<span class="code-punc">)</span>
+    <span class="code-var">weights</span> <span class="code-op">=</span> F<span class="code-punc">.</span><span class="code-fn">softmax</span><span class="code-punc">(</span>scores<span class="code-punc">,</span> dim<span class="code-op">=-</span><span class="code-num">1</span><span class="code-punc">)</span>
+    <span class="code-kw">return</span> weights <span class="code-op">@</span> V<span class="code-punc">,</span> weights</pre>
+            </div>
+            <a
+              href="https://github.com/parvpatodia/vit-from-scratch"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="card-link"
+              aria-label="View ViT project on GitHub (opens in new tab)"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+              View on GitHub
+            </a>
+          </article>
+
+          <!-- av-policy-lab -->
+          <article class="project-card coming-soon fade-in tilt-card" aria-label="AV Policy Lab project, in progress">
+            <span class="coming-soon-badge" aria-label="Coming soon">Coming Soon</span>
+            <div class="card-header">
+              <h4 class="card-title" style="padding-right:7rem;">av-policy-lab</h4>
+              <span class="status-badge status-progress">In Progress</span>
+            </div>
+            <p class="card-period">Summer 2026</p>
+            <div class="stack-tags">
+              <span class="stack-tag">nuPlan</span>
+              <span class="stack-tag">CARLA</span>
+              <span class="stack-tag">PyTorch</span>
+              <span class="stack-tag">Behavior Cloning</span>
+              <span class="stack-tag">Imitation Learning</span>
+            </div>
+            <p class="card-description">Closed-loop driving policy research comparing three baselines in simulation: pure behavior cloning, MILE-style world-model imitation, and a VLA-flavored policy with language conditioning. Training on nuPlan or CARLA Leaderboard 2.0. The focus is clean baseline execution, honest failure-mode analysis, and a reusable evaluation harness.</p>
+            <a
+              href="https://github.com/parvpatodia/av-policy-lab"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="card-link"
+              aria-label="View av-policy-lab on GitHub (opens in new tab)"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+              View on GitHub
+            </a>
+          </article>
+
+        </div>
+
+        <h3 class="projects-subheading fade-in">Past</h3>
+        <div class="past-projects-grid">
+
+          <!-- MediTrack -->
+          <article class="past-card fade-in" aria-label="MediTrack project">
+            <div class="card-header">
+              <h4 class="card-title">MediTrack</h4>
+            </div>
+            <div class="stack-tags" style="margin-bottom:0.875rem;">
+              <span class="stack-tag">Python</span>
+              <span class="stack-tag">FastAPI</span>
+              <span class="stack-tag">React 18</span>
+              <span class="stack-tag">Supabase</span>
+              <span class="stack-tag">Memories.ai LVMM</span>
+            </div>
+            <p class="card-description">Healthcare equipment tracking system using visual memory AI to monitor hospital assets across surveillance footage. Enables semantic search over video using natural language queries. Supports chunked video uploads up to 250MB with real-time detection confidence scoring and comprehensive audit logging.</p>
+            <a
+              href="https://github.com/parvpatodia/MediTrack"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="card-link"
+              aria-label="View MediTrack on GitHub (opens in new tab)"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+              View on GitHub
+            </a>
+          </article>
+
+          <!-- TaskRoute -->
+          <article class="past-card fade-in" aria-label="TaskRoute project">
+            <div class="card-header">
+              <h4 class="card-title">TaskRoute</h4>
+            </div>
+            <p class="card-period">Jan 2025 &ndash; Feb 2025</p>
+            <div class="stack-tags" style="margin-bottom:0.875rem;">
+              <span class="stack-tag">Python</span>
+              <span class="stack-tag">FastAPI</span>
+              <span class="stack-tag">Multi-Agent Systems</span>
+            </div>
+            <p class="card-description">LLM provider selection service that ranks AI providers using a composite scoring function combining inference cost, switching overhead, latency penalties, and reliability risk. Includes a multi-agent economy simulator with market shock injection for testing provider selection under budget constraints.</p>
+            <a
+              href="https://github.com/parvpatodia/TaskRoute"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="card-link"
+              aria-label="View TaskRoute on GitHub (opens in new tab)"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+              View on GitHub
+            </a>
+          </article>
+
+          <!-- CRPO -->
+          <article class="past-card fade-in" aria-label="CRPO Cross-Domain Prompt Optimization project">
+            <div class="card-header">
+              <h4 class="card-title">CRPO Cross-Domain Prompt Optimization</h4>
+            </div>
+            <div class="stack-tags" style="margin-bottom:0.875rem;">
+              <span class="stack-tag">Python</span>
+              <span class="stack-tag">Groq API</span>
+              <span class="stack-tag">Llama 3.1</span>
+              <span class="stack-tag">GSM8K</span>
+              <span class="stack-tag">HumanEval</span>
+            </div>
+            <p class="card-description">Contrastive Reasoning Prompt Optimization. Generates prompts that are robust across Mathematics, Reasoning, Fact Verification, and Code Generation. Identifies universal prompt properties that distinguish high-quality from low-quality outputs across disparate domains through contrastive analysis.</p>
+            <a
+              href="https://github.com/parvpatodia/CRPO-Cross-Domain-Optimization"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="card-link"
+              aria-label="View CRPO project on GitHub (opens in new tab)"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+              View on GitHub
+            </a>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- RESEARCH -->
+    <section id="research" aria-label="Research work">
+      <div class="container">
+        <h2 class="section-heading fade-in">Research</h2>
+        <div class="section-line fade-in"></div>
+        <!-- PLACEHOLDER: user to supply paper title, abstract, and co-authors from the NTU DR page:
+             https://dr.ntu.edu.sg/entities/publication/74a1db78-1992-435f-931a-0b3717e027f0 -->
+        <div class="research-card fade-in" aria-label="NTU Final Year Project">
+          <div class="research-institution">Nanyang Technological University, Singapore</div>
+          <h3 class="research-title">Mobile Automate Robot Research</h3>
+          <div class="research-meta">NTU Final Year Project &bull; 2024</div>
+          <p class="research-note">Full paper available at NTU Digital Repository</p>
+          <!-- TODO: Fill in the abstract and co-authors from the NTU DR page before publishing -->
+          <span class="todo-badge">TODO: Add abstract and co-authors</span>
+          <div style="margin-top:1.25rem;">
+            <a
+              href="https://dr.ntu.edu.sg/entities/publication/74a1db78-1992-435f-931a-0b3717e027f0"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="card-link"
+              aria-label="View paper at NTU Digital Repository (opens in new tab)"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              NTU Digital Repository
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" aria-label="Skills and education">
+      <div class="container">
+        <h2 class="section-heading fade-in">Skills</h2>
+        <div class="section-line fade-in"></div>
+        <div class="skills-grid">
+          <div class="skill-group fade-in">
+            <h3>Languages</h3>
+            <div class="skill-tags">
+              <span class="skill-tag">Python</span>
+              <span class="skill-tag">JavaScript</span>
+              <span class="skill-tag">C++</span>
+              <span class="skill-tag">SQL (Postgres)</span>
+              <span class="skill-tag">HTML/CSS</span>
+              <span class="skill-tag">MATLAB</span>
+            </div>
+          </div>
+          <div class="skill-group fade-in">
+            <h3>Frameworks</h3>
+            <div class="skill-tags">
+              <span class="skill-tag">PyTorch</span>
+              <span class="skill-tag">FastAPI</span>
+              <span class="skill-tag">React</span>
+              <span class="skill-tag">Transformers</span>
+              <span class="skill-tag">Neural Networks</span>
+            </div>
+          </div>
+          <div class="skill-group fade-in">
+            <h3>Developer Tools</h3>
+            <div class="skill-tags">
+              <span class="skill-tag">Git</span>
+              <span class="skill-tag">Docker</span>
+              <span class="skill-tag">Google Cloud Platform</span>
+              <span class="skill-tag">AWS (EC2, S3, CloudWatch)</span>
+              <span class="skill-tag">TensorBoard</span>
+            </div>
+          </div>
+          <div class="skill-group fade-in">
+            <h3>Libraries</h3>
+            <div class="skill-tags">
+              <span class="skill-tag">Pandas</span>
+              <span class="skill-tag">NumPy</span>
+              <span class="skill-tag">scikit-learn</span>
+              <span class="skill-tag">Matplotlib</span>
+              <span class="skill-tag">OpenCV</span>
+              <span class="skill-tag">MediaPipe</span>
+              <span class="skill-tag">Albumentations</span>
+              <span class="skill-tag">ChromaDB</span>
+              <span class="skill-tag">spaCy</span>
+              <span class="skill-tag">Keras</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:3.5rem;">
+          <h3 class="fade-in" style="font-family:'Space Grotesk',sans-serif;font-size:1.375rem;font-weight:600;color:var(--heading);margin-bottom:1.5rem;">Education</h3>
+          <div class="education-list">
+            <div class="edu-item fade-in" aria-label="Northeastern University MS in AI">
+              <div class="edu-school">Northeastern University</div>
+              <div class="edu-degree">Master of Science in Artificial Intelligence</div>
+              <div class="edu-meta">
+                <span class="edu-location">San Jose, CA</span>
+                <span class="edu-period">Sep 2025 &ndash; May 2027</span>
+              </div>
+            </div>
+            <div class="edu-item fade-in" aria-label="Nanyang Technological University BE in Mechanical Engineering">
+              <div class="edu-school">Nanyang Technological University</div>
+              <div class="edu-degree">Bachelor of Engineering, Mechanical Engineering</div>
+              <div class="edu-minor">Minor: Computing and Data Analysis</div>
+              <div class="edu-meta">
+                <span class="edu-location">Singapore</span>
+                <span class="edu-period">Aug 2020 &ndash; May 2024</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" aria-label="Contact information">
+      <div class="container">
+        <h2 class="section-heading fade-in">Contact</h2>
+        <div class="section-line fade-in"></div>
+        <p class="contact-text fade-in">I am open to full-time roles starting summer 2027 in autonomous vehicles, robotics, and AI engineering. The best way to reach me is email.</p>
+        <div class="contact-links fade-in">
+          <div class="contact-item">
+            <span class="contact-label">Email</span>
+            <span class="contact-value">
+              <a href="mailto:parvpatodia09@gmail.com">parvpatodia09@gmail.com</a>
+            </span>
+          </div>
+          <div class="contact-item">
+            <span class="contact-label">Academic</span>
+            <span class="contact-value">
+              <a href="mailto:patodia.pa@northeastern.edu">patodia.pa@northeastern.edu</a>
+            </span>
+          </div>
+          <div class="contact-item">
+            <span class="contact-label">LinkedIn</span>
+            <span class="contact-value">
+              <a href="https://linkedin.com/in/parvpatodia" target="_blank" rel="noopener noreferrer">linkedin.com/in/parvpatodia</a>
+            </span>
+          </div>
+          <div class="contact-item">
+            <span class="contact-label">GitHub</span>
+            <span class="contact-value">
+              <a href="https://github.com/parvpatodia" target="_blank" rel="noopener noreferrer">github.com/parvpatodia</a>
+            </span>
+          </div>
+          <div class="contact-item">
+            <span class="contact-label">Location</span>
+            <span class="contact-value">San Jose, CA</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer aria-label="Site footer">
+    <div class="container">
+      <p>Parv Patodia &nbsp;&bull;&nbsp; 2026</p>
+    </div>
+  </footer>
+</Layout>
+
+<style>
+  .projects-subheading {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1.25rem;
+  }
+
+  /* Code syntax classes */
+  .code-block pre {
+    white-space: pre;
+    overflow-x: auto;
+  }
+
+  .code-comment { color: var(--muted); }
+  .code-kw      { color: var(--accent-blue); }
+  .code-fn      { color: var(--accent-cyan); }
+  .code-str     { color: var(--accent-green); }
+  .code-var     { color: #E2E8F0; }
+  .code-op      { color: var(--body); }
+  .code-punc    { color: var(--body); }
+  .code-num     { color: #F59E0B; }
+</style>
+
+<script>
+// ─── Typewriter ───────────────────────────────────────────────────────────────
+const strings: string[] = [
+  "Building closed-loop driving policies for autonomous vehicles",
+  "Implementing transformers from first principles for satellite imagery",
+  "Modeling basketball biomechanics using markerless pose estimation"
+];
+
+const twEl = document.getElementById("typewriter-text");
+if (twEl) {
+  let si = 0;
+  let ci = 0;
+  let deleting = false;
+  const TYPE_SPEED  = 48;
+  const DEL_SPEED   = 24;
+  const PAUSE_FULL  = 2400;
+  const PAUSE_EMPTY = 400;
+
+  function tick() {
+    const str = strings[si];
+    if (!deleting) {
+      twEl.textContent = str.slice(0, ci + 1);
+      ci++;
+      if (ci === str.length) {
+        deleting = true;
+        setTimeout(tick, PAUSE_FULL);
+        return;
+      }
+      setTimeout(tick, TYPE_SPEED);
+    } else {
+      twEl.textContent = str.slice(0, ci - 1);
+      ci--;
+      if (ci === 0) {
+        deleting = false;
+        si = (si + 1) % strings.length;
+        setTimeout(tick, PAUSE_EMPTY);
+        return;
+      }
+      setTimeout(tick, DEL_SPEED);
+    }
+  }
+  setTimeout(tick, 700);
+}
+
+// ─── Scroll fade-in ───────────────────────────────────────────────────────────
+const fadeEls = document.querySelectorAll<HTMLElement>(".fade-in");
+const fadeObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+        fadeObserver.unobserve(entry.target);
+      }
+    });
+  },
+  { threshold: 0.1 }
+);
+fadeEls.forEach((el) => fadeObserver.observe(el));
+
+// ─── Nav hide/show on scroll ──────────────────────────────────────────────────
+const navbar = document.getElementById("navbar");
+let lastScrollY = window.scrollY;
+window.addEventListener(
+  "scroll",
+  () => {
+    const y = window.scrollY;
+    if (y < 80) {
+      navbar?.classList.remove("hidden");
+    } else if (y > lastScrollY + 8) {
+      navbar?.classList.add("hidden");
+    } else if (y < lastScrollY - 8) {
+      navbar?.classList.remove("hidden");
+    }
+    lastScrollY = y;
+  },
+  { passive: true }
+);
+
+// ─── Active section nav highlight ────────────────────────────────────────────
+const sectionIds = ["about", "experience", "projects", "research", "skills", "contact"];
+const navAnchors = document.querySelectorAll<HTMLAnchorElement>(".nav-links a");
+
+const sectionObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        navAnchors.forEach((a) => {
+          a.classList.toggle("active", a.getAttribute("href") === "#" + entry.target.id);
+        });
+      }
+    });
+  },
+  { rootMargin: "-40% 0px -55% 0px" }
+);
+sectionIds.forEach((id) => {
+  const sec = document.getElementById(id);
+  if (sec) sectionObserver.observe(sec);
+});
+
+// ─── Mobile hamburger ─────────────────────────────────────────────────────────
+const hamburger = document.getElementById("hamburger");
+const mobileMenu = document.getElementById("mobile-menu");
+hamburger?.addEventListener("click", () => {
+  const isOpen = mobileMenu?.classList.toggle("open") ?? false;
+  hamburger.setAttribute("aria-expanded", String(isOpen));
+});
+mobileMenu?.querySelectorAll("a").forEach((a) => {
+  a.addEventListener("click", () => {
+    mobileMenu.classList.remove("open");
+    hamburger?.setAttribute("aria-expanded", "false");
+  });
+});
+
+// ─── 3D card tilt ─────────────────────────────────────────────────────────────
+document.querySelectorAll<HTMLElement>(".tilt-card").forEach((card) => {
+  card.addEventListener("mousemove", (e: MouseEvent) => {
+    const r = card.getBoundingClientRect();
+    const x = e.clientX - r.left;
+    const y = e.clientY - r.top;
+    const rotY =  ((x - r.width  / 2) / (r.width  / 2)) * 5;
+    const rotX = -((y - r.height / 2) / (r.height / 2)) * 5;
+    card.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+    card.style.transition = "transform 0.05s ease";
+  });
+  card.addEventListener("mouseleave", () => {
+    card.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg)";
+    card.style.transition = "transform 0.3s ease";
+  });
+});
+</script>
