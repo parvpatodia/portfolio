@@ -3,6 +3,9 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout>
+  <!-- Scroll progress -->
+  <div id="scroll-progress" aria-hidden="true"></div>
+
   <!-- Precision cursor -->
   <div class="cursor-ring" aria-hidden="true"></div>
   <div class="cursor-dot-inner" aria-hidden="true"></div>
@@ -269,19 +272,46 @@ import Layout from '../layouts/Layout.astro';
               </a>
             </div>
             <div class="featured-card-right">
-              <div class="code-block" aria-label="Code snippet: 8D kinematic vector extraction">
-                <pre><span class="code-comment"># 8D kinematic vector extraction</span>
-<span class="code-var">metrics</span> <span class="code-op">=</span> &#123;
-    <span class="code-str">"release_velocity"</span><span class="code-op">:</span> <span class="code-fn">compute_velocity</span><span class="code-punc">(</span>wrist_traj<span class="code-punc">,</span> fps<span class="code-punc">),</span>
-    <span class="code-str">"shot_arc_angle"</span><span class="code-op">:</span>   <span class="code-fn">compute_arc</span><span class="code-punc">(</span>elbow<span class="code-punc">,</span> wrist<span class="code-punc">,</span> ball_peak<span class="code-punc">),</span>
-    <span class="code-str">"knee_angle"</span><span class="code-op">:</span>       <span class="code-fn">joint_angle</span><span class="code-punc">(</span>hip<span class="code-punc">,</span> knee<span class="code-punc">,</span> ankle<span class="code-punc">),</span>
-    <span class="code-str">"elbow_angle"</span><span class="code-op">:</span>      <span class="code-fn">joint_angle</span><span class="code-punc">(</span>shoulder<span class="code-punc">,</span> elbow<span class="code-punc">,</span> wrist<span class="code-punc">),</span>
-    <span class="code-str">"kinetic_sync"</span><span class="code-op">:</span>     <span class="code-fn">kinetic_chain_timing</span><span class="code-punc">(</span>hip_t<span class="code-punc">,</span> knee_t<span class="code-punc">,</span> elbow_t<span class="code-punc">),</span>
-    <span class="code-str">"fluidity_score"</span><span class="code-op">:</span>   <span class="code-num">1</span> <span class="code-op">-</span> <span class="code-var">np</span><span class="code-op">.</span><span class="code-fn">std</span><span class="code-punc">(</span>angular_velocities<span class="code-punc">),</span>
-    <span class="code-str">"hip_rotation"</span><span class="code-op">:</span>     <span class="code-fn">rotation_delta</span><span class="code-punc">(</span>hip_l<span class="code-punc">,</span> hip_r<span class="code-punc">),</span>
-    <span class="code-str">"balance_index"</span><span class="code-op">:</span>    <span class="code-fn">center_of_mass_stability</span><span class="code-punc">(</span>keypoints<span class="code-punc">),</span>
-&#125;</pre>
-              </div>
+              <!-- System pipeline diagram -->
+              <svg class="pipeline-svg" viewBox="0 0 230 308" xmlns="http://www.w3.org/2000/svg" aria-label="Laksh.ai system pipeline">
+                <!-- Stage: Video Input -->
+                <rect x="0" y="0" width="230" height="42" rx="3" fill="rgba(6,182,212,0.06)" stroke="rgba(6,182,212,0.22)" stroke-width="1"/>
+                <text x="10" y="14" font-size="8" fill="#4B5563" letter-spacing="1">INPUT</text>
+                <text x="10" y="30" font-size="11" font-weight="600" fill="#E2E8F0">Video Frame</text>
+                <text x="180" y="30" font-size="9" fill="#06B6D4">mp4 / rtsp</text>
+                <!-- connector -->
+                <line x1="115" y1="42" x2="115" y2="54" stroke="#1F2937" stroke-width="1" stroke-dasharray="3,2"/>
+                <polygon points="111,52 115,58 119,52" fill="#1F2937"/>
+                <!-- Stage 01: Pose -->
+                <rect x="0" y="58" width="230" height="48" rx="3" fill="rgba(6,182,212,0.06)" stroke="rgba(6,182,212,0.22)" stroke-width="1"/>
+                <text x="10" y="72" font-size="8" fill="#4B5563" letter-spacing="1">STAGE 01</text>
+                <text x="10" y="87" font-size="11" font-weight="600" fill="#E2E8F0">Pose Estimation</text>
+                <text x="10" y="99" font-size="9" fill="#06B6D4">MediaPipe + RTMPose (pluggable)</text>
+                <!-- connector -->
+                <line x1="115" y1="106" x2="115" y2="118" stroke="#1F2937" stroke-width="1" stroke-dasharray="3,2"/>
+                <polygon points="111,116 115,122 119,116" fill="#1F2937"/>
+                <!-- Stage 02: Schema -->
+                <rect x="0" y="122" width="230" height="48" rx="3" fill="rgba(59,130,246,0.06)" stroke="rgba(59,130,246,0.22)" stroke-width="1"/>
+                <text x="10" y="136" font-size="8" fill="#4B5563" letter-spacing="1">STAGE 02</text>
+                <text x="10" y="151" font-size="11" font-weight="600" fill="#E2E8F0">12-Joint Canonical Schema</text>
+                <text x="10" y="163" font-size="9" fill="#3B82F6">8D kinematic fingerprint vector</text>
+                <!-- connector -->
+                <line x1="115" y1="170" x2="115" y2="182" stroke="#1F2937" stroke-width="1" stroke-dasharray="3,2"/>
+                <polygon points="111,180 115,186 119,180" fill="#1F2937"/>
+                <!-- Stage 03: Retrieval -->
+                <rect x="0" y="186" width="230" height="48" rx="3" fill="rgba(59,130,246,0.06)" stroke="rgba(59,130,246,0.22)" stroke-width="1"/>
+                <text x="10" y="200" font-size="8" fill="#4B5563" letter-spacing="1">STAGE 03</text>
+                <text x="10" y="215" font-size="11" font-weight="600" fill="#E2E8F0">ChromaDB Vector Search</text>
+                <text x="10" y="227" font-size="9" fill="#3B82F6">500+ NBA player profiles indexed</text>
+                <!-- connector -->
+                <line x1="115" y1="234" x2="115" y2="246" stroke="#1F2937" stroke-width="1" stroke-dasharray="3,2"/>
+                <polygon points="111,244 115,250 119,244" fill="#1F2937"/>
+                <!-- Stage: Output -->
+                <rect x="0" y="250" width="230" height="48" rx="3" fill="rgba(16,185,129,0.06)" stroke="rgba(16,185,129,0.22)" stroke-width="1"/>
+                <text x="10" y="264" font-size="8" fill="#4B5563" letter-spacing="1">OUTPUT</text>
+                <text x="10" y="279" font-size="11" font-weight="600" fill="#E2E8F0">Coaching Feedback + Risk Flags</text>
+                <text x="10" y="291" font-size="9" fill="#10B981">Gemini 2.5 Flash</text>
+              </svg>
             </div>
           </div>
         </article>
@@ -343,7 +373,7 @@ import Layout from '../layouts/Layout.astro';
               <!-- Attention map canvas -->
               <div class="attn-map-wrap" aria-label="Live attention map visualization from ViT encoder">
                 <div class="attn-map-label">
-                  <span class="attn-label-text">Encoder attention weights &mdash; head 3 / layer 6</span>
+                  <span class="attn-label-text">Encoder attention weights / head 3 / layer 6</span>
                   <span class="attn-label-badge">live</span>
                 </div>
                 <canvas id="attn-canvas" width="224" height="224" style="width:100%;max-width:224px;display:block;margin:0 auto;border-radius:4px;"></canvas>
@@ -832,8 +862,25 @@ import Layout from '../layouts/Layout.astro';
 
   <footer aria-label="Site footer">
     <div class="container">
-      <p class="footer-main">Parv Patodia &nbsp;&middot;&nbsp; 2026 &nbsp;&middot;&nbsp; Built with Astro, no templates &nbsp;&middot;&nbsp; San Jose, CA</p>
-      <p class="footer-email"><a href="mailto:patodia.pa@northeastern.edu">patodia.pa@northeastern.edu</a></p>
+      <div class="footer-grid">
+        <div>
+          <div class="footer-wordmark">Parv Patodia</div>
+          <p class="footer-desc">Building at the intersection of perception, policy, and the real world. MS AI at Northeastern Silicon Valley.</p>
+        </div>
+        <nav class="footer-nav" aria-label="Footer links">
+          <a href="#about">About</a>
+          <a href="#projects">Projects</a>
+          <a href="#research">Research</a>
+          <a href="#hackathons">Hackathons</a>
+          <a href="https://github.com/parvpatodia" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https://linkedin.com/in/parvpatodia-ai-silicon-valley/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <span>2026 &middot; San Jose, CA &middot; <a href="mailto:parvpatodia09@gmail.com">parvpatodia09@gmail.com</a></span>
+        <span class="footer-built">Built with Astro, no templates</span>
+      </div>
     </div>
   </footer>
 </Layout>
@@ -1166,7 +1213,8 @@ import Layout from '../layouts/Layout.astro';
 const strings: string[] = [
   "Building closed-loop driving policies for autonomous vehicles",
   "Implementing transformers from first principles for satellite imagery",
-  "Modeling basketball biomechanics using markerless pose estimation"
+  "Modeling basketball biomechanics using markerless pose estimation",
+  "Shipping multimodal RAG with ColPali and CLIP for document retrieval"
 ];
 
 const twEl = document.getElementById("typewriter-text");
@@ -1238,6 +1286,15 @@ window.addEventListener(
   },
   { passive: true }
 );
+
+// ─── Scroll progress bar ─────────────────────────────────────────────────────
+const progressBar = document.getElementById("scroll-progress");
+if (progressBar) {
+  window.addEventListener("scroll", () => {
+    const max = document.body.scrollHeight - window.innerHeight;
+    progressBar.style.width = (window.scrollY / max * 100) + "%";
+  }, { passive: true });
+}
 
 // ─── Active section nav highlight + breadcrumb ───────────────────────────────
 const sectionIds = ["about", "experience", "projects", "research", "hackathons", "beyond-code", "skills", "contact"];
