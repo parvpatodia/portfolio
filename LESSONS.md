@@ -26,6 +26,10 @@
 
 2026-06-15 | Spent time chasing "reveals stuck at opacity 0 after navigation" that was a preview artifact, not a bug | The headless preview runs with `document.visibilityState === 'hidden'`, which freezes IntersectionObserver, rAF, and CSS transitions; reading computed opacity showed 0 | In the preview, verify scroll-reveal via the `.in` class + a screenshot (preview_screenshot composites the page) rather than computed opacity. Separately, harden reveals: reveal in-viewport elements via a `setTimeout` (fires even when hidden) and observe only below-the-fold, so a backgrounded tab at load never shows invisible content.
 
+2026-06-15 | A "recently shipped" GitHub feed sorted by pushed-date surfaced the portfolio repo itself and the profile-README repo at the top, diluting the recruiter signal | Sort-by-pushed floats whatever you just touched (the site) above substantive projects | Filter a GitHub activity feed: drop forks, the portfolio repo, and the profile repo (name === username); require a description. Verify the rendered feed shows real projects, not meta repos.
+
+2026-06-15 | Canvas games/animations can't be visually verified in the headless preview (document.hidden pauses rAF; deep-scroll screenshots reset; hoisting the element to the top disrupts layout) | The preview environment is hidden + resets scroll on long pages | For below-the-fold canvas features, verify functionally: read back pixels (e.g. count amber/non-transparent pixels to confirm it drew), dispatch input events and assert no throw, check console errors. Trust the logic + functional checks; the animation runs in a real visible browser.
+
 ## Retro metrics (2026-06-15, autonomous session)
 parv_corrections=0 (not yet reviewed by Parv) | repeat_mistakes=0 (no prior log) | bugs_found=1 (icon-button collapse, caught in visual QA pre-"done") | shipped_first_try=false (feature 2 needed a layout rework after visual QA) | rework_commits=1
 Adversarial diff review verdict: SHIP (0 blocking findings).
