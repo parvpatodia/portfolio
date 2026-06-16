@@ -148,7 +148,7 @@ import Layout from '../layouts/Layout.astro';
         <div class="section-line fade-in"></div>
         <div class="about-grid">
           <div class="about-photo-wrap fade-in">
-            <img src="/headshot.png" alt="Parv Patodia" class="about-photo-img" />
+            <img src="/headshot.png" alt="Parv Patodia" class="about-photo-img" width="180" height="180" loading="lazy" decoding="async" />
           </div>
           <div class="about-text fade-in">
             <p>I started out curious about how machines move through the world. That curiosity grew into a deeper interest in how they perceive, reason, and make decisions from data.</p>
@@ -1305,6 +1305,9 @@ import Layout from '../layouts/Layout.astro';
 </style>
 
 <script>
+// ─── Reduced-motion preference (gates the JS-driven animations below) ───────────
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 // ─── Typewriter ───────────────────────────────────────────────────────────────
 const strings: string[] = [
   "Building closed-loop driving policies for autonomous vehicles",
@@ -1314,7 +1317,9 @@ const strings: string[] = [
 ];
 
 const twEl = document.getElementById("typewriter-text");
-if (twEl) {
+if (twEl && reduceMotion) {
+  twEl.textContent = strings[0];
+} else if (twEl) {
   let si = 0;
   let ci = 0;
   let deleting = false;
@@ -1432,7 +1437,7 @@ mobileMenu?.querySelectorAll("a").forEach((a) => {
 });
 
 // ─── 3D card tilt ─────────────────────────────────────────────────────────────
-document.querySelectorAll<HTMLElement>(".tilt-card").forEach((card) => {
+if (!reduceMotion) document.querySelectorAll<HTMLElement>(".tilt-card").forEach((card) => {
   card.addEventListener("mousemove", (e: MouseEvent) => {
     const r = card.getBoundingClientRect();
     const x = e.clientX - r.left;
@@ -1486,13 +1491,16 @@ const countObserver = new IntersectionObserver(
   { threshold: 0.3 }
 );
 
-countEls.forEach((el) => countObserver.observe(el));
+countEls.forEach((el) => {
+  if (reduceMotion) { el.textContent = el.dataset.target ?? "0"; }
+  else { countObserver.observe(el); }
+});
 
 // ─── Precision dual-ring cursor ──────────────────────────────────────────────
 const cursorRing     = document.querySelector<HTMLElement>(".cursor-ring");
 const cursorDotInner = document.querySelector<HTMLElement>(".cursor-dot-inner");
 
-if (cursorRing && cursorDotInner && window.matchMedia("(pointer: fine)").matches) {
+if (cursorRing && cursorDotInner && !reduceMotion && window.matchMedia("(pointer: fine)").matches) {
   cursorRing.style.display     = "block";
   cursorDotInner.style.display = "block";
 
@@ -1544,10 +1552,10 @@ const scrambleObs = new IntersectionObserver(
   }),
   { threshold: 0.5 }
 );
-document.querySelectorAll<HTMLElement>(".scramble-heading").forEach((el) => scrambleObs.observe(el));
+if (!reduceMotion) document.querySelectorAll<HTMLElement>(".scramble-heading").forEach((el) => scrambleObs.observe(el));
 
 // ─── Magnetic buttons ────────────────────────────────────────────────────────
-document.querySelectorAll<HTMLElement>(".btn-primary, .btn-secondary").forEach((btn) => {
+if (!reduceMotion) document.querySelectorAll<HTMLElement>(".btn-primary, .btn-secondary").forEach((btn) => {
   btn.addEventListener("mousemove", (e: MouseEvent) => {
     const r  = btn.getBoundingClientRect();
     const dx = e.clientX - (r.left + r.width  / 2);
@@ -1564,7 +1572,7 @@ document.querySelectorAll<HTMLElement>(".btn-primary, .btn-secondary").forEach((
 // ─── Boot sequence (plays once per session) ───────────────────────────────────
 const bootOverlay = document.getElementById("boot-overlay");
 const bootNameEl  = document.getElementById("boot-name");
-if (bootOverlay && bootNameEl && !sessionStorage.getItem("booted")) {
+if (bootOverlay && bootNameEl && !reduceMotion && !sessionStorage.getItem("booted")) {
   sessionStorage.setItem("booted", "1");
   const bootStr = "Parv Patodia";
   let bi = 0;
@@ -1693,7 +1701,7 @@ if (attnCanvas) {
     }
     ctx.globalAlpha = 1;
     t++;
-    requestAnimationFrame(draw);
+    if (!reduceMotion) requestAnimationFrame(draw);
   }
 
   attnCanvas.addEventListener("mousemove", (e: MouseEvent) => {

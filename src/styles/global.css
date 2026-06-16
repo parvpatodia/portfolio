@@ -1,11 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 
 :root {
   --bg:          #0A0E1A;
   --surface:     #111827;
   --border:      #1F2937;
-  --muted:       #6B7280;
+  --muted:       #8B92A0;
   --body:        #D1D5DB;
   --heading:     #F9FAFB;
   --accent-blue: #3B82F6;
@@ -51,6 +50,24 @@ a {
 
 a:hover {
   color: var(--accent-cyan);
+}
+
+/* Keyboard focus visibility for tab navigation */
+:focus-visible {
+  outline: 2px solid var(--accent-cyan);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* Respect reduced-motion: stop animation/transition, reveal content statically */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html { scroll-behavior: auto; }
+  .fade-in { opacity: 1 !important; transform: none !important; }
 }
 
 /* Scroll fade-in animation */
