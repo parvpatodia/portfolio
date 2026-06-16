@@ -13,22 +13,25 @@ const featured = [
   {
     name: 'av-policy-lab',
     period: '2026 – present · MS research, Northeastern',
-    tags: ['nuPlan', 'PyTorch', 'Diffusion Policy', 'Closed-Loop Eval'],
-    desc: 'A controlled study of when generative (diffusion) planners actually beat deterministic ones on nuPlan, and whether that advantage survives once logged playback is replaced with realistic reactive agents. Honest failure-mode analysis and a reusable harness.',
+    tags: ['nuPlan', 'PyTorch', 'DDPM / DDIM', 'PDM-Score', 'A100 / SLURM'],
+    desc: 'A controlled study of when generative (diffusion) planners actually beat deterministic ones on nuPlan closed-loop, and whether that advantage survives once logged playback is replaced with realistic reactive agents. Baselines span behavior cloning, a MILE-style world model, and a VLA-conditioned policy, scored on PDM-Score; DDPM and DDIM are implemented from scratch in PyTorch and trained on A100s via SLURM.',
+    metrics: ['training loss 0.75 → 0.032', '~100× faster sampling with deterministic DDIM', 'honest failure-mode analysis + reusable harness'],
     href: 'https://github.com/parvpatodia/av-policy-lab'
   },
   {
     name: 'Laksh.ai',
     period: '2025 – present',
     tags: ['MediaPipe', 'RTMPose', 'YOLO', 'ChromaDB', 'FastAPI'],
-    desc: 'A computer-vision pipeline for basketball jump-shot analysis: markerless pose estimation into a 12-joint canonical schema, an 8D kinematic fingerprint matched against active NBA players via vector search, and LLM coaching feedback with injury-risk flags. Presented at the YC × Google DeepMind hackathon; won a prize at the AI Prototype to Product hackathon.',
+    desc: 'A computer-vision pipeline for basketball jump-shot analysis: a pluggable pose stack (MediaPipe + RTMPose) feeds a canonical 12-joint schema, an 8D kinematic fingerprint is matched against active NBA players via ChromaDB vector search, and an LLM returns coaching feedback. Presented at the YC × Google DeepMind hackathon; won a prize at the AI Prototype to Product hackathon.',
+    metrics: ['canonical 12-joint schema → 8D fingerprint', 'vector match vs active NBA players', 'injury-risk: knee valgus, landing, upper-extremity load'],
     href: 'https://github.com/parvpatodia/Laksh_AI'
   },
   {
     name: 'Vision Transformer from scratch',
     period: '2025 – present',
-    tags: ['PyTorch', 'Transformers', 'LEVIR-CD'],
-    desc: 'A ViT implemented from scratch in PyTorch for bi-temporal urban change detection on Sentinel-2 imagery: patch embedding, positional encoding, multi-head self-attention, a Siamese encoder + segmentation decoder, evaluated against CNN baselines.',
+    tags: ['PyTorch', 'Transformers', 'Sentinel-2', 'LEVIR-CD'],
+    desc: 'A ViT built from scratch in PyTorch for bi-temporal urban change detection on Sentinel-2 imagery: patch embedding, positional encoding, multi-head self-attention, and a Siamese encoder with a segmentation decoder, no pretrained modules. Evaluated honestly against tuned CNN baselines on IoU, F1, Dice, precision, and recall.',
+    metrics: ['ViT: F1 0.82, IoU 0.70', 'tuned baselines: U-Net 0.88, Swin 0.86 (F1)', 'a clear, reported gap, not a cherry-picked win'],
     href: 'https://github.com/parvpatodia/vit-from-scratch'
   }
 ];
@@ -43,13 +46,25 @@ const more = [
 ];
 
 const experience = [
-  { role: 'Graduate Teaching Assistant, Foundations of AI', org: 'Northeastern University', loc: 'San Jose, CA', when: 'Jan 2026 – present', note: 'Weekly office hours for 30+ students on model reasoning, debugging, and ML evaluation; designed assignments on dataset and architecture decisions.' },
-  { role: 'Senior Officer, Site Reliability Engineering', org: 'United Overseas Bank', loc: 'Singapore', when: 'Jul 2024 – Jun 2025', note: 'Monitored production banking infrastructure with GENEOS; improved incident visibility by 30%; ran scalability checks across AWS and VMware under peak load.' },
+  { role: 'Graduate Teaching Assistant, Foundations of AI', org: 'Northeastern University', loc: 'San Jose, CA', when: 'Jan 2026 – present', note: 'Lead weekly office hours for 30+ students on model reasoning, debugging, and ML evaluation; designed assignments on dataset selection, model architecture, and result interpretation.' },
+  { role: 'Senior Officer, Site Reliability Engineering', org: 'United Overseas Bank', loc: 'Singapore', when: 'Jul 2024 – Jun 2025', note: 'Monitored production banking infrastructure with GENEOS, improving incident visibility by 30%; partnered with DevOps to run scalability checks across AWS and VMware under peak load.' },
   { role: 'Autonomous Vehicle Test Engineer', org: 'Venti Technologies', loc: 'Singapore', when: 'Jun 2023 – Aug 2023', note: 'Tested autonomous prime movers at a Singapore port: lane detection, curb detection, and path-change validation using RViz simulation and LiDAR analysis. Cut testing cycle time by 15%.' }
+];
+
+const education = [
+  { school: 'Northeastern University', degree: 'M.S. in Artificial Intelligence', loc: 'San Jose, CA', when: 'Sep 2025 – May 2027', note: 'GPA 3.92. Graduate Teaching Assistant for Foundations of AI. Focus: machine learning, computer vision, and autonomous systems.' },
+  { school: 'Nanyang Technological University', degree: 'B.E. Mechanical Engineering · Minor in Computing & Data Analysis', loc: 'Singapore', when: 'Aug 2020 – May 2024', note: 'Final-year project on drivetrain condition monitoring earned a Final Year Project Research Award.' }
+];
+
+const skills = [
+  { k: 'Languages', v: 'Python, C++, JavaScript / TypeScript, SQL, MATLAB' },
+  { k: 'ML / DL', v: 'PyTorch, JAX, Transformers, diffusion models, scikit-learn, NumPy, OpenCV, MediaPipe' },
+  { k: 'Systems / infra', v: 'Docker, AWS, GCP, SLURM / HPC (A100), Git, FastAPI, React' },
+  { k: 'Domains', v: 'perception, autonomous driving, imitation & reinforcement learning, pose estimation, RAG, LLM agents' }
 ];
 ---
 
-<V2Layout title="Work | Parv Patodia" nav="work" description="Research, projects, and shipped systems by Parv Patodia.">
+<V2Layout title="Work | Parv Patodia" nav="work" description="Research, projects, experience, and education of Parv Patodia: closed-loop driving policy, a from-scratch Vision Transformer, and shipped ML systems.">
   <main class="wrap page">
     <header class="page-head reveal">
       <p class="eyebrow">01 / work</p>
@@ -75,6 +90,7 @@ const experience = [
           <p style="color: var(--text-3); font-family: var(--font-mono); font-size: var(--fs-xs); margin-bottom: 0.5rem;">{p.period}</p>
           <div class="tag-row">{p.tags.map((t) => <span class="tag">{t}</span>)}</div>
           <p style="color: var(--text-2); font-size: var(--fs-sm); line-height: 1.6;">{p.desc}</p>
+          <ul class="card-metrics">{p.metrics.map((m) => <li>{m}</li>)}</ul>
           <p style="margin-top: 0.9rem;"><a href={p.href} target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-family: var(--font-mono); font-size: var(--fs-xs);">view on github &rarr;</a></p>
         </article>
       ))}
@@ -106,13 +122,36 @@ const experience = [
       ))}
     </div>
 
+    <p class="eyebrow reveal" style="margin-bottom: 1.25rem;">education</p>
+    <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 4rem;">
+      {education.map((e) => (
+        <article class="card reveal">
+          <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+            <h3 style="font-size: var(--fs-base);">{e.school}</h3>
+            <span style="color: var(--text-3); font-family: var(--font-mono); font-size: var(--fs-xs);">{e.when}</span>
+          </div>
+          <p style="color: var(--accent); font-family: var(--font-mono); font-size: var(--fs-xs); margin: 0.2rem 0 0.6rem;">{e.degree} &middot; {e.loc}</p>
+          <p style="color: var(--text-2); font-size: var(--fs-sm); line-height: 1.55;">{e.note}</p>
+        </article>
+      ))}
+    </div>
+
     <p class="eyebrow reveal" style="margin-bottom: 1.25rem;">research</p>
-    <article class="card reveal">
+    <article class="card reveal" style="margin-bottom: 4rem;">
       <h3 style="font-size: var(--fs-base);">Next-Generation E-Drivetrain for Automated Mobile Robots: Condition Monitoring</h3>
       <p style="color: var(--accent); font-family: var(--font-mono); font-size: var(--fs-xs); margin: 0.2rem 0 0.6rem;">NTU Singapore &middot; Final Year Project &middot; 2024 &middot; FYP Research Award</p>
-      <p style="color: var(--text-2); font-size: var(--fs-sm); line-height: 1.6;">Condition monitoring of electric drivetrains using MATLAB and neural networks to predict drivetrain performance from sensor data, studying how training-data volume affects prediction accuracy for real-time multi-parameter monitoring.</p>
+      <p style="color: var(--text-2); font-size: var(--fs-sm); line-height: 1.6;">Condition monitoring of electric drivetrains for autonomous mobile robots, using MATLAB and neural-network models to predict drivetrain performance parameters from sensor data. The study quantified how training-data volume affects prediction accuracy and demonstrated the viability of real-time, multi-parameter drivetrain monitoring.</p>
       <p style="margin-top: 0.9rem;"><a href="https://hdl.handle.net/10356/177667" target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-family: var(--font-mono); font-size: var(--fs-xs);">NTU digital repository &rarr;</a></p>
     </article>
-  </main>
 
+    <p class="eyebrow reveal" style="margin-bottom: 1.25rem;">stack</p>
+    <dl class="skills reveal">
+      {skills.map((s) => (
+        <div class="skill-row">
+          <dt>{s.k}</dt>
+          <dd>{s.v}</dd>
+        </div>
+      ))}
+    </dl>
+  </main>
 </V2Layout>
