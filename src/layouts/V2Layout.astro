@@ -112,24 +112,28 @@ const personSchema = {
     if (ok) {
       const ring = document.querySelector('.cursor-ring') as HTMLElement | null;
       if (ring) {
-        let rx = 0, ry = 0, tx = 0, ty = 0, shown = false;
+        let rx = 0, ry = 0, tx = 0, ty = 0, shown = false, run = false;
+        function ringLoop() {
+          rx += (tx - rx) * 0.2; ry += (ty - ry) * 0.2;
+          ring!.style.transform = `translate(${rx}px, ${ry}px)`;
+          if (Math.abs(tx - rx) + Math.abs(ty - ry) < 0.1) { run = false; return; } // idle: stop
+          requestAnimationFrame(ringLoop);
+        }
+        function ringKick() { if (!run) { run = true; requestAnimationFrame(ringLoop); } }
         window.addEventListener('mousemove', (e) => {
           tx = e.clientX; ty = e.clientY;
-          if (!shown) { shown = true; ring.classList.add('on'); rx = tx; ry = ty; }
+          if (!shown) { shown = true; ring!.classList.add('on'); rx = tx; ry = ty; }
+          ringKick();
         }, { passive: true });
-        (function trail() { rx += (tx - rx) * 0.2; ry += (ty - ry) * 0.2; ring.style.transform = `translate(${rx}px, ${ry}px)`; requestAnimationFrame(trail); })();
         document.querySelectorAll('a, button').forEach((el) => {
           el.addEventListener('mouseenter', () => ring.classList.add('hover'));
           el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
         });
       }
       document.querySelectorAll<HTMLElement>('.btn').forEach((btn) => {
-        btn.addEventListener('mousemove', (e) => {
-          const r = btn.getBoundingClientRect();
-          const dx = (e as MouseEvent).clientX - (r.left + r.width / 2);
-          const dy = (e as MouseEvent).clientY - (r.top + r.height / 2);
-          btn.style.transform = `translate(${dx * 0.18}px, ${dy * 0.18}px)`;
-        });
+        let cx = 0, cy = 0;
+        btn.addEventListener('mouseenter', () => { const r = btn.getBoundingClientRect(); cx = r.left + r.width / 2; cy = r.top + r.height / 2; });
+        btn.addEventListener('mousemove', (e) => { btn.style.transform = `translate(${((e as MouseEvent).clientX - cx) * 0.18}px, ${((e as MouseEvent).clientY - cy) * 0.18}px)`; });
         btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
       });
     }
