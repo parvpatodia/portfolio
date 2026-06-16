@@ -546,6 +546,31 @@ const personSchema = {
       size(); draw();
     }
 
+    // ── Easter egg: the Konami code re-noises the page, then it denoises away ────
+    (function egg() {
+      const seq = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+      let i = 0;
+      function toast(msg: string) {
+        const t = document.createElement('div'); t.className = 'egg-toast'; t.textContent = msg; document.body.appendChild(t);
+        requestAnimationFrame(() => t.classList.add('on'));
+        setTimeout(() => { t.classList.remove('on'); setTimeout(() => t.remove(), 400); }, 2600);
+      }
+      function fire() {
+        toast('// sampled · you found the easter egg');
+        if (reduce) return;
+        const o = document.createElement('div'); o.className = 'egg-noise'; document.body.appendChild(o);
+        requestAnimationFrame(() => { o.style.opacity = '0'; });
+        setTimeout(() => o.remove(), 1300);
+      }
+      document.addEventListener('keydown', (e) => {
+        const tag = (document.activeElement && document.activeElement.tagName) || '';
+        if (tag === 'INPUT' || tag === 'TEXTAREA') { i = 0; return; }
+        const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+        i = k === seq[i] ? i + 1 : (k === seq[0] ? 1 : 0);
+        if (i === seq.length) { i = 0; fire(); }
+      });
+    })();
+
     // ── Lifecycle: per-navigation setup + teardown ──────────────────────────────
     function onPage() {
       document.documentElement.classList.add('js');
