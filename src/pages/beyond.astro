@@ -33,7 +33,14 @@ const books = [
       ))}
     </div>
 
-    <p class="eyebrow reveal" style="margin-bottom: 1.25rem;">bookshelf</p>
+    <p class="eyebrow reveal" style="margin-bottom: 0.9rem;">// shoot &middot; the release lab</p>
+    <h2 class="reveal" style="font-size: var(--fs-xl); letter-spacing: -0.03em; margin-bottom: 1rem;">Find your arc.</h2>
+    <div class="shot-wrap reveal">
+      <canvas id="shot-canvas" tabindex="0" role="application" aria-label="Basketball shot game. Drag the ball back and release to shoot, or press space to shoot."></canvas>
+    </div>
+    <p class="lab-note reveal" id="shot-readout">Drag the ball back and release. It grades your release angle, the same mechanic behind <a href="https://github.com/parvpatodia/Laksh_AI" target="_blank" rel="noopener noreferrer">Laksh.ai</a>.</p>
+
+    <p class="eyebrow reveal" style="margin-bottom: 1.25rem; margin-top: 4rem;">bookshelf</p>
     <div class="grid-2">
       {books.map((b) => (
         <article class="card reveal">

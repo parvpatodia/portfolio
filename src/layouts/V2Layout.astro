@@ -546,6 +546,82 @@ const personSchema = {
       size(); draw();
     }
 
+    // ── Shot: drag-to-shoot basketball with a Laksh-style release-angle grade ────
+    let shotRaf = 0;
+    let shotResize: (() => void) | null = null;
+    function destroyShot() {
+      cancelAnimationFrame(shotRaf); shotRaf = 0;
+      if (shotResize) { window.removeEventListener('resize', shotResize); shotResize = null; }
+    }
+    function initShot() {
+      destroyShot();
+      const canvas = document.getElementById('shot-canvas') as HTMLCanvasElement | null;
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d')!;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const out = document.getElementById('shot-readout');
+      const G = 0.4;
+      let w = 0, h = 0;
+      const ball = { x: 0, y: 0, vx: 0, vy: 0, r: 13 };
+      let state: 'aim' | 'fly' | 'result' = 'aim';
+      let dragging = false, px = 0, py = 0;
+      let made = 0, attempts = 0, streak = 0, best = 0, releaseAngle = 0, resultT = 0;
+      try { best = parseInt(localStorage.getItem('pp-shot-best') || '0', 10) || 0; } catch (e) {}
+      const geom = () => ({ groundY: h - 16, backX: w * 0.84, rimY: h * 0.42, rimW: Math.max(46, w * 0.1) });
+      function resetBall() { const g = geom(); ball.x = w * 0.13; ball.y = h * 0.72; ball.vx = 0; ball.vy = 0; ball.r = Math.max(11, w * 0.022); state = 'aim'; }
+      function size() { const r = canvas!.getBoundingClientRect(); w = r.width; h = r.height; canvas!.width = Math.floor(w * dpr); canvas!.height = Math.floor(h * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); resetBall(); draw(); }
+      function kick() { if (!shotRaf) shotRaf = requestAnimationFrame(loop); }
+      function launch(vx: number, vy: number) { ball.vx = vx; ball.vy = vy; state = 'fly'; attempts++; releaseAngle = Math.round(Math.atan2(-vy, vx) * 180 / Math.PI); kick(); }
+      function result(makeIt: boolean) {
+        state = 'result'; resultT = 0;
+        if (makeIt) { made++; streak++; if (streak > best) { best = streak; try { localStorage.setItem('pp-shot-best', String(best)); } catch (e) {} } } else streak = 0;
+        const a = releaseAngle;
+        const note = makeIt ? (a >= 44 && a <= 54 ? 'clean release' : a < 44 ? 'flat, but it dropped' : 'high arc, soft touch') : (a < 38 ? 'too flat, add arc' : a > 64 ? 'too steep, flatten it' : 'just off, reset and go');
+        if (out) out.textContent = `release ${a}° · ${makeIt ? 'make' : 'miss'} · streak ${streak} · ${note}`;
+      }
+      function loop() {
+        shotRaf = 0;
+        const g = geom();
+        if (state === 'fly') {
+          const prevY = ball.y; ball.vy += G; ball.x += ball.vx; ball.y += ball.vy;
+          if (ball.x + ball.r >= g.backX && ball.vx > 0 && ball.y < g.rimY + 6) { ball.x = g.backX - ball.r; ball.vx = -ball.vx * 0.5; }
+          if (ball.vy > 0 && prevY < g.rimY && ball.y >= g.rimY && ball.x > g.backX - g.rimW && ball.x < g.backX) result(true);
+          else if (ball.y + ball.r >= g.groundY) { ball.y = g.groundY - ball.r; result(false); }
+          else if (ball.x - ball.r > w || ball.x + ball.r < 0 || ball.y + ball.r < -40) result(false);
+        } else if (state === 'result') { resultT++; if (resultT > 64) resetBall(); }
+        draw();
+        if (state === 'fly' || state === 'result' || dragging) shotRaf = requestAnimationFrame(loop);
+      }
+      function ballAt(x: number, y: number, r: number) { ctx.fillStyle = '#E8772E'; ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill(); ctx.strokeStyle = 'rgba(0,0,0,0.4)'; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(x - r, y); ctx.lineTo(x + r, y); ctx.moveTo(x, y - r); ctx.lineTo(x, y + r); ctx.stroke(); }
+      function draw() {
+        const g = geom(); ctx.clearRect(0, 0, w, h);
+        ctx.strokeStyle = 'rgba(255,255,255,0.1)'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(0, g.groundY); ctx.lineTo(w, g.groundY); ctx.stroke();
+        ctx.strokeStyle = 'rgba(233,234,241,0.45)'; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(g.backX, g.rimY - 52); ctx.lineTo(g.backX, g.rimY + 28); ctx.stroke();
+        ctx.strokeStyle = 'rgba(255,255,255,0.22)'; ctx.lineWidth = 1; for (let i = 0; i <= 5; i++) { const lx = g.backX - g.rimW + g.rimW * (i / 5); ctx.beginPath(); ctx.moveTo(lx, g.rimY); ctx.lineTo(g.backX - g.rimW * 0.5 + (lx - (g.backX - g.rimW * 0.5)) * 0.35, g.rimY + 26); ctx.stroke(); }
+        ctx.strokeStyle = '#F2B33D'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(g.backX - g.rimW, g.rimY); ctx.lineTo(g.backX, g.rimY); ctx.stroke();
+        if (dragging) {
+          let sx = ball.x, sy = ball.y, svx = (ball.x - px) * 0.16, svy = (ball.y - py) * 0.16;
+          ctx.fillStyle = 'rgba(242,179,61,0.55)';
+          for (let i = 0; i < 24; i++) { svy += G; sx += svx; sy += svy; if (i % 2 === 0) { ctx.beginPath(); ctx.arc(sx, sy, 2, 0, Math.PI * 2); ctx.fill(); } }
+        }
+        ballAt(ball.x, ball.y, ball.r);
+        ctx.fillStyle = 'rgba(233,234,241,0.9)'; ctx.font = '12px "JetBrains Mono", monospace'; ctx.textAlign = 'left'; ctx.fillText(made + '/' + attempts, 12, 22);
+        ctx.textAlign = 'right'; ctx.fillStyle = 'rgba(140,138,129,1)'; ctx.fillText('best streak ' + best, w - 12, 22); ctx.textAlign = 'left';
+        if (state === 'aim' && !dragging && attempts === 0) { ctx.fillStyle = 'rgba(156,162,176,1)'; ctx.font = '11px "JetBrains Mono", monospace'; ctx.textAlign = 'center'; ctx.fillText('drag the ball back, release to shoot', w / 2, h - 34); ctx.textAlign = 'left'; }
+      }
+      canvas.addEventListener('pointerdown', (e) => {
+        if (state !== 'aim') return;
+        const r = canvas.getBoundingClientRect(), mx = e.clientX - r.left, my = e.clientY - r.top;
+        if (Math.hypot(mx - ball.x, my - ball.y) < ball.r * 3.5) { dragging = true; px = mx; py = my; try { canvas.setPointerCapture(e.pointerId); } catch (er) {} kick(); }
+      });
+      canvas.addEventListener('pointermove', (e) => { if (!dragging) return; const r = canvas.getBoundingClientRect(); px = e.clientX - r.left; py = e.clientY - r.top; });
+      canvas.addEventListener('pointerup', () => { if (!dragging) return; dragging = false; const vx = (ball.x - px) * 0.16, vy = (ball.y - py) * 0.16; if (Math.hypot(vx, vy) < 2.5) state = 'aim'; else launch(vx, vy); });
+      canvas.addEventListener('keydown', (e) => { if ((e.key === ' ' || e.key === 'Enter') && state === 'aim') { e.preventDefault(); const g = geom(); launch((g.backX - g.rimW * 0.5 - ball.x) * 0.05, -(ball.y - g.rimY) * 0.085 - 3); } });
+      shotResize = () => { size(); };
+      window.addEventListener('resize', shotResize, { passive: true });
+      size();
+    }
+
     // ── Easter egg: the Konami code re-noises the page, then it denoises away ────
     (function egg() {
       const seq = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
@@ -582,9 +658,10 @@ const personSchema = {
       initLab();
       initShipFeed();
       initGame();
+      initShot();
     }
     document.addEventListener('astro:page-load', onPage);
-    document.addEventListener('astro:before-swap', () => { destroyHero(); destroyLab(); destroyGame(); });
+    document.addEventListener('astro:before-swap', () => { destroyHero(); destroyLab(); destroyGame(); destroyShot(); });
   </script>
 </body>
 </html>
