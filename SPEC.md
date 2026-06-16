@@ -40,7 +40,7 @@ research is mislabeled "Coming Soon" despite being live. Copy sourced from real 
 - **career-ops** (public): autonomous job-search system, 14 skill modes, Go dashboard,
   PDF generation, batch processing. NOTE: career-ops-v2 is PRIVATE -> do not link v2
   (403 for visitors); link the public career-ops. See "Verify" below.
-- Do NOT add `knowledge-distillation` — no such repo exists (it is study material).
+- Do NOT add `knowledge-distillation` (no such repo exists; it is study material).
 - `passes: false`
 
 ### 4. SEO / discoverability + social sharing
@@ -64,7 +64,7 @@ research is mislabeled "Coming Soon" despite being live. Copy sourced from real 
 - Bump `--muted` (#6B7280 ~3.9:1 on the dark bg) to meet WCAG AA 4.5:1.
 - `passes: false`
 
-## Verify (Parv must confirm — NOT changed without his say; possible fabrication risk)
+## Verify (Parv must confirm; NOT changed without his say; possible fabrication risk)
 - **LinkedIn URL conflict**: contact uses `linkedin.com/in/parvpatodia`, footer uses
   `linkedin.com/in/parvpatodia-ai-silicon-valley/`. At least one is wrong. Standardizing
   to one; confirm the correct vanity URL.
@@ -72,7 +72,7 @@ research is mislabeled "Coming Soon" despite being live. Copy sourced from real 
   card) vs "Dec 2025 – Present" (Laksh card); a repo "Pocket-Film-Director" is tagged
   "YC x Deepmind Hackathon Project (7 March 2026)". Northeastern SV Showcase "Late 2024"
   and GTC "March 2025" predate his Sep 2025 move to San Jose (he was at UOB Singapore
-  until Jun 2025). Dates left untouched — verify against the real timeline.
+  until Jun 2025). Dates left untouched; verify against the real timeline.
 - **Multimodal RAG** card links to the bare GitHub profile, not a repo. Provide a repo or
   drop the link.
 - **career-ops-v2** is private. Confirm whether to keep it private (link public
