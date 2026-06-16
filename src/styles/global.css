@@ -504,6 +504,25 @@ section {
   color: var(--heading);
 }
 
+/* Icon-only CTA buttons (GitHub / LinkedIn). No fixed height: the flex row's
+   default align-items: stretch sizes them to match the text buttons. */
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.85rem;
+  background: transparent;
+  color: var(--body);
+  border: 1px solid rgba(31, 41, 55, 0.9);
+  border-radius: 4px;
+  transition: border-color 0.2s, color 0.2s;
+}
+.btn-icon:hover {
+  border-color: rgba(59, 130, 246, 0.5);
+  color: var(--heading);
+}
+.btn-icon svg { display: block; }
+
 /* ── About ─────────────────────────────────────────────────────────────────── */
 #about {
   background: var(--surface);
