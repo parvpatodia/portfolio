@@ -113,7 +113,7 @@ const personSchema = {
   <div id="cmdk" class="cmdk" role="dialog" aria-modal="true" aria-label="Command palette" hidden transition:persist>
     <div class="cmdk-backdrop" data-cmdk-close></div>
     <div class="cmdk-panel">
-      <input id="cmdk-input" class="cmdk-input" type="text" role="combobox" aria-expanded="true" aria-controls="cmdk-list" aria-autocomplete="list" placeholder="Jump to a page or link..." aria-label="Search commands" autocomplete="off" spellcheck="false" />
+      <input id="cmdk-input" class="cmdk-input" type="text" role="combobox" aria-expanded="false" aria-controls="cmdk-list" aria-autocomplete="list" placeholder="Jump to a page or link..." aria-label="Search commands" autocomplete="off" spellcheck="false" />
       <ul id="cmdk-list" class="cmdk-list" role="listbox" aria-label="Commands"></ul>
     </div>
   </div>
@@ -301,10 +301,12 @@ const personSchema = {
       function open() {
         if (isOpen) return; isOpen = true; lastFocus = document.activeElement;
         root!.hidden = false; document.documentElement.classList.add('cmdk-open');
+        input!.setAttribute('aria-expanded', 'true');
         input!.value = ''; doFilter(); input!.focus(); requestAnimationFrame(() => input!.focus());
       }
       function close() {
         if (!isOpen) return; isOpen = false; root!.hidden = true; document.documentElement.classList.remove('cmdk-open');
+        input!.setAttribute('aria-expanded', 'false');
         if (lastFocus instanceof HTMLElement) lastFocus.focus();
       }
       function activate(i: number) {
@@ -341,6 +343,8 @@ const personSchema = {
     // ── Lifecycle: per-navigation setup + teardown ──────────────────────────────
     function onPage() {
       document.documentElement.classList.add('js');
+      const trig = document.querySelector('.cmdk-trigger');
+      if (trig) trig.textContent = /mac/i.test(navigator.platform || navigator.userAgent) ? '⌘K' : 'Ctrl K';
       initReveals();
       bindMagnetic();
       initHero();
