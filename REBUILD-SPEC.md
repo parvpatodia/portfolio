@@ -28,12 +28,33 @@
   interactive LiDAR/point-cloud (or driving-trajectory) canvas that reacts to the cursor.
   This replaces the decorative sweep and is personal, not generic.
 
-## Architecture
-- Componentize: `src/components/` → `Nav`, `Hero`, `Story`, `Journey`, `Experience`,
-  `Projects`, `Research`, `Beyond`, `Bookshelf`, `Contact`, `Footer`, plus primitives
-  (`Section`, `Reveal`, `Tag`, `Card`).
-- Keep Astro static output + Vercel. Add `@motionone/dom` only.
-- Carry over all v1 SEO/meta/OG/JSON-LD/sitemap work (it's good; do not regress it).
+## Architecture — MULTI-PAGE (updated per Parv 2026-06-15)
+Not one long scroll. Real routes with a persistent nav, so a recruiter can jump straight
+to what they want:
+- `/`        Landing — impactful, distinctive, "perception HUD" hero.
+- `/work`    Projects + experience + research (the proof).
+- `/story`   Origin + India→Singapore→SV journey (timeline from resume + GitHub).
+- `/beyond`  Sports/hobbies (reuse current) + Bookshelf.
+- `/contact` Email + links (or fold into nav/footer).
+Shared `V2Layout` (head/meta/nav/footer). Astro static + Vercel. Carry over ALL v1
+SEO/meta/OG/JSON-LD/sitemap (per-page meta). Add `motion` only if needed.
+
+## Anti-slop direction (per the Snyk blog Parv shared)
+- Drop Inter/Roboto. Distinctive pairing: display = Bricolage Grotesque, body = Hanken
+  Grotesk, mono = JetBrains Mono.
+- Dominant dark base + ONE confident sharp accent = warm amber/gold (sensor/HUD feel,
+  not the generic blue/purple every portfolio uses). Teal as a sparse data accent.
+- Asymmetry, overlap, generous negative space. Editorial, not centered-everything.
+- Orchestrated landing motion (one high-impact sequence), not scattered micro-effects.
+- Quality gates: AA contrast, visible focus, keyboard nav, alt/ARIA, <100ms feedback.
+
+## Books (from Parv 2026-06-15 — VERIFY the flagged ones, do not publish wrong titles)
+- The Alignment Problem — Brian Christian  [confirmed accurate; currently reading]
+- Cosmos — Parv said "Neil deGrasse Tyson", but Cosmos is Carl Sagan's book (NdGT did the
+  TV reboot). FLAG: confirm Sagan, or which NdGT title.
+- "An Infinity Machine — Sebastian Mallaby" does not match a known Mallaby title (he wrote
+  The Power Law, More Money Than God). FLAG: confirm exact title.
+- "Autobiography of Demesis Abis" — could not identify (garbled). FLAG: need exact title/author.
 
 ## Information architecture (content-driven — tells the whole story)
 1. **Hero** — name, one-line value prop, availability (Fall 2026 co-op), resume/GitHub/

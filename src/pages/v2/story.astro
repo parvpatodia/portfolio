@@ -1,0 +1,41 @@
+---
+import V2Layout from '../../layouts/V2Layout.astro';
+
+const timeline = [
+  { year: 'Grew up', place: 'India', text: 'Gully cricket, a fascination with how machines move through the world, and the questions that became a career.' },
+  { year: '2020 — 24', place: 'Singapore · NTU', text: 'B.E. Mechanical Engineering with a minor in Computing & Data Analysis. A Final Year Project on drivetrain condition monitoring won the FYP Research Award.' },
+  { year: '2023', place: 'Singapore · Venti', text: 'Tested autonomous-vehicle perception in live port environments — lane-change validation, LiDAR analysis, obstacle detection. Learned how different deployment is from a controlled setting.' },
+  { year: '2024 — 25', place: 'Singapore · UOB', text: 'Site Reliability Engineering on production banking infrastructure. Lived inside the reliability and edge-case discipline that real systems demand.' },
+  { year: '2025 —', place: 'Silicon Valley · Northeastern', text: 'Moved to San Jose for an MS in AI. Teaching AI foundations, researching closed-loop driving policy, and building closer to the models.' }
+];
+---
+
+<V2Layout title="Story — Parv Patodia" nav="story" description="Parv Patodia's path from India to Singapore to Silicon Valley.">
+  <main class="wrap page">
+    <header class="page-head reveal">
+      <p class="eyebrow">02 / story</p>
+      <h1>Perception, policy,<br />and the real world.</h1>
+    </header>
+
+    <div class="reveal" style="max-width: var(--maxw-prose); display: flex; flex-direction: column; gap: 1.1rem; margin-bottom: 4.5rem;">
+      <p style="color: var(--text-2); font-size: var(--fs-md); line-height: 1.6;">I started out curious about how machines move through the world. That curiosity grew into a deeper interest in how they <span style="color: var(--text);">perceive, reason, and make decisions from data</span>.</p>
+      <p style="color: var(--text-2); font-size: var(--fs-base); line-height: 1.65;">Testing autonomous vehicles in live port environments taught me to take edge cases seriously. Since then I have been building closer to the models: a Vision Transformer from scratch, a pose-estimation pipeline for basketball biomechanics, and closed-loop driving-policy research on nuPlan. I am most interested in roles where perception, policy, and real-world deployment come together.</p>
+    </div>
+
+    <p class="eyebrow reveal" style="margin-bottom: 1.5rem;">the path</p>
+    <ol style="list-style: none; border-left: 1px solid var(--border); margin-left: 0.5rem;">
+      {timeline.map((t) => (
+        <li class="reveal" style="position: relative; padding: 0 0 2.2rem 1.75rem;">
+          <span style="position: absolute; left: -5px; top: 6px; width: 9px; height: 9px; border-radius: 50%; background: var(--accent);" aria-hidden="true"></span>
+          <p style="font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--accent); letter-spacing: 0.04em;">{t.year} &middot; {t.place}</p>
+          <p style="color: var(--text-2); font-size: var(--fs-sm); line-height: 1.6; margin-top: 0.3rem; max-width: 56ch;">{t.text}</p>
+        </li>
+      ))}
+    </ol>
+  </main>
+
+  <script>
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+  </script>
+</V2Layout>

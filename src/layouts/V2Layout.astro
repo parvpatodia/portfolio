@@ -1,0 +1,61 @@
+---
+import '../styles/v2.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  nav?: string;
+}
+const {
+  title,
+  description = 'Parv Patodia — AI/ML & robotics engineer. Perception, policy, and the real world.',
+  nav = ''
+} = Astro.props;
+
+const links = [
+  { href: '/v2/work', label: 'work', key: 'work' },
+  { href: '/v2/story', label: 'story', key: 'story' },
+  { href: '/v2/beyond', label: 'beyond', key: 'beyond' },
+  { href: '/v2/contact', label: 'contact', key: 'contact' }
+];
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" />
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="/v2" class="logo">Parv Patodia<span class="dot">.</span></a>
+      <ul class="nav-links">
+        {links.map((l) => (
+          <li><a href={l.href} aria-current={nav === l.key ? 'page' : undefined}>{l.label}</a></li>
+        ))}
+      </ul>
+      <span class="status"><span class="pulse" aria-hidden="true"></span>Fall 2026 co-op</span>
+    </div>
+  </nav>
+
+  <slot />
+
+  <footer class="foot">
+    <div class="foot-inner">
+      <span>&copy; 2026 Parv Patodia &middot; San Jose, CA &middot; built without templates</span>
+      <span>
+        <a href="https://github.com/parvpatodia" target="_blank" rel="noopener noreferrer">github</a> &middot;
+        <a href="https://www.linkedin.com/in/parvpatodia" target="_blank" rel="noopener noreferrer">linkedin</a> &middot;
+        <a href="mailto:parvpatodia09@gmail.com">email</a>
+      </span>
+    </div>
+  </footer>
+</body>
+</html>

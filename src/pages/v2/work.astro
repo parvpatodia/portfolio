@@ -1,0 +1,103 @@
+---
+import V2Layout from '../../layouts/V2Layout.astro';
+
+const featured = [
+  {
+    name: 'av-policy-lab',
+    period: '2026 — present · MS research, Northeastern',
+    tags: ['nuPlan', 'PyTorch', 'Diffusion Policy', 'Closed-Loop Eval'],
+    desc: 'A controlled study of when generative (diffusion) planners actually beat deterministic ones on nuPlan, and whether that advantage survives once logged playback is replaced with realistic reactive agents. Honest failure-mode analysis and a reusable harness.',
+    href: 'https://github.com/parvpatodia/av-policy-lab'
+  },
+  {
+    name: 'Laksh.ai',
+    period: '2025 — present · YC × Google DeepMind Hackathon',
+    tags: ['MediaPipe', 'RTMPose', 'YOLOv8', 'ChromaDB', 'Gemini'],
+    desc: 'A computer-vision pipeline for basketball jump-shot analysis: markerless pose estimation into a 12-joint canonical schema, an 8D kinematic fingerprint matched against 500+ NBA players via vector search, and LLM coaching feedback with injury-risk flags.',
+    href: 'https://github.com/parvpatodia/Laksh_AI'
+  },
+  {
+    name: 'Vision Transformer from scratch',
+    period: '2025 — present',
+    tags: ['PyTorch', 'Transformers', 'LEVIR-CD'],
+    desc: 'A ViT implemented from scratch in PyTorch for bi-temporal urban change detection on Sentinel-2 imagery: patch embedding, positional encoding, multi-head self-attention, a Siamese encoder + segmentation decoder, evaluated against CNN baselines.',
+    href: 'https://github.com/parvpatodia/vit-from-scratch'
+  }
+];
+
+const more = [
+  { name: 'career-ops', tags: ['Claude Code', 'Node.js', 'Go'], desc: 'An AI-powered job-search and application system on Claude Code: 14 skill modes, a Go dashboard, automated PDF generation, batch processing.', href: 'https://github.com/parvpatodia/career-ops' },
+  { name: 'Feynman-Loop', tags: ['Python', 'MCP', 'LLM'], desc: 'A tool for thought that makes you understand concepts deeply: you explain a concept, it finds the gap against a trusted source and resurfaces what you don\'t yet truly know. Built as an MCP server.', href: 'https://github.com/parvpatodia/Feynman-Loop' },
+  { name: 'Trace', tags: ['Multi-LLM', 'Agents'], desc: 'A multi-LLM newsletter agent that infers what you are curious about and assembles a personalized newsletter around those interests.', href: 'https://github.com/parvpatodia/Trace' },
+  { name: 'TaskRoute', tags: ['Python', 'Multi-Agent'], desc: 'An LLM-provider optimization engine ranking providers by task type, budget, switching cost, and reliability risk in a simulated agent marketplace.', href: 'https://github.com/parvpatodia/TaskRoute' },
+  { name: 'MediTrack', tags: ['FastAPI', 'React', 'LVMM'], desc: 'Healthcare-equipment tracking using visual-memory AI for semantic search over surveillance footage. Memories.ai Hackathon.', href: 'https://github.com/parvpatodia/MediTrack' },
+  { name: 'CRPO', tags: ['Python', 'Groq', 'Llama 3.1'], desc: 'Contrastive Reasoning Prompt Optimization: prompts robust across math, reasoning, fact verification, and code generation.', href: 'https://github.com/parvpatodia/CRPO-Cross-Domain-Optimization' }
+];
+
+const experience = [
+  { role: 'Graduate Teaching Assistant, Foundations of AI', org: 'Northeastern University', loc: 'San Jose, CA', when: 'Jan 2026 — present', note: 'Weekly office hours for 30+ students on model reasoning, debugging, and ML evaluation; designed assignments on dataset and architecture decisions.' },
+  { role: 'Senior Officer, Site Reliability Engineering', org: 'United Overseas Bank', loc: 'Singapore', when: 'Jul 2024 — Jun 2025', note: 'Monitored production banking infrastructure with GENEOS; improved incident visibility by 30%; ran scalability checks across AWS and VMware under peak load.' },
+  { role: 'Autonomous Vehicle Test Engineer', org: 'Venti Technologies', loc: 'Singapore', when: 'Jun 2023 — Aug 2023', note: 'Designed validation tests for lane-change and perception modules using RViz simulation and LiDAR data analysis; cut testing cycle time by 15%.' }
+];
+---
+
+<V2Layout title="Work — Parv Patodia" nav="work" description="Research, projects, and shipped systems by Parv Patodia.">
+  <main class="wrap page">
+    <header class="page-head reveal">
+      <p class="eyebrow">01 / work</p>
+      <h1>Research, projects,<br />and shipped systems.</h1>
+    </header>
+
+    <p class="eyebrow reveal" style="margin-bottom: 1.25rem;">featured</p>
+    <div class="grid-2" style="margin-bottom: 4rem;">
+      {featured.map((p) => (
+        <article class="card reveal">
+          <h3>{p.name}</h3>
+          <p style="color: var(--text-3); font-family: var(--font-mono); font-size: var(--fs-xs); margin-bottom: 0.5rem;">{p.period}</p>
+          <div class="tag-row">{p.tags.map((t) => <span class="tag">{t}</span>)}</div>
+          <p style="color: var(--text-2); font-size: var(--fs-sm); line-height: 1.6;">{p.desc}</p>
+          <p style="margin-top: 0.9rem;"><a href={p.href} target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-family: var(--font-mono); font-size: var(--fs-xs);">view on github &rarr;</a></p>
+        </article>
+      ))}
+    </div>
+
+    <p class="eyebrow reveal" style="margin-bottom: 1.25rem;">more</p>
+    <div class="grid-2" style="margin-bottom: 4rem;">
+      {more.map((p) => (
+        <article class="card reveal">
+          <h3 style="font-size: var(--fs-base);">{p.name}</h3>
+          <div class="tag-row">{p.tags.map((t) => <span class="tag">{t}</span>)}</div>
+          <p style="color: var(--text-2); font-size: var(--fs-sm); line-height: 1.55;">{p.desc}</p>
+          <p style="margin-top: 0.8rem;"><a href={p.href} target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-family: var(--font-mono); font-size: var(--fs-xs);">github &rarr;</a></p>
+        </article>
+      ))}
+    </div>
+
+    <p class="eyebrow reveal" style="margin-bottom: 1.25rem;">experience</p>
+    <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 4rem;">
+      {experience.map((e) => (
+        <article class="card reveal">
+          <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+            <h3 style="font-size: var(--fs-base);">{e.role}</h3>
+            <span style="color: var(--text-3); font-family: var(--font-mono); font-size: var(--fs-xs);">{e.when}</span>
+          </div>
+          <p style="color: var(--accent); font-family: var(--font-mono); font-size: var(--fs-xs); margin: 0.2rem 0 0.6rem;">{e.org} &middot; {e.loc}</p>
+          <p style="color: var(--text-2); font-size: var(--fs-sm); line-height: 1.55;">{e.note}</p>
+        </article>
+      ))}
+    </div>
+
+    <p class="eyebrow reveal" style="margin-bottom: 1.25rem;">research</p>
+    <article class="card reveal">
+      <h3 style="font-size: var(--fs-base);">Next-Generation E-Drivetrain for Automated Mobile Robots: Condition Monitoring</h3>
+      <p style="color: var(--accent); font-family: var(--font-mono); font-size: var(--fs-xs); margin: 0.2rem 0 0.6rem;">NTU Singapore &middot; Final Year Project &middot; 2024 &middot; FYP Research Award</p>
+      <p style="color: var(--text-2); font-size: var(--fs-sm); line-height: 1.6;">Condition monitoring of electric drivetrains using MATLAB and neural networks to predict drivetrain performance from sensor data, studying how training-data volume affects prediction accuracy for real-time multi-parameter monitoring.</p>
+      <p style="margin-top: 0.9rem;"><a href="https://hdl.handle.net/10356/177667" target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-family: var(--font-mono); font-size: var(--fs-xs);">NTU digital repository &rarr;</a></p>
+    </article>
+  </main>
+
+  <script>
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+  </script>
+</V2Layout>

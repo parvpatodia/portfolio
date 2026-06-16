@@ -1,0 +1,53 @@
+---
+import V2Layout from '../../layouts/V2Layout.astro';
+
+const interests = [
+  { name: 'Basketball', icon: 'ball', text: 'NBA obsessive. Grew up on Steph and Kobe; analyzing shot mechanics became Laksh.ai. Still play pickup whenever I can.' },
+  { name: 'Formula 1', icon: 'flag', text: 'Every race, every strategy call. The gap between a 1:10 and a 1:09 lap fascinates me the way the gap between 87% and 88% F1 does.' },
+  { name: 'Cricket', icon: 'bat', text: 'Gully cricket in India, Test-match fan. A pace bowler finding line and length is as satisfying as a loss curve converging.' },
+  { name: 'Tennis', icon: 'net', text: 'Picked it up in Singapore. Big Djokovic fan. The serve-and-volley vs baseline chess match is underrated.' }
+];
+
+const books = [
+  { title: 'The Alignment Problem', author: 'Brian Christian', note: 'currently reading', flag: false },
+  { title: 'Cosmos', author: 'Carl Sagan', note: 'confirm: you said Neil deGrasse Tyson, but Cosmos is Sagan\'s', flag: true },
+  { title: 'The Power Law', author: 'Sebastian Mallaby', note: 'confirm: best match for "an infinity machine"', flag: true },
+  { title: 'Autobiography', author: 'title unclear', note: 'send exact title/author', flag: true }
+];
+---
+
+<V2Layout title="Beyond — Parv Patodia" nav="beyond" description="Sport, books, and the rest of Parv Patodia.">
+  <main class="wrap page">
+    <header class="page-head reveal">
+      <p class="eyebrow">03 / beyond</p>
+      <h1>Sport, books, and<br />the rest of me.</h1>
+      <p class="lead" style="margin-top: 1rem;">What I am like when I am not debugging a training loop.</p>
+    </header>
+
+    <p class="eyebrow reveal" style="margin-bottom: 1.25rem;">in motion</p>
+    <div class="grid-2" style="margin-bottom: 4rem;">
+      {interests.map((i) => (
+        <article class="card reveal">
+          <h3 style="font-size: var(--fs-base);">{i.name}</h3>
+          <p style="color: var(--text-2); font-size: var(--fs-sm); line-height: 1.6; margin-top: 0.4rem;">{i.text}</p>
+        </article>
+      ))}
+    </div>
+
+    <p class="eyebrow reveal" style="margin-bottom: 1.25rem;">bookshelf</p>
+    <div class="grid-2">
+      {books.map((b) => (
+        <article class="card reveal" style={b.flag ? 'border-style: dashed;' : ''}>
+          <h3 style="font-size: var(--fs-base);">{b.title}</h3>
+          <p style="color: var(--text-2); font-family: var(--font-mono); font-size: var(--fs-xs); margin-top: 0.25rem;">{b.author}</p>
+          <p style={`font-family: var(--font-mono); font-size: var(--fs-xs); margin-top: 0.6rem; color: ${b.flag ? 'var(--accent)' : 'var(--data)'};`}>{b.flag ? '// ' : ''}{b.note}</p>
+        </article>
+      ))}
+    </div>
+  </main>
+
+  <script>
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+  </script>
+</V2Layout>

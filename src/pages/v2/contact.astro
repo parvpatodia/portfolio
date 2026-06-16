@@ -1,0 +1,38 @@
+---
+import V2Layout from '../../layouts/V2Layout.astro';
+
+const links = [
+  { k: 'email', v: 'parvpatodia09@gmail.com', href: 'mailto:parvpatodia09@gmail.com' },
+  { k: 'academic', v: 'patodia.pa@northeastern.edu', href: 'mailto:patodia.pa@northeastern.edu' },
+  { k: 'github', v: 'github.com/parvpatodia', href: 'https://github.com/parvpatodia' },
+  { k: 'linkedin', v: 'linkedin.com/in/parvpatodia', href: 'https://www.linkedin.com/in/parvpatodia' },
+  { k: 'résumé', v: 'resume.pdf', href: '/resume.pdf' },
+  { k: 'location', v: 'San Jose, CA', href: '' }
+];
+---
+
+<V2Layout title="Contact — Parv Patodia" nav="contact" description="Get in touch with Parv Patodia.">
+  <main class="wrap page">
+    <header class="page-head reveal">
+      <p class="eyebrow">04 / contact</p>
+      <h1>Let's talk.</h1>
+      <p class="lead" style="margin-top: 1rem;">I am looking for a <span style="color: var(--text);">Fall 2026 co-op or internship</span> (starting around August) in autonomous vehicles, robotics, and AI engineering. The best way to reach me is email.</p>
+    </header>
+
+    <div class="reveal" style="max-width: var(--maxw-prose); border-top: 1px solid var(--border);">
+      {links.map((l) => (
+        <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: 1.1rem 0.2rem; border-bottom: 1px solid var(--border);">
+          <span style="font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em;">{l.k}</span>
+          {l.href
+            ? <a href={l.href} target={l.href.startsWith('http') || l.href.endsWith('.pdf') ? '_blank' : undefined} rel="noopener noreferrer" style="font-family: var(--font-mono); font-size: var(--fs-sm); color: var(--text);">{l.v}</a>
+            : <span style="font-family: var(--font-mono); font-size: var(--fs-sm); color: var(--text-2);">{l.v}</span>}
+        </div>
+      ))}
+    </div>
+  </main>
+
+  <script>
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+  </script>
+</V2Layout>
