@@ -1,0 +1,121 @@
+---
+import '../styles/v2.css';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>Parv Patodia — v2 preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" />
+</head>
+<body>
+  <nav class="v2-nav">
+    <div class="v2-nav-inner">
+      <a href="#" class="v2-logo">Parv Patodia<span class="dot">.</span></a>
+      <ul class="v2-nav-links">
+        <li><a href="#story">Story</a></li>
+        <li><a href="#work">Work</a></li>
+        <li><a href="#research">Research</a></li>
+        <li><a href="#beyond">Beyond</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <span class="v2-status"><span class="pulse" aria-hidden="true"></span>Open to Fall 2026 co-op</span>
+    </div>
+  </nav>
+
+  <main>
+    <section class="v2-hero">
+      <canvas id="lidar-canvas" aria-hidden="true"></canvas>
+      <div class="v2-wrap v2-hero-inner">
+        <p class="eyebrow v2-hero-eyebrow"><span class="accent">&gt;</span> AI / ML &amp; robotics engineer &nbsp;·&nbsp; San Jose, CA</p>
+        <h1>Parv <span class="muted">Patodia</span></h1>
+        <p class="v2-hero-lede">I build ML systems that <strong>perceive, decide, and behave reliably</strong> in the real world. Right now: closed-loop driving-policy research at Northeastern.</p>
+        <div class="v2-cta-row">
+          <a href="#work" class="btn btn-primary">View work</a>
+          <a href="/resume.pdf" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">Résumé</a>
+          <a href="https://github.com/parvpatodia" class="btn btn-ghost btn-icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile, opens in new tab">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/in/parvpatodia" class="btn btn-ghost btn-icon" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile, opens in new tab">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.44-2.13 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="v2-wrap" style="padding: 7rem 1.75rem;" id="story">
+      <p class="eyebrow reveal" style="margin-bottom: 0.9rem;">01 / the story so far</p>
+      <h2 class="reveal" style="font-size: var(--fs-2xl); max-width: 16ch; margin-bottom: 1.4rem;">Perception, policy, and the real world.</h2>
+      <p class="reveal" style="max-width: var(--maxw-prose); color: var(--text-2); font-size: var(--fs-md); line-height: 1.6;">This section is a placeholder for your origin story, the India to Singapore to Silicon Valley journey, the books that shaped you, and your interests beyond code. I will write it in your voice once you send me the raw material, so it stays genuine.</p>
+    </section>
+  </main>
+
+  <script>
+    // ── Signature interaction: a LiDAR-style point field that "senses" the cursor.
+    // Meaningful to AV/perception work, not decorative. Respects reduced-motion.
+    const canvas = document.getElementById('lidar-canvas') as HTMLCanvasElement | null;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (canvas) {
+      const ctx = canvas.getContext('2d')!;
+      let w = 0, h = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const pts: { x: number; y: number; vx: number; vy: number; r: number }[] = [];
+      const mouse = { x: -999, y: -999 };
+
+      function resize() {
+        const rect = canvas!.getBoundingClientRect();
+        w = rect.width; h = rect.height;
+        canvas!.width = w * dpr; canvas!.height = h * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        const target = Math.min(110, Math.floor((w * h) / 14000));
+        pts.length = 0;
+        for (let i = 0; i < target; i++) {
+          pts.push({ x: Math.random() * w, y: Math.random() * h, vx: (Math.random() - 0.5) * 0.18, vy: (Math.random() - 0.5) * 0.18, r: Math.random() * 1.6 + 0.6 });
+        }
+      }
+
+      function frame() {
+        ctx.clearRect(0, 0, w, h);
+        for (const p of pts) {
+          if (!reduce) { p.x += p.vx; p.y += p.vy; }
+          if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
+          if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
+          const dx = p.x - mouse.x, dy = p.y - mouse.y;
+          const d = Math.hypot(dx, dy);
+          const near = d < 150;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r + (near ? (1 - d / 150) * 1.6 : 0), 0, Math.PI * 2);
+          ctx.fillStyle = near ? `rgba(45,212,191,${0.35 + (1 - d / 150) * 0.5})` : 'rgba(110,139,255,0.35)';
+          ctx.fill();
+          if (near) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y); ctx.lineTo(mouse.x, mouse.y);
+            ctx.strokeStyle = `rgba(45,212,191,${(1 - d / 150) * 0.28})`;
+            ctx.lineWidth = 0.6; ctx.stroke();
+          }
+        }
+        if (!reduce) requestAnimationFrame(frame);
+      }
+
+      window.addEventListener('resize', resize, { passive: true });
+      window.addEventListener('mousemove', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        mouse.x = e.clientX - rect.left; mouse.y = e.clientY - rect.top;
+      }, { passive: true });
+      window.addEventListener('mouseleave', () => { mouse.x = -999; mouse.y = -999; });
+      resize();
+      frame();
+    }
+
+    // ── Reveal-on-scroll
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+  </script>
+</body>
+</html>
