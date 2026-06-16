@@ -1,25 +1,47 @@
 ---
 import V2Layout from '../layouts/V2Layout.astro';
 
+const principles = [
+  { k: 'Understand, don\'t offload', v: 'Running a model and being able to rebuild it are different kinds of knowing. I want the second one.' },
+  { k: 'From scratch first', v: 'DDPM and DDIM, a Vision Transformer, the transformer itself from Karpathy\'s lectures. The hard parts, by hand.' },
+  { k: 'Reliable when it counts', v: 'I like the part most demos skip: behaving correctly when the world stops cooperating.' }
+];
+
 const timeline = [
-  { year: 'Grew up', place: 'India', text: 'Gully cricket, a fascination with how machines move through the world, and the questions that became a career.' },
-  { year: '2020 – 24', place: 'Singapore · NTU', text: 'B.E. Mechanical Engineering with a minor in Computing & Data Analysis. A Final Year Project on drivetrain condition monitoring won the FYP Research Award.' },
-  { year: '2023', place: 'Singapore · Venti', text: 'Tested autonomous-vehicle perception in live port environments: lane-change validation, LiDAR analysis, obstacle detection. Learned how different deployment is from a controlled setting.' },
-  { year: '2024 – 25', place: 'Singapore · UOB', text: 'Site Reliability Engineering on production banking infrastructure. Lived inside the reliability and edge-case discipline that real systems demand.' },
-  { year: 'since 2025', place: 'Silicon Valley · Northeastern', text: 'Moved to San Jose for an MS in AI. Teaching AI foundations, researching closed-loop driving policy, and building closer to the models.' }
+  { year: 'Grew up', place: 'India', text: 'Gully cricket, and an early fixation on how things move. That turned into mechanical engineering, then into the software that makes machines decide for themselves.' },
+  { year: '2020 – 24', place: 'Singapore · NTU', text: 'B.E. Mechanical Engineering, minor in Computing & Data Analysis. My final-year project used neural networks to monitor electric-drivetrain health for mobile robots, and earned a research award.' },
+  { year: '2023', place: 'Singapore · Venti', text: 'Autonomous-vehicle test engineer. Validated lane-change and perception modules in live port environments with RViz simulation and LiDAR analysis. Watching a stack meet the real world is what made me take edge cases seriously.' },
+  { year: '2024 – 25', place: 'Singapore · UOB', text: 'Site Reliability Engineering on production banking infrastructure. A year living with the discipline reliable systems demand, where the one rare failure is the one that matters. I picked up tennis here too.' },
+  { year: 'since 2025', place: 'Silicon Valley · Northeastern', text: 'MS in AI (GPA 3.92). Teaching Foundations of AI, and researching closed-loop driving policy on nuPlan: when diffusion planners beat deterministic ones, with DDPM and DDIM built from scratch, training loss from 0.75 to 0.032 on A100s via SLURM.' }
 ];
 ---
 
-<V2Layout title="Story | Parv Patodia" nav="story" description="Parv Patodia's path from India to Singapore to Silicon Valley.">
+<V2Layout title="Story | Parv Patodia" nav="story" description="Parv Patodia's path from India to Singapore to Silicon Valley, and how he works.">
   <main class="wrap page">
     <header class="page-head reveal">
       <p class="eyebrow">02 / story</p>
       <h1>Perception, policy,<br />and the real world.</h1>
     </header>
 
-    <div class="reveal" style="max-width: var(--maxw-prose); display: flex; flex-direction: column; gap: 1.1rem; margin-bottom: 4.5rem;">
-      <p style="color: var(--text-2); font-size: var(--fs-md); line-height: 1.6;">I started out curious about how machines move through the world. That curiosity grew into a deeper interest in how they <span style="color: var(--text);">perceive, reason, and make decisions from data</span>.</p>
-      <p style="color: var(--text-2); font-size: var(--fs-base); line-height: 1.65;">Testing autonomous vehicles in live port environments taught me to take edge cases seriously. Since then I have been building closer to the models: a Vision Transformer from scratch, a pose-estimation pipeline for basketball biomechanics, and closed-loop driving-policy research on nuPlan. I am most interested in roles where perception, policy, and real-world deployment come together.</p>
+    <div class="reveal" style="max-width: var(--maxw-prose); display: flex; flex-direction: column; gap: 1.15rem; margin-bottom: 3.5rem;">
+      <p style="color: var(--text-2); font-size: var(--fs-md); line-height: 1.6;">I grew up in India taking apart the question that still drives me: how does a machine move through the world without being told every step? That curiosity ran from mechanical engineering into how machines <span style="color: var(--text);">perceive, reason, and decide from data</span>.</p>
+      <p style="color: var(--text-2); font-size: var(--fs-base); line-height: 1.65;">Everything since has circled the same place: perception, policy, and real-world deployment. I am drawn to systems that have to behave reliably when conditions go off-script, which is usually the part a demo quietly leaves out.</p>
+    </div>
+
+    <blockquote class="reveal" style="max-width: var(--maxw-prose); border-left: 2px solid var(--accent); padding: 0.2rem 0 0.2rem 1.4rem; margin-bottom: 1.6rem;">
+      <p style="font-family: var(--font-display); font-weight: 600; font-size: var(--fs-lg); line-height: 1.25; letter-spacing: -0.02em;">I would rather understand something than offload it.</p>
+    </blockquote>
+    <div class="reveal" style="max-width: var(--maxw-prose); margin-bottom: 2rem;">
+      <p style="color: var(--text-2); font-size: var(--fs-base); line-height: 1.65;">I build the hard parts from scratch because rebuilding a thing teaches you what running it never will. I built <a href="https://github.com/parvpatodia/Feynman-Loop" target="_blank" rel="noopener noreferrer" style="color: var(--accent);">Feynman-Loop</a> to hold myself to that: it makes me explain what I learn, and what AI writes for me, instead of letting the understanding slide. It is the opposite of letting a model do the thinking.</p>
+    </div>
+
+    <div class="grid-2 reveal" style="margin-bottom: 4.5rem;">
+      {principles.map((p) => (
+        <article class="card">
+          <h3 style="font-size: var(--fs-base);">{p.k}</h3>
+          <p style="color: var(--text-2); font-size: var(--fs-sm); line-height: 1.6; margin-top: 0.4rem;">{p.v}</p>
+        </article>
+      ))}
     </div>
 
     <p class="eyebrow reveal" style="margin-bottom: 1.5rem;">the path</p>
@@ -28,10 +50,14 @@ const timeline = [
         <li class="reveal" style="position: relative; padding: 0 0 2.2rem 1.75rem;">
           <span style="position: absolute; left: -5px; top: 6px; width: 9px; height: 9px; border-radius: 50%; background: var(--accent);" aria-hidden="true"></span>
           <p style="font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--accent); letter-spacing: 0.04em;">{t.year} &middot; {t.place}</p>
-          <p style="color: var(--text-2); font-size: var(--fs-sm); line-height: 1.6; margin-top: 0.3rem; max-width: 56ch;">{t.text}</p>
+          <p style="color: var(--text-2); font-size: var(--fs-sm); line-height: 1.6; margin-top: 0.3rem; max-width: 60ch;">{t.text}</p>
         </li>
       ))}
     </ol>
+
+    <p class="reveal" style="margin-top: 1rem; color: var(--text-3); font-family: var(--font-mono); font-size: var(--fs-xs);">
+      Next: a Fall 2026 co-op where perception, planning, and deployment meet. <a href="/contact" style="color: var(--accent);">Say hello &rarr;</a>
+    </p>
   </main>
 
   <script>
