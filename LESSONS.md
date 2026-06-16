@@ -16,6 +16,12 @@
 
 2026-06-15 | Nearly published a wrong/garbled book title ("Autobiography of Demesis Abis") on the live site | Voice-transcribed user input was garbled; my first guesses (Power Law, NdGT Cosmos) were also wrong | Verify factual claims (book titles/authors, awards) against an authoritative source (WebSearch) before they go live; flag, do not guess. Decoded to "The Infinity Machine" by Sebastian Mallaby (Demis Hassabis bio) via search.
 
+2026-06-15 | The diffusion-name canvas measured 0x0 and never activated; the static fallback showed instead | The canvas was `display:none` until a JS-added `.canvas-on` class, but that class is only added AFTER the canvas is measured, so getBoundingClientRect was 0 (chicken-and-egg) | A canvas that JS measures must be laid out before measuring. Overlay it absolutely (`position:absolute; inset:0`) on an in-flow fallback that defines the box; fade the fallback out once the canvas activates. Always re-check `canvas-on` actually gets added in the preview, not just that the file compiles.
+
+2026-06-15 | A second rAF loop (cursor ring) ran every frame for the page lifetime; caught only in adversarial review | Idle-gated the hero loop but copy-pasted an ungated `requestAnimationFrame` for the cursor trail | Every rAF loop needs an idle/offscreen stop condition + a kick() restart on interaction. Grep the diff for `requestAnimationFrame` before "done" and confirm each one can stop.
+
+2026-06-15 | (design) The clean dark+accent+floating-particles portfolio reads as a template ("anyone can vibe-code this") | Generic decorative motion with no meaning | One signature interaction tied to the person's actual domain (diffusion denoising for an ML researcher) beats any amount of generic polish. Restraint everywhere else (Vercel/Linear school); concentrate the motion budget into a single on-brand moment.
+
 ## Retro metrics (2026-06-15, autonomous session)
 parv_corrections=0 (not yet reviewed by Parv) | repeat_mistakes=0 (no prior log) | bugs_found=1 (icon-button collapse, caught in visual QA pre-"done") | shipped_first_try=false (feature 2 needed a layout rework after visual QA) | rework_commits=1
 Adversarial diff review verdict: SHIP (0 blocking findings).
