@@ -36,5 +36,14 @@ import V2Layout from '../layouts/V2Layout.astro';
     <p class="reveal" style="margin-top: 3rem; color: var(--text-3); font-family: var(--font-mono); font-size: var(--fs-xs);">
       No model runs here; it is a particle toy that mirrors the schedule. The real samplers live in the repo. <a href="/work" style="color: var(--accent);">See the work &rarr;</a>
     </p>
+
+    <section class="reveal" style="margin-top: 5rem;">
+      <p class="eyebrow" style="margin-bottom: 0.9rem;">// drive &middot; perception + avoidance</p>
+      <h2 style="font-size: var(--fs-xl); letter-spacing: -0.03em; margin-bottom: 1rem;">Don't hit the cars.</h2>
+      <div class="game-wrap">
+        <canvas id="game-canvas" tabindex="0" role="application" aria-label="Drive, a lane-avoidance mini-game. Click or press space to start, then steer with the left and right arrow keys."></canvas>
+      </div>
+      <p class="lab-note">Steer with &larr; / &rarr; (or A / D, or tap a side). The amber boxes are detections; keep the ego clear of them. A toy nod to the closed-loop avoidance behind <a href="https://github.com/parvpatodia/av-policy-lab" target="_blank" rel="noopener noreferrer">av-policy-lab</a>.</p>
+    </section>
   </main>
 </V2Layout>

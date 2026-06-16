@@ -457,6 +457,95 @@ const personSchema = {
         .finally(() => clearTimeout(to));
     }
 
+    // ── Drive: top-down AV lane-avoidance mini-game (only on /lab) ───────────────
+    let gameRaf = 0;
+    let gameResize: (() => void) | null = null;
+    function destroyGame() {
+      cancelAnimationFrame(gameRaf); gameRaf = 0;
+      if (gameResize) { window.removeEventListener('resize', gameResize); gameResize = null; }
+    }
+    function initGame() {
+      destroyGame();
+      const canvas = document.getElementById('game-canvas') as HTMLCanvasElement | null;
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d')!;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const LANES = 3;
+      let w = 0, h = 0, egoLane = 1, egoX = 0;
+      let obs: { lane: number; y: number; conf: number }[] = [];
+      let speed = 0, score = 0, scroll = 0, spawnT = 0;
+      let state: 'idle' | 'run' | 'over' = 'idle';
+      let best = 0;
+      try { best = parseInt(localStorage.getItem('pp-drive-best') || '0', 10) || 0; } catch (e) {}
+      const laneX = (i: number) => w * (i + 0.5) / LANES;
+      const carW = () => Math.min(46, (w / LANES) * 0.5);
+      const carH = () => carW() * 1.7;
+      const egoY = () => h - carH() - 18;
+      function size() {
+        const r = canvas!.getBoundingClientRect(); w = r.width; h = r.height;
+        canvas!.width = Math.floor(w * dpr); canvas!.height = Math.floor(h * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        egoX = laneX(egoLane);
+      }
+      function reset() { egoLane = 1; egoX = laneX(1); obs = []; speed = 3.2; score = 0; spawnT = 0; }
+      function start() { if (reduce) return; reset(); state = 'run'; if (!gameRaf) gameRaf = requestAnimationFrame(loop); }
+      function over() { state = 'over'; const s = Math.round(score); if (s > best) { best = s; try { localStorage.setItem('pp-drive-best', String(best)); } catch (e) {} } }
+      function spawn() {
+        const free = Math.floor(Math.random() * LANES);
+        let any = false;
+        for (let i = 0; i < LANES; i++) if (i !== free && Math.random() < 0.6) { obs.push({ lane: i, y: -carH(), conf: 0.8 + Math.random() * 0.19 }); any = true; }
+        if (!any) obs.push({ lane: (free + 1) % LANES, y: -carH(), conf: 0.9 });
+      }
+      function rr(x: number, y: number, ww: number, hh: number, r: number) { ctx.beginPath(); if ((ctx as any).roundRect) ctx.roundRect(x, y, ww, hh, r); else ctx.rect(x, y, ww, hh); }
+      function draw() {
+        ctx.clearRect(0, 0, w, h);
+        ctx.strokeStyle = 'rgba(255,255,255,0.12)'; ctx.lineWidth = 2; ctx.setLineDash([18, 22]); ctx.lineDashOffset = -scroll;
+        for (let i = 1; i < LANES; i++) { const x = (w * i) / LANES; ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
+        ctx.setLineDash([]);
+        const cw = carW(), ch = carH();
+        for (const o of obs) {
+          const x = laneX(o.lane) - cw / 2, y = o.y - ch / 2;
+          ctx.fillStyle = 'rgba(156,162,176,0.85)'; rr(x, y, cw, ch, 6); ctx.fill();
+          ctx.strokeStyle = 'rgba(242,179,61,0.85)'; ctx.lineWidth = 1.4; ctx.strokeRect(x - 3, y - 3, cw + 6, ch + 6);
+          ctx.fillStyle = 'rgba(242,179,61,0.95)'; ctx.font = '9px "JetBrains Mono", monospace'; ctx.fillText('car ' + o.conf.toFixed(2), x - 3, y - 7);
+        }
+        ctx.fillStyle = '#F2B33D'; rr(egoX - cw / 2, egoY() - ch / 2, cw, ch, 6); ctx.fill();
+        ctx.fillStyle = 'rgba(233,234,241,0.9)'; ctx.font = '12px "JetBrains Mono", monospace'; ctx.textAlign = 'left'; ctx.fillText(Math.round(score) + ' m', 12, 22);
+        ctx.textAlign = 'right'; ctx.fillStyle = 'rgba(140,138,129,1)'; ctx.fillText('best ' + best + ' m', w - 12, 22); ctx.textAlign = 'left';
+        if (state !== 'run') {
+          ctx.fillStyle = 'rgba(10,10,12,0.55)'; ctx.fillRect(0, 0, w, h); ctx.textAlign = 'center';
+          ctx.fillStyle = '#E9EAF1'; ctx.font = '600 17px "Bricolage Grotesque", sans-serif';
+          if (reduce) ctx.fillText('reduced motion is on', w / 2, h / 2);
+          else if (state === 'idle') { ctx.fillText('drive', w / 2, h / 2 - 8); ctx.font = '11px "JetBrains Mono", monospace'; ctx.fillStyle = 'rgba(156,162,176,1)'; ctx.fillText('click or space . arrow keys to steer', w / 2, h / 2 + 14); }
+          else { ctx.fillStyle = '#F2B33D'; ctx.fillText('collision · ' + Math.round(score) + ' m', w / 2, h / 2 - 8); ctx.font = '11px "JetBrains Mono", monospace'; ctx.fillStyle = 'rgba(156,162,176,1)'; ctx.fillText('space or tap to retry', w / 2, h / 2 + 14); }
+          ctx.textAlign = 'left';
+        }
+      }
+      function loop() {
+        gameRaf = 0;
+        if (state === 'run') {
+          speed += 0.0016; score += speed * 0.08; scroll = (scroll + speed) % 40;
+          egoX += (laneX(egoLane) - egoX) * 0.25; spawnT -= speed;
+          if (spawnT <= 0) { spawn(); spawnT = 150 + Math.random() * 90; }
+          const cw = carW(), ch = carH(), ey = egoY();
+          for (const o of obs) o.y += speed;
+          obs = obs.filter((o) => o.y < h + ch);
+          for (const o of obs) { if (Math.abs(laneX(o.lane) - egoX) < cw * 0.9 && Math.abs(o.y - ey) < ch * 0.9) { over(); break; } }
+        }
+        draw();
+        if (state === 'run') gameRaf = requestAnimationFrame(loop);
+      }
+      function steer(d: number) { if (state === 'run') egoLane = Math.max(0, Math.min(LANES - 1, egoLane + d)); }
+      canvas.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft' || e.key === 'a') { e.preventDefault(); steer(-1); }
+        else if (e.key === 'ArrowRight' || e.key === 'd') { e.preventDefault(); steer(1); }
+        else if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); if (state !== 'run') start(); }
+      });
+      canvas.addEventListener('pointerdown', (e) => { canvas.focus(); if (state !== 'run') { start(); return; } const r = canvas.getBoundingClientRect(); steer(e.clientX - r.left < r.width / 2 ? -1 : 1); });
+      gameResize = () => { size(); draw(); };
+      window.addEventListener('resize', gameResize, { passive: true });
+      size(); draw();
+    }
+
     // ── Lifecycle: per-navigation setup + teardown ──────────────────────────────
     function onPage() {
       document.documentElement.classList.add('js');
@@ -467,9 +556,10 @@ const personSchema = {
       initHero();
       initLab();
       initShipFeed();
+      initGame();
     }
     document.addEventListener('astro:page-load', onPage);
-    document.addEventListener('astro:before-swap', () => { destroyHero(); destroyLab(); });
+    document.addEventListener('astro:before-swap', () => { destroyHero(); destroyLab(); destroyGame(); });
   </script>
 </body>
 </html>
