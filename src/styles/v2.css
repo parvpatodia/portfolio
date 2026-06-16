@@ -1,29 +1,29 @@
 /* ─────────────────────────────────────────────────────────────────────────────
-   Portfolio v2 design system — multi-page, anti-slop (per the Snyk UI/UX blog).
+   Portfolio v2 design system - multi-page, anti-slop (per the Snyk UI/UX blog).
    Distinctive type pairing, warm amber sensor accent, editorial composition.
    Scoped to /v2/* preview routes until migration.
    ───────────────────────────────────────────────────────────────────────────── */
 
 :root {
-  /* Surfaces — near-black with a faint warm cast */
+  /* Surfaces - near-black with a faint warm cast */
   --bg:           #0A0A0C;
   --bg-elev:      #111114;
   --bg-elev-2:    #17171C;
   --border:       rgba(255, 255, 255, 0.09);
   --border-strong:rgba(255, 255, 255, 0.18);
 
-  /* Text — warm neutral, not pure cool white */
+  /* Text - warm neutral, not pure cool white */
   --text:         #ECEAE4;
   --text-2:       #A3A097;
-  --text-3:       #66645D;
+  --text-3:       #8C8A81;
 
-  /* Accent — warm amber/gold (sensor / HUD), sparse teal for data */
+  /* Accent - warm amber/gold (sensor / HUD), sparse teal for data */
   --accent:       #F2B33D;
   --accent-ink:   #1A1403;
   --accent-soft:  rgba(242, 179, 61, 0.13);
   --data:         #34D6C0;
 
-  /* Type — distinctive pairing (no Inter/Roboto) */
+  /* Type - distinctive pairing (no Inter/Roboto) */
   --font-display: 'Bricolage Grotesque', 'Space Grotesk', system-ui, sans-serif;
   --font-body:    'Hanken Grotesk', system-ui, sans-serif;
   --font-mono:    'JetBrains Mono', ui-monospace, monospace;

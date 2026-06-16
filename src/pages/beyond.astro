@@ -1,5 +1,5 @@
 ---
-import V2Layout from '../../layouts/V2Layout.astro';
+import V2Layout from '../layouts/V2Layout.astro';
 
 const interests = [
   { name: 'Basketball', icon: 'ball', text: 'NBA obsessive. Grew up on Steph and Kobe; analyzing shot mechanics became Laksh.ai. Still play pickup whenever I can.' },
@@ -9,14 +9,13 @@ const interests = [
 ];
 
 const books = [
-  { title: 'The Alignment Problem', author: 'Brian Christian', note: 'currently reading', flag: false },
-  { title: 'Cosmos', author: 'Carl Sagan', note: 'confirm: you said Neil deGrasse Tyson, but Cosmos is Sagan\'s', flag: true },
-  { title: 'The Power Law', author: 'Sebastian Mallaby', note: 'confirm: best match for "an infinity machine"', flag: true },
-  { title: 'Autobiography', author: 'title unclear', note: 'send exact title/author', flag: true }
+  { title: 'The Alignment Problem', author: 'Brian Christian', note: 'currently reading' },
+  { title: 'The Infinity Machine', author: 'Sebastian Mallaby', note: 'on Demis Hassabis & DeepMind' },
+  { title: 'Cosmos', author: 'Carl Sagan', note: 'the popular-science classic' }
 ];
 ---
 
-<V2Layout title="Beyond — Parv Patodia" nav="beyond" description="Sport, books, and the rest of Parv Patodia.">
+<V2Layout title="Beyond | Parv Patodia" nav="beyond" description="Sport, books, and the rest of Parv Patodia.">
   <main class="wrap page">
     <header class="page-head reveal">
       <p class="eyebrow">03 / beyond</p>
@@ -37,10 +36,10 @@ const books = [
     <p class="eyebrow reveal" style="margin-bottom: 1.25rem;">bookshelf</p>
     <div class="grid-2">
       {books.map((b) => (
-        <article class="card reveal" style={b.flag ? 'border-style: dashed;' : ''}>
+        <article class="card reveal">
           <h3 style="font-size: var(--fs-base);">{b.title}</h3>
           <p style="color: var(--text-2); font-family: var(--font-mono); font-size: var(--fs-xs); margin-top: 0.25rem;">{b.author}</p>
-          <p style={`font-family: var(--font-mono); font-size: var(--fs-xs); margin-top: 0.6rem; color: ${b.flag ? 'var(--accent)' : 'var(--data)'};`}>{b.flag ? '// ' : ''}{b.note}</p>
+          <p style="font-family: var(--font-mono); font-size: var(--fs-xs); margin-top: 0.6rem; color: var(--data);">{b.note}</p>
         </article>
       ))}
     </div>

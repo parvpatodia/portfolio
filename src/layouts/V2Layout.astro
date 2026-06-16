@@ -8,16 +8,37 @@ interface Props {
 }
 const {
   title,
-  description = 'Parv Patodia — AI/ML & robotics engineer. Perception, policy, and the real world.',
+  description = 'Parv Patodia, MS AI at Northeastern (Silicon Valley). I build ML systems for perception and decision-making across autonomous vehicles and robotics. Open to a Fall 2026 co-op.',
   nav = ''
 } = Astro.props;
 
+const siteUrl = 'https://parvpatodia.vercel.app';
+const canonicalURL = new URL(Astro.url.pathname, siteUrl).href;
+const ogImage = `${siteUrl}/og-image.png`;
+
 const links = [
-  { href: '/v2/work', label: 'work', key: 'work' },
-  { href: '/v2/story', label: 'story', key: 'story' },
-  { href: '/v2/beyond', label: 'beyond', key: 'beyond' },
-  { href: '/v2/contact', label: 'contact', key: 'contact' }
+  { href: '/work', label: 'work', key: 'work' },
+  { href: '/story', label: 'story', key: 'story' },
+  { href: '/beyond', label: 'beyond', key: 'beyond' },
+  { href: '/contact', label: 'contact', key: 'contact' }
 ];
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Parv Patodia',
+  url: siteUrl,
+  image: `${siteUrl}/headshot.png`,
+  jobTitle: 'AI/ML Engineer',
+  description,
+  email: 'mailto:parvpatodia09@gmail.com',
+  alumniOf: [
+    { '@type': 'CollegeOrUniversity', name: 'Northeastern University' },
+    { '@type': 'CollegeOrUniversity', name: 'Nanyang Technological University' }
+  ],
+  knowsAbout: ['Machine Learning', 'Computer Vision', 'Autonomous Vehicles', 'Robotics', 'Deep Learning', 'Transformers'],
+  sameAs: ['https://github.com/parvpatodia', 'https://www.linkedin.com/in/parvpatodia']
+};
 ---
 
 <!DOCTYPE html>
@@ -25,17 +46,39 @@ const links = [
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="robots" content="noindex" />
   <title>{title}</title>
   <meta name="description" content={description} />
+  <meta name="author" content="Parv Patodia" />
+  <meta name="theme-color" content="#0A0A0C" />
+  <link rel="canonical" href={canonicalURL} />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" />
+
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={canonicalURL} />
+  <meta property="og:site_name" content="Parv Patodia" />
+  <meta property="og:image" content={ogImage} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Parv Patodia, AI/ML Engineer. Autonomous vehicles, robotics, ML systems." />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImage} />
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%230A0A0C'/><text x='50%25' y='73%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia,serif' font-size='20' font-weight='700' fill='%23F2B33D'>P</text></svg>" />
+
+  <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
 </head>
 <body>
   <nav class="nav">
     <div class="nav-inner">
-      <a href="/v2" class="logo">Parv Patodia<span class="dot">.</span></a>
+      <a href="/" class="logo">Parv Patodia<span class="dot">.</span></a>
       <ul class="nav-links">
         {links.map((l) => (
           <li><a href={l.href} aria-current={nav === l.key ? 'page' : undefined}>{l.label}</a></li>

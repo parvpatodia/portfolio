@@ -1,24 +1,24 @@
 ---
-import V2Layout from '../../layouts/V2Layout.astro';
+import V2Layout from '../layouts/V2Layout.astro';
 
 const featured = [
   {
     name: 'av-policy-lab',
-    period: '2026 — present · MS research, Northeastern',
+    period: '2026 – present · MS research, Northeastern',
     tags: ['nuPlan', 'PyTorch', 'Diffusion Policy', 'Closed-Loop Eval'],
     desc: 'A controlled study of when generative (diffusion) planners actually beat deterministic ones on nuPlan, and whether that advantage survives once logged playback is replaced with realistic reactive agents. Honest failure-mode analysis and a reusable harness.',
     href: 'https://github.com/parvpatodia/av-policy-lab'
   },
   {
     name: 'Laksh.ai',
-    period: '2025 — present · YC × Google DeepMind Hackathon',
+    period: '2025 – present · YC × Google DeepMind Hackathon',
     tags: ['MediaPipe', 'RTMPose', 'YOLOv8', 'ChromaDB', 'Gemini'],
     desc: 'A computer-vision pipeline for basketball jump-shot analysis: markerless pose estimation into a 12-joint canonical schema, an 8D kinematic fingerprint matched against 500+ NBA players via vector search, and LLM coaching feedback with injury-risk flags.',
     href: 'https://github.com/parvpatodia/Laksh_AI'
   },
   {
     name: 'Vision Transformer from scratch',
-    period: '2025 — present',
+    period: '2025 – present',
     tags: ['PyTorch', 'Transformers', 'LEVIR-CD'],
     desc: 'A ViT implemented from scratch in PyTorch for bi-temporal urban change detection on Sentinel-2 imagery: patch embedding, positional encoding, multi-head self-attention, a Siamese encoder + segmentation decoder, evaluated against CNN baselines.',
     href: 'https://github.com/parvpatodia/vit-from-scratch'
@@ -35,13 +35,13 @@ const more = [
 ];
 
 const experience = [
-  { role: 'Graduate Teaching Assistant, Foundations of AI', org: 'Northeastern University', loc: 'San Jose, CA', when: 'Jan 2026 — present', note: 'Weekly office hours for 30+ students on model reasoning, debugging, and ML evaluation; designed assignments on dataset and architecture decisions.' },
-  { role: 'Senior Officer, Site Reliability Engineering', org: 'United Overseas Bank', loc: 'Singapore', when: 'Jul 2024 — Jun 2025', note: 'Monitored production banking infrastructure with GENEOS; improved incident visibility by 30%; ran scalability checks across AWS and VMware under peak load.' },
-  { role: 'Autonomous Vehicle Test Engineer', org: 'Venti Technologies', loc: 'Singapore', when: 'Jun 2023 — Aug 2023', note: 'Designed validation tests for lane-change and perception modules using RViz simulation and LiDAR data analysis; cut testing cycle time by 15%.' }
+  { role: 'Graduate Teaching Assistant, Foundations of AI', org: 'Northeastern University', loc: 'San Jose, CA', when: 'Jan 2026 – present', note: 'Weekly office hours for 30+ students on model reasoning, debugging, and ML evaluation; designed assignments on dataset and architecture decisions.' },
+  { role: 'Senior Officer, Site Reliability Engineering', org: 'United Overseas Bank', loc: 'Singapore', when: 'Jul 2024 – Jun 2025', note: 'Monitored production banking infrastructure with GENEOS; improved incident visibility by 30%; ran scalability checks across AWS and VMware under peak load.' },
+  { role: 'Autonomous Vehicle Test Engineer', org: 'Venti Technologies', loc: 'Singapore', when: 'Jun 2023 – Aug 2023', note: 'Designed validation tests for lane-change and perception modules using RViz simulation and LiDAR data analysis; cut testing cycle time by 15%.' }
 ];
 ---
 
-<V2Layout title="Work — Parv Patodia" nav="work" description="Research, projects, and shipped systems by Parv Patodia.">
+<V2Layout title="Work | Parv Patodia" nav="work" description="Research, projects, and shipped systems by Parv Patodia.">
   <main class="wrap page">
     <header class="page-head reveal">
       <p class="eyebrow">01 / work</p>
