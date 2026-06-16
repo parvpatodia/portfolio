@@ -405,21 +405,20 @@ import Layout from '../layouts/Layout.astro';
 
         <!-- av-policy-lab: standalone dashed-border card -->
         <div style="margin-bottom:3.5rem;">
-          <article class="project-card project-card--dashed coming-soon fade-in" aria-label="AV Policy Lab project, in progress">
-            <span class="coming-soon-badge" aria-label="Coming soon">Coming Soon</span>
+          <article class="project-card project-card--dashed fade-in" aria-label="AV Policy Lab research project, in progress">
             <div class="card-header">
-              <h4 class="card-title" style="padding-right:7rem;">av-policy-lab</h4>
+              <h4 class="card-title">av-policy-lab</h4>
               <span class="status-badge status-progress">In Progress</span>
             </div>
-            <p class="card-period">Summer 2026</p>
+            <p class="card-period">2026 &ndash; Present &bull; MS research, Northeastern</p>
             <div class="stack-tags">
               <span class="stack-tag">nuPlan</span>
-              <span class="stack-tag">CARLA</span>
               <span class="stack-tag">PyTorch</span>
+              <span class="stack-tag">Diffusion Policy</span>
               <span class="stack-tag">Behavior Cloning</span>
-              <span class="stack-tag">Imitation Learning</span>
+              <span class="stack-tag">Closed-Loop Eval</span>
             </div>
-            <p class="card-description">Closed-loop driving policy research comparing three baselines in simulation: pure behavior cloning, MILE-style world-model imitation, and a VLA-flavored policy with language conditioning. Training on nuPlan or CARLA Leaderboard 2.0. The focus is clean baseline execution, honest failure-mode analysis, and a reusable evaluation harness.</p>
+            <p class="card-description">A controlled study of when generative (diffusion) planners actually beat deterministic ones on nuPlan, and whether that advantage survives once logged playback is replaced with realistic reactive agents. Closed-loop evaluation, honest failure-mode analysis, and a reusable harness.</p>
             <a
               href="https://github.com/parvpatodia/av-policy-lab"
               target="_blank"
@@ -433,8 +432,85 @@ import Layout from '../layouts/Layout.astro';
           </article>
         </div>
 
-        <h3 class="projects-subheading fade-in">Past</h3>
+        <h3 class="projects-subheading fade-in">More Projects</h3>
         <div class="past-projects-grid">
+
+          <!-- career-ops -->
+          <article class="past-card fade-in" aria-label="career-ops autonomous job-search system">
+            <div class="card-header">
+              <h4 class="card-title">career-ops</h4>
+              <span class="status-badge status-active">Active</span>
+            </div>
+            <p class="card-period">2026 &ndash; Present</p>
+            <div class="stack-tags" style="margin-bottom:0.875rem;">
+              <span class="stack-tag">Claude Code</span>
+              <span class="stack-tag">Node.js</span>
+              <span class="stack-tag">Go</span>
+              <span class="stack-tag">Multi-Agent Systems</span>
+            </div>
+            <p class="card-description">An AI-powered job-search and application system built on Claude Code, organized into 14 skill modes for scanning, scoring, tailoring, and applying. Includes a Go dashboard, automated resume and cover-letter PDF generation, and batch processing across roles.</p>
+            <a
+              href="https://github.com/parvpatodia/career-ops"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="card-link"
+              aria-label="View career-ops on GitHub (opens in new tab)"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+              View on GitHub
+            </a>
+          </article>
+
+          <!-- Feynman-Loop -->
+          <article class="past-card fade-in" aria-label="Feynman-Loop spaced-repetition learning tool">
+            <div class="card-header">
+              <h4 class="card-title">Feynman-Loop</h4>
+              <span class="status-badge status-active">Active</span>
+            </div>
+            <p class="card-period">2026 &ndash; Present</p>
+            <div class="stack-tags" style="margin-bottom:0.875rem;">
+              <span class="stack-tag">Python</span>
+              <span class="stack-tag">MCP</span>
+              <span class="stack-tag">LLM</span>
+              <span class="stack-tag">Spaced Repetition</span>
+            </div>
+            <p class="card-description">An AI tool for thought that makes you understand concepts deeply instead of offloading them. You explain a concept back, it finds the gap against a trusted source, and resurfaces what you do not yet truly know on a spaced schedule. Built as an MCP server.</p>
+            <a
+              href="https://github.com/parvpatodia/Feynman-Loop"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="card-link"
+              aria-label="View Feynman-Loop on GitHub (opens in new tab)"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+              View on GitHub
+            </a>
+          </article>
+
+          <!-- Trace -->
+          <article class="past-card fade-in" aria-label="Trace multi-LLM newsletter agent">
+            <div class="card-header">
+              <h4 class="card-title">Trace</h4>
+              <span class="status-badge status-active">Active</span>
+            </div>
+            <p class="card-period">2026 &ndash; Present</p>
+            <div class="stack-tags" style="margin-bottom:0.875rem;">
+              <span class="stack-tag">Multi-LLM</span>
+              <span class="stack-tag">Agents</span>
+              <span class="stack-tag">Automation</span>
+            </div>
+            <p class="card-description">A multi-LLM newsletter agent that infers what you are curious about and assembles a personalized newsletter around those interests.</p>
+            <a
+              href="https://github.com/parvpatodia/Trace"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="card-link"
+              aria-label="View Trace on GitHub (opens in new tab)"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+              View on GitHub
+            </a>
+          </article>
 
           <!-- Multimodal RAG -->
           <article class="past-card fade-in" aria-label="Multimodal RAG system project">
