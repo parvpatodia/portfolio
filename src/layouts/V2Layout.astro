@@ -436,6 +436,27 @@ const personSchema = {
       if (fonts && fonts.ready) fonts.ready.then(() => { build(); sample(); }); else { build(); sample(); }
     }
 
+    // ── Recently-shipped feed (live from GitHub; server markup is the fallback) ──
+    function initShipFeed() {
+      const feed = document.getElementById('ship-feed') as HTMLElement | null;
+      if (!feed || feed.dataset.loaded) return;
+      const esc = (s: string) => s.replace(/[<>&"]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' }[c] as string));
+      const rel = (d: string) => { const s = (Date.now() - new Date(d).getTime()) / 86400000; if (s < 1) return 'today'; if (s < 30) return Math.floor(s) + 'd ago'; const mo = Math.floor(s / 30); return mo < 12 ? mo + 'mo ago' : Math.floor(mo / 12) + 'y ago'; };
+      const ctrl = new AbortController();
+      const to = setTimeout(() => ctrl.abort(), 6000);
+      fetch(`https://api.github.com/users/${feed.dataset.gh || 'parvpatodia'}/repos?sort=pushed&per_page=24`, { signal: ctrl.signal, headers: { Accept: 'application/vnd.github+json' } })
+        .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+        .then((repos: any[]) => {
+          const skip = ['portfolio', (feed.dataset.gh || 'parvpatodia').toLowerCase()];
+          const items = repos.filter((x) => !x.fork && !x.private && x.description && !skip.includes((x.name || '').toLowerCase())).slice(0, 5);
+          if (!items.length) return;
+          feed.innerHTML = items.map((x) => `<li class="ship-item"><a href="${esc(x.html_url)}" target="_blank" rel="noopener noreferrer" class="ship-name">${esc(x.name)}</a><span class="ship-desc">${esc(x.description || '')}</span><span class="ship-meta">${esc(x.language || 'repo')} &middot; ${rel(x.pushed_at)}</span></li>`).join('');
+          feed.dataset.loaded = '1';
+        })
+        .catch(() => {})
+        .finally(() => clearTimeout(to));
+    }
+
     // ── Lifecycle: per-navigation setup + teardown ──────────────────────────────
     function onPage() {
       document.documentElement.classList.add('js');
@@ -445,6 +466,7 @@ const personSchema = {
       bindMagnetic();
       initHero();
       initLab();
+      initShipFeed();
     }
     document.addEventListener('astro:page-load', onPage);
     document.addEventListener('astro:before-swap', () => { destroyHero(); destroyLab(); });

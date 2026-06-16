@@ -210,6 +210,14 @@ html.cmdk-open { overflow: hidden; }
 .lab-note a { color: var(--accent); }
 @media (max-width: 820px) { .lab { grid-template-columns: 1fr; } .lab-stage { min-height: 280px; } }
 
+/* ── Recently-shipped GitHub feed ────────────────────────────────────────────── */
+.ship-feed { list-style: none; border-top: 1px solid var(--border); }
+.ship-item { display: flex; align-items: baseline; gap: 0.9rem; flex-wrap: wrap; padding: 0.85rem 0.2rem; border-bottom: 1px solid var(--border); }
+.ship-name { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-base); color: var(--text); }
+.ship-name:hover { color: var(--accent); }
+.ship-desc { color: var(--text-2); font-size: var(--fs-sm); flex: 1; min-width: 14ch; }
+.ship-meta { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--text-3); margin-left: auto; white-space: nowrap; }
+
 @media (max-width: 820px) {
   .nav-inner { flex-wrap: wrap; row-gap: 0.6rem; }
   .nav-links { order: 3; width: 100%; justify-content: center; gap: 1.3rem; }

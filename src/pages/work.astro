@@ -1,6 +1,14 @@
 ---
 import V2Layout from '../layouts/V2Layout.astro';
 
+// Server-rendered fallback; the client refreshes this live from the GitHub API.
+const shipFallback = [
+  { name: 'Trace', desc: 'Curiosity-inference newsletter agent', meta: 'recent', href: 'https://github.com/parvpatodia/Trace' },
+  { name: 'Feynman-Loop', desc: 'A tool for thought that makes you understand, not offload', meta: 'Python', href: 'https://github.com/parvpatodia/Feynman-Loop' },
+  { name: 'av-policy-lab', desc: 'When diffusion planners beat deterministic ones on nuPlan', meta: 'Jupyter', href: 'https://github.com/parvpatodia/av-policy-lab' },
+  { name: 'vit-from-scratch', desc: 'A Vision Transformer built from scratch', meta: 'Python', href: 'https://github.com/parvpatodia/vit-from-scratch' }
+];
+
 const featured = [
   {
     name: 'av-policy-lab',
@@ -47,6 +55,17 @@ const experience = [
       <p class="eyebrow">01 / work</p>
       <h1>Research, projects,<br />and shipped systems.</h1>
     </header>
+
+    <p class="eyebrow reveal" style="margin-bottom: 1.25rem;">// recently shipped</p>
+    <ul id="ship-feed" class="ship-feed reveal" data-gh="parvpatodia" style="margin-bottom: 4rem;">
+      {shipFallback.map((r) => (
+        <li class="ship-item">
+          <a href={r.href} target="_blank" rel="noopener noreferrer" class="ship-name">{r.name}</a>
+          <span class="ship-desc">{r.desc}</span>
+          <span class="ship-meta">{r.meta}</span>
+        </li>
+      ))}
+    </ul>
 
     <p class="eyebrow reveal" style="margin-bottom: 1.25rem;">featured</p>
     <div class="grid-2" style="margin-bottom: 4rem;">
