@@ -1,0 +1,40 @@
+---
+import V2Layout from '../layouts/V2Layout.astro';
+---
+
+<V2Layout title="Lab | Parv Patodia" nav="lab" description="An interactive reverse-diffusion sampler. Play with the denoising schedule and watch a target emerge from noise.">
+  <main class="wrap page">
+    <header class="page-head reveal">
+      <p class="eyebrow">04 / lab</p>
+      <h1>Diffusion, by hand.</h1>
+      <p class="lead">A toy reverse-diffusion sampler, the same idea behind the hero and behind the driving planners I study: start from pure noise, then denoise toward a target. Pick a target, drag the steps, and sample.</p>
+    </header>
+
+    <div class="lab reveal">
+      <div class="lab-stage">
+        <canvas id="lab-canvas" aria-hidden="true"></canvas>
+        <span class="lab-readout" id="lab-t" aria-hidden="true">t=1000</span>
+      </div>
+      <div class="lab-controls">
+        <div class="lab-field">
+          <span class="lab-field-label">target</span>
+          <div class="lab-presets" role="group" aria-label="Sampler target">
+            <button class="lab-preset active" type="button" data-target="PP" aria-pressed="true">initials</button>
+            <button class="lab-preset" type="button" data-target="ball" aria-pressed="false">basketball</button>
+            <button class="lab-preset" type="button" data-target="car" aria-pressed="false">vehicle</button>
+          </div>
+        </div>
+        <div class="lab-field">
+          <label class="lab-field-label" for="lab-steps">denoising steps <span id="lab-steps-val">28</span></label>
+          <input type="range" id="lab-steps" min="6" max="60" value="28" step="1" />
+        </div>
+        <button class="btn btn-primary" id="lab-sample" type="button">sample &#8635;</button>
+        <p class="lab-note">Fewer steps resolve faster but rougher; more steps converge cleaner. That speed-versus-fidelity tradeoff is exactly what DDIM buys you over DDPM, which I implemented from scratch in <a href="https://github.com/parvpatodia/av-policy-lab" target="_blank" rel="noopener noreferrer">av-policy-lab</a>.</p>
+      </div>
+    </div>
+
+    <p class="reveal" style="margin-top: 3rem; color: var(--text-3); font-family: var(--font-mono); font-size: var(--fs-xs);">
+      No model runs here; it is a particle toy that mirrors the schedule. The real samplers live in the repo. <a href="/work" style="color: var(--accent);">See the work &rarr;</a>
+    </p>
+  </main>
+</V2Layout>

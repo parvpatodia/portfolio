@@ -21,6 +21,7 @@ const links = [
   { href: '/work', label: 'work', key: 'work' },
   { href: '/story', label: 'story', key: 'story' },
   { href: '/beyond', label: 'beyond', key: 'beyond' },
+  { href: '/lab', label: 'lab', key: 'lab' },
   { href: '/contact', label: 'contact', key: 'contact' }
 ];
 
@@ -340,6 +341,101 @@ const personSchema = {
       });
     })();
 
+    // ── Lab: interactive reverse-diffusion sampler (only on /lab) ────────────────
+    let labRaf = 0;
+    let labResize: (() => void) | null = null;
+    function destroyLab() {
+      cancelAnimationFrame(labRaf); labRaf = 0;
+      if (labResize) { window.removeEventListener('resize', labResize); labResize = null; }
+    }
+    function initLab() {
+      destroyLab();
+      const canvas = document.getElementById('lab-canvas') as HTMLCanvasElement | null;
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d')!;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const tEl = document.getElementById('lab-t');
+      const stepsEl = document.getElementById('lab-steps') as HTMLInputElement | null;
+      const stepsVal = document.getElementById('lab-steps-val');
+      let w = 0, h = 0;
+      let parts: { tx: number; ty: number; x: number; y: number }[] = [];
+      let target = 'PP';
+      let steps = stepsEl ? parseInt(stepsEl.value, 10) : 28;
+      let frame = 0, total = 28, residual = 0.3, running = false;
+
+      function drawTarget(o: CanvasRenderingContext2D, cw: number, ch: number) {
+        o.clearRect(0, 0, cw, ch); o.fillStyle = '#fff';
+        const cx = cw / 2, cy = ch / 2, R = Math.min(cw, ch) * 0.36;
+        if (target === 'ball') {
+          o.beginPath(); o.arc(cx, cy, R, 0, Math.PI * 2); o.fill();
+          o.globalCompositeOperation = 'destination-out';
+          o.lineWidth = Math.max(2, R * 0.06); o.strokeStyle = '#000';
+          o.beginPath(); o.moveTo(cx - R, cy); o.lineTo(cx + R, cy); o.stroke();
+          o.beginPath(); o.moveTo(cx, cy - R); o.lineTo(cx, cy + R); o.stroke();
+          o.beginPath(); o.arc(cx - R * 1.4, cy, R * 1.7, -0.7, 0.7); o.stroke();
+          o.beginPath(); o.arc(cx + R * 1.4, cy, R * 1.7, Math.PI - 0.7, Math.PI + 0.7); o.stroke();
+          o.globalCompositeOperation = 'source-over';
+        } else if (target === 'car') {
+          const bw = R * 2.4, bh = R * 0.7, bx = cx - bw / 2, by = cy - bh / 2;
+          o.beginPath();
+          if ((o as any).roundRect) o.roundRect(bx, by, bw, bh, bh * 0.5); else o.rect(bx, by, bw, bh);
+          o.fill();
+          o.beginPath(); o.moveTo(bx + bw * 0.26, by); o.lineTo(bx + bw * 0.4, by - bh * 0.7); o.lineTo(bx + bw * 0.66, by - bh * 0.7); o.lineTo(bx + bw * 0.78, by); o.closePath(); o.fill();
+          o.beginPath(); o.arc(bx + bw * 0.27, by + bh, bh * 0.5, 0, Math.PI * 2); o.fill();
+          o.beginPath(); o.arc(bx + bw * 0.73, by + bh, bh * 0.5, 0, Math.PI * 2); o.fill();
+        } else {
+          o.textAlign = 'center'; o.textBaseline = 'middle';
+          const fs = Math.min(ch * 0.72, cw * 0.4);
+          o.font = `700 ${fs}px "Bricolage Grotesque", "Space Grotesk", sans-serif`;
+          o.fillText('PP', cx, cy);
+        }
+      }
+      function build() {
+        const rect = canvas!.getBoundingClientRect(); w = rect.width; h = rect.height;
+        if (w < 2 || h < 2) return;
+        canvas!.width = Math.floor(w * dpr); canvas!.height = Math.floor(h * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        const off = document.createElement('canvas'); off.width = Math.floor(w); off.height = Math.floor(h);
+        const octx = off.getContext('2d')!; drawTarget(octx, off.width, off.height);
+        const img = octx.getImageData(0, 0, off.width, off.height).data; const gap = w < 520 ? 4 : 5;
+        const ts: { x: number; y: number }[] = [];
+        for (let y = 0; y < off.height; y += gap) for (let x = 0; x < off.width; x += gap) if (img[(y * off.width + x) * 4 + 3] > 128) ts.push({ x, y });
+        parts = ts.map((t) => ({ tx: t.x, ty: t.y, x: Math.random() * w, y: Math.random() * h }));
+      }
+      function kick() { if (!running && parts.length) { running = true; labRaf = requestAnimationFrame(loop); } }
+      function drawOnce() { ctx.clearRect(0, 0, w, h); for (const p of parts) { const d = Math.abs(p.tx - p.x) + Math.abs(p.ty - p.y); ctx.fillStyle = d < 2 ? 'rgba(242,179,61,0.95)' : 'rgba(52,214,192,0.55)'; ctx.fillRect(p.x, p.y, 1.7, 1.7); } }
+      function sample() {
+        if (reduce) { for (const p of parts) { p.x = p.tx; p.y = p.ty; } if (tEl) tEl.textContent = 't=0000'; drawOnce(); return; }
+        for (const p of parts) { p.x = Math.random() * w; p.y = Math.random() * h; } total = Math.max(4, steps); frame = 0; residual = 9 / total; kick();
+      }
+      function loop() {
+        frame++;
+        const prog = Math.min(1, frame / total);
+        const ease = 1 - Math.pow(1 - prog, 3);
+        const jit = (1 - prog) * 14 + (prog > 0.98 ? residual : 0);
+        ctx.clearRect(0, 0, w, h);
+        for (const p of parts) {
+          p.x += (p.tx - p.x) * (0.1 + 0.22 * ease) + (Math.random() - 0.5) * jit;
+          p.y += (p.ty - p.y) * (0.1 + 0.22 * ease) + (Math.random() - 0.5) * jit;
+          const d = Math.abs(p.tx - p.x) + Math.abs(p.ty - p.y);
+          ctx.fillStyle = d < 2 ? 'rgba(242,179,61,0.95)' : 'rgba(52,214,192,0.55)';
+          ctx.fillRect(p.x, p.y, 1.7, 1.7);
+        }
+        if (tEl) tEl.textContent = 't=' + String(Math.round((1 - prog) * 1000)).padStart(4, '0');
+        if (prog < 1) labRaf = requestAnimationFrame(loop); else running = false;
+      }
+      document.querySelectorAll('.lab-preset').forEach((b) => b.addEventListener('click', () => {
+        document.querySelectorAll('.lab-preset').forEach((x) => { x.classList.remove('active'); x.setAttribute('aria-pressed', 'false'); });
+        b.classList.add('active'); b.setAttribute('aria-pressed', 'true');
+        target = (b as HTMLElement).dataset.target || 'PP'; build(); sample();
+      }));
+      if (stepsEl) stepsEl.addEventListener('input', () => { steps = parseInt(stepsEl.value, 10); if (stepsVal) stepsVal.textContent = stepsEl.value; });
+      document.getElementById('lab-sample')?.addEventListener('click', sample);
+      labResize = () => { build(); };
+      window.addEventListener('resize', labResize, { passive: true });
+      const fonts = (document as any).fonts;
+      if (fonts && fonts.ready) fonts.ready.then(() => { build(); sample(); }); else { build(); sample(); }
+    }
+
     // ── Lifecycle: per-navigation setup + teardown ──────────────────────────────
     function onPage() {
       document.documentElement.classList.add('js');
@@ -348,9 +444,10 @@ const personSchema = {
       initReveals();
       bindMagnetic();
       initHero();
+      initLab();
     }
     document.addEventListener('astro:page-load', onPage);
-    document.addEventListener('astro:before-swap', destroyHero);
+    document.addEventListener('astro:before-swap', () => { destroyHero(); destroyLab(); });
   </script>
 </body>
 </html>
