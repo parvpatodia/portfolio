@@ -447,7 +447,8 @@ const personSchema = {
       fetch(`https://api.github.com/users/${feed.dataset.gh || 'parvpatodia'}/repos?sort=pushed&per_page=24`, { signal: ctrl.signal, headers: { Accept: 'application/vnd.github+json' } })
         .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
         .then((repos: any[]) => {
-          const skip = ['portfolio', (feed.dataset.gh || 'parvpatodia').toLowerCase()];
+          // WHY: skip meta repos and repos that are not shipped work (DSA practice, a private family finance tool).
+          const skip = ['portfolio', 'neetcode-submissions', 'india-stock-research', (feed.dataset.gh || 'parvpatodia').toLowerCase()];
           const items = repos.filter((x) => !x.fork && !x.private && x.description && !skip.includes((x.name || '').toLowerCase())).slice(0, 5);
           if (!items.length) return;
           feed.innerHTML = items.map((x) => `<li class="ship-item"><a href="${esc(x.html_url)}" target="_blank" rel="noopener noreferrer" class="ship-name">${esc(x.name)}</a><span class="ship-desc">${esc(x.description || '')}</span><span class="ship-meta">${esc(x.language || 'repo')} &middot; ${rel(x.pushed_at)}</span></li>`).join('');

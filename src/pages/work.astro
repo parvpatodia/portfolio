@@ -13,56 +13,67 @@ const featured = [
   {
     name: 'av-policy-lab',
     period: '2026 – present · MS research, Northeastern',
-    tags: ['nuPlan', 'PyTorch', 'DDPM / DDIM', 'PDM-Score', 'A100 / SLURM'],
-    desc: 'A controlled study of when generative (diffusion) planners actually beat deterministic ones on nuPlan closed-loop, and whether that advantage survives once logged playback is replaced with realistic reactive agents. Baselines span behavior cloning, a MILE-style world model, and a VLA-conditioned policy, scored on PDM-Score; DDPM and DDIM are implemented from scratch in PyTorch and trained on A100s via SLURM.',
-    metrics: ['training loss 0.75 → 0.032', '~100× faster sampling with deterministic DDIM', 'honest failure-mode analysis + reusable harness'],
-    href: 'https://github.com/parvpatodia/av-policy-lab'
+    tags: ['nuPlan', 'PyTorch', 'DDPM / DDIM', 'RL', 'A100 / SLURM'],
+    desc: 'Do diffusion planners beat a capacity-matched deterministic planner in nuPlan closed-loop, and does the gap grow where scenes are interaction-critical? A pre-registered 2×2 (head × goal type, 3 seeds, 800 scenarios, two traffic modes) says no, and the write-up explains why: under standard imitation the diffusion policy collapses to a near-deterministic point estimate, and the standard closed-loop metrics are heavily saturated. A reward-guided RL recipe does recover multimodality that adapts to the scene, but the benefit stays broad and small, not specific to decision points. Wayformer-style encoder and DDPM / DDIM heads built from scratch in PyTorch, trained on A100s via SLURM.',
+    metrics: ['null in both traffic modes; TOST-equivalent to 0 (non-reactive)', 'collapse: median 0.47 m from the deterministic policy', '431K training samples · 1.03M-param encoder · 146 tests'],
+    href: 'https://github.com/parvpatodia/av-policy-lab',
+    paper: 'https://github.com/parvpatodia/av-policy-lab/blob/frontier-upgrade/docs/frontier/PAPER.md'
   },
   {
     name: 'Laksh.ai',
     period: '2025 – present',
-    tags: ['MediaPipe', 'RTMPose', 'YOLO', 'ChromaDB', 'FastAPI'],
-    desc: 'A computer-vision pipeline for basketball jump-shot analysis: a pluggable pose stack (MediaPipe + RTMPose) feeds a canonical 12-joint schema, an 8D kinematic fingerprint is matched against active NBA players via ChromaDB vector search, and an LLM returns coaching feedback. Presented at the YC × Google DeepMind hackathon; won a prize at the AI Prototype to Product hackathon.',
-    metrics: ['canonical 12-joint schema → 8D fingerprint', 'vector match vs active NBA players', 'injury-risk: knee valgus, landing, upper-extremity load'],
+    tags: ['MediaPipe', 'ChromaDB', 'Gemini 2.5 Flash', 'FastAPI', 'React'],
+    desc: 'Upload a jump-shot video and get a scout report. MediaPipe Pose tracks the shooter in 3D, a physics pipeline turns the motion into 8 biomechanical metrics (release velocity, arc, knee and elbow angle, kinetic sync, fluidity, hip rotation, balance), ChromaDB finds the nearest of about 500 active NBA player profiles (8D vectors derived from box-score stats) by cosine similarity, and Gemini 2.5 Flash writes the report and three drills. Presented at the YC × Google DeepMind hackathon; won a prize at the AI Prototype to Product hackathon.',
+    metrics: ['8D kinematic fingerprint from 3D pose', 'nearest match among ~500 NBA profiles', 'FastAPI + React app, Dockerized'],
     href: 'https://github.com/parvpatodia/Laksh_AI'
   },
   {
     name: 'Vision Transformer from scratch',
-    period: '2025 – present',
-    tags: ['PyTorch', 'Transformers', 'Sentinel-2', 'LEVIR-CD'],
-    desc: 'A ViT built from scratch in PyTorch for bi-temporal urban change detection on Sentinel-2 imagery: patch embedding, positional encoding, multi-head self-attention, and a Siamese encoder with a segmentation decoder, no pretrained modules. Evaluated honestly against tuned CNN baselines on IoU, F1, Dice, precision, and recall.',
-    metrics: ['ViT: F1 0.82, IoU 0.70', 'tuned baselines: U-Net 0.88, Swin 0.86 (F1)', 'a clear, reported gap, not a cherry-picked win'],
+    period: '2025 – 2026',
+    tags: ['PyTorch', 'Transformers', 'CIFAR-10', 'LEVIR-CD'],
+    desc: 'Patch embedding, multi-head self-attention, and transformer blocks written by hand, no pretrained weights. On CIFAR-10, 12 ablations at a matched ~1.21M parameters show which parts carry the model: removing residual connections costs 30.6 points, Post-Norm adds 2.4. On LEVIR-CD change detection, a Siamese ViT, U-Net, and Swin share one training pipeline. The CNN wins, which fits the idea that local inductive bias still matters on high-resolution, imbalanced masks.',
+    metrics: ['no residuals: 78.3% → 47.6% on CIFAR-10', 'LEVIR-CD F1: U-Net 0.884 · Swin 0.861 · ViT 0.824', 'best epoch by validation F1, from the logs'],
     href: 'https://github.com/parvpatodia/vit-from-scratch'
+  },
+  {
+    name: 'Achilles tendon load',
+    period: '2026',
+    tags: ['Python', 'OpenSim', 'Biomechanics', 'CI'],
+    desc: 'A feasibility study: can a cheap insole-style signal recover the load inside the Achilles tendon, the quantity that drives injury? Tendon force (ankle moment over moment arm), stress, and strain are computed on two open BMClab datasets and cross-checked against OpenSim, which agrees within about 16%; a full OpenSim pipeline (scale, IK, inverse dynamics) runs on a second walking dataset. Models then predict the whole force curve from six wearable-style inputs, scored with 5-fold cross-validation that holds out whole people.',
+    metrics: ['73 people, 839 walking + running step-cycles', 'R² 0.98 vs a 0.91 no-skill floor (0.94 loaded phase)', 'linear model recommended: 7.5% peak-force error'],
+    href: 'https://github.com/parvpatodia/Achilles-Tendon-Load-using-OpenSim'
   }
 ];
 
 const more = [
   { name: 'career-ops', tags: ['Claude Code', 'Node.js', 'Go'], desc: 'An AI-powered job-search and application system on Claude Code: 14 skill modes, a Go dashboard, automated PDF generation, batch processing.', href: 'https://github.com/parvpatodia/career-ops' },
-  { name: 'Feynman-Loop', tags: ['Python', 'MCP', 'LLM'], desc: 'A tool for thought that makes you understand concepts deeply: you explain a concept, it finds the gap against a trusted source and resurfaces what you don\'t yet truly know. Built as an MCP server.', href: 'https://github.com/parvpatodia/Feynman-Loop' },
+  { name: 'Feynman-Loop', tags: ['Python', 'MCP', 'CLI', 'Web UI'], desc: 'An open-source Model Context Protocol connector, wired into Claude, Cursor, and ChatGPT, that asks you to explain what you just learned. It grounds the check in your own sources, scores the explanation against verified evidence instead of letting you grade yourself, and resurfaces what you do not know yet. Local-first, no telemetry.', href: 'https://github.com/parvpatodia/Feynman-Loop' },
   { name: 'Trace', tags: ['Multi-LLM', 'Agents'], desc: 'A multi-LLM newsletter agent that infers what you are curious about and assembles a personalized newsletter around those interests.', href: 'https://github.com/parvpatodia/Trace' },
-  { name: 'TaskRoute', tags: ['Python', 'Multi-Agent'], desc: 'An LLM-provider optimization engine ranking providers by task type, budget, switching cost, and reliability risk in a simulated agent marketplace.', href: 'https://github.com/parvpatodia/TaskRoute' },
+  { name: 'TaskRoute', tags: ['Python', 'FastAPI', 'Multi-Agent'], desc: 'A FastAPI routing service that scores provider offerings (LLM APIs and compute services) on cost, latency, quality, reliability, and switching cost, then ranks them against a task\'s objective and budget.', href: 'https://github.com/parvpatodia/TaskRoute' },
   { name: 'MediTrack', tags: ['FastAPI', 'React', 'LVMM'], desc: 'Healthcare-equipment tracking using visual-memory AI for semantic search over surveillance footage. Memories.ai Hackathon.', href: 'https://github.com/parvpatodia/MediTrack' },
   { name: 'CRPO', tags: ['Python', 'Groq', 'Llama 3.1'], desc: 'Contrastive Reasoning Prompt Optimization: prompts robust across math, reasoning, fact verification, and code generation.', href: 'https://github.com/parvpatodia/CRPO-Cross-Domain-Optimization' }
 ];
 
 const experience = [
-  { role: 'Founder', org: 'Physical Hardware Intelligence (Φ)', loc: 'San Jose, CA', when: '2026 – present', note: 'Founded a campus robotics group and built its foundation: one versioned pipeline from hardware through data, training, evaluation, and deployment. Maintain an open curriculum and evaluation protocol on Hugging Face LeRobot spanning ACT, Diffusion Policy, SmolVLA, and pi0, and lead the SO-ARM101 robot-arm track.', href: 'https://github.com/physical-hardware-intelligence/phi' },
+  { role: 'Founder', org: 'Physical Hardware Intelligence (Φ)', loc: 'San Jose, CA', when: 'Jun 2026 – present', note: 'One of four founders of Φ, the robotics student group at Northeastern Silicon Valley (faculty sponsor Prof. Ilmi Yoon): an open LeRobot pipeline for the SO-ARM101 arm, from teleoperated demos to trained policies. My track is VLAs and RL. I fine-tuned π0 / π0.5 and SmolVLA on HPC, built an approximate MuJoCo replica of the SO-101, and used PPO to raise π0.5 lift success in simulation from 10/128 to 61/128 (a residual SAC policy reached 113/128). Wrote the group\'s SmolVLA explainer.', href: 'https://github.com/physical-hardware-intelligence/phi' },
   { role: 'Career Peer Advisor', org: 'Northeastern University', loc: 'San Jose, CA', when: 'Aug 2026 – present', note: 'Advise graduate students on resumes, cover letters, LinkedIn profiles, and interview preparation, specializing in Research and Data Analytics. Trained in advising technique and professional ethics by the Career Development & Experiential Learning team.' },
   { role: 'Graduate Teaching Assistant, Foundations of AI', org: 'Northeastern University', loc: 'San Jose, CA', when: 'Jan 2026 – Apr 2026', note: 'Led weekly office hours for 30+ students on model reasoning, debugging, and ML evaluation; designed assignments on dataset selection, model architecture, and result interpretation.' },
   { role: 'Senior Officer, Site Reliability Engineering', org: 'United Overseas Bank', loc: 'Singapore', when: 'Jul 2024 – Jun 2025', note: 'Monitored production banking infrastructure with GENEOS, improving incident visibility by 30%; partnered with DevOps to run scalability checks across AWS and VMware under peak load.' },
-  { role: 'Autonomous Vehicle Test Engineer', org: 'Venti Technologies', loc: 'Singapore', when: 'Jun 2023 – Aug 2023', note: 'Tested autonomous prime movers at a Singapore port: lane detection, curb detection, and path-change validation using RViz simulation and LiDAR analysis. Cut testing cycle time by 15%.' }
+  { role: 'Autonomous Vehicle Test Engineer', org: 'Venti Technologies', loc: 'Singapore', when: 'Jun 2023 – Aug 2023', note: 'Tested autonomous prime movers at a Singapore port: lane detection, curb detection, and path-change validation using RViz simulation and LiDAR analysis. Designed 15+ edge-case scenarios that, with the engineering team, surfaced 4 safety-critical perception defects, and cut testing cycle time by 15%.' }
 ];
 
 const education = [
-  { school: 'Northeastern University', degree: 'M.S. in Artificial Intelligence', loc: 'San Jose, CA', when: 'Sep 2025 – May 2027', note: 'GPA 3.92. Graduate Teaching Assistant for Foundations of AI. Focus: machine learning, computer vision, and autonomous systems.' },
+  { school: 'Northeastern University', degree: 'M.S. in Artificial Intelligence', loc: 'San Jose, CA', when: 'Sep 2025 – May 2027', note: 'GPA 3.92, Khoury College of Computer Sciences. Graduate Teaching Assistant for Foundations of AI. Fall 2026: Computational Robotics (MuSHR, ROS) and the AI Capstone, where I am working on RL fine-tuning of VLA policies.' },
   { school: 'Nanyang Technological University', degree: 'B.E. Mechanical Engineering · Minor in Computing & Data Analysis', loc: 'Singapore', when: 'Aug 2020 – May 2024', note: 'Final-year project on drivetrain condition monitoring earned a Final Year Project Research Award.' }
 ];
 
 const skills = [
   { k: 'Languages', v: 'Python, C++, JavaScript / TypeScript, SQL, MATLAB' },
-  { k: 'ML / DL', v: 'PyTorch, JAX, Transformers, diffusion models, scikit-learn, NumPy, OpenCV, MediaPipe' },
-  { k: 'Systems / infra', v: 'Docker, AWS, GCP, SLURM / HPC (A100), Git, FastAPI, React' },
-  { k: 'Domains', v: 'perception, autonomous driving, imitation & reinforcement learning, pose estimation, RAG, LLM agents' }
+  { k: 'ML / DL', v: 'PyTorch, Transformers, diffusion models (DDPM / DDIM), scikit-learn, NumPy, OpenCV, MediaPipe' },
+  { k: 'Robot learning', v: 'LeRobot, ACT, Diffusion Policy, SmolVLA, π0 / π0.5, imitation learning, RL (PPO, SAC)' },
+  { k: 'Simulation', v: 'MuJoCo, nuPlan, OpenSim, ROS / RViz' },
+  { k: 'Systems / infra', v: 'SLURM / HPC (A100), Hugging Face, Docker, AWS, GCP, Git, FastAPI, React' },
+  { k: 'Domains', v: 'robot learning, motion planning, perception, pose estimation, biomechanics, LLM agents' }
 ];
 ---
 
@@ -93,7 +104,10 @@ const skills = [
           <div class="tag-row">{p.tags.map((t) => <span class="tag">{t}</span>)}</div>
           <p style="color: var(--text-2); font-size: var(--fs-sm); line-height: 1.6;">{p.desc}</p>
           <ul class="card-metrics">{p.metrics.map((m) => <li>{m}</li>)}</ul>
-          <p style="margin-top: 0.9rem;"><a href={p.href} target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-family: var(--font-mono); font-size: var(--fs-xs);">view on github &rarr;</a></p>
+          <p style="margin-top: 0.9rem; display: flex; gap: 1.25rem; flex-wrap: wrap;">
+            <a href={p.href} target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-family: var(--font-mono); font-size: var(--fs-xs);">view on github &rarr;</a>
+            {p.paper && <a href={p.paper} target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-family: var(--font-mono); font-size: var(--fs-xs);">read the write-up &rarr;</a>}
+          </p>
         </article>
       ))}
     </div>
@@ -140,9 +154,15 @@ const skills = [
     </div>
 
     <p class="eyebrow reveal" style="margin-bottom: 1.25rem;">research</p>
+    <article class="card reveal" style="margin-bottom: 1rem;">
+      <h3 style="font-size: var(--fs-base);">When Multimodality Doesn't Help: A Diagnostic of Diffusion Planners on nuPlan Closed-Loop</h3>
+      <p style="color: var(--accent); font-family: var(--font-mono); font-size: var(--fs-xs); margin: 0.2rem 0 0.6rem;">Northeastern &middot; MS research write-up &middot; 2026 &middot; not peer-reviewed</p>
+      <p style="color: var(--text-2); font-size: var(--fs-sm); line-height: 1.6;">Diffusion planners are justified by multimodality, so their advantage should grow at decision points. Tested directly, it does not, and the write-up isolates why. A positive control shows the same head learns two modes when the data has two, so the collapse comes from single-future imitation, not the architecture. A winner-take-all fix widens the prediction without splitting it. Every standard nuPlan closed-loop metric is saturated, yet the null holds with the ceiling removed. Follows Dauner et al., <em>Parting with Misconceptions</em> (CoRL 2023).</p>
+      <p style="margin-top: 0.9rem;"><a href="https://github.com/parvpatodia/av-policy-lab/blob/frontier-upgrade/docs/frontier/PAPER.md" target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-family: var(--font-mono); font-size: var(--fs-xs);">read the write-up &rarr;</a></p>
+    </article>
     <article class="card reveal" style="margin-bottom: 4rem;">
-      <h3 style="font-size: var(--fs-base);">Next-Generation E-Drivetrain for Automated Mobile Robots: Condition Monitoring</h3>
-      <p style="color: var(--accent); font-family: var(--font-mono); font-size: var(--fs-xs); margin: 0.2rem 0 0.6rem;">NTU Singapore &middot; Final Year Project &middot; 2024 &middot; FYP Research Award</p>
+      <h3 style="font-size: var(--fs-base);">Next generation e-drivetrain for automated mobile robot, part I: condition monitoring</h3>
+      <p style="color: var(--accent); font-family: var(--font-mono); font-size: var(--fs-xs); margin: 0.2rem 0 0.6rem;">NTU Singapore &middot; Final Year Project, DR-NTU &middot; 2024 &middot; FYP Research Award</p>
       <p style="color: var(--text-2); font-size: var(--fs-sm); line-height: 1.6;">Condition monitoring of electric drivetrains for autonomous mobile robots, using MATLAB and neural-network models to predict drivetrain performance parameters from sensor data. The study quantified how training-data volume affects prediction accuracy and demonstrated the viability of real-time, multi-parameter drivetrain monitoring.</p>
       <p style="margin-top: 0.9rem;"><a href="https://hdl.handle.net/10356/177667" target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-family: var(--font-mono); font-size: var(--fs-xs);">NTU digital repository &rarr;</a></p>
     </article>

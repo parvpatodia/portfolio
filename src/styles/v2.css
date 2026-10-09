@@ -140,7 +140,9 @@ a { color: inherit; text-decoration: none; }
 .index-desc { margin-left: auto; max-width: 30ch; color: var(--text-2); font-size: var(--fs-sm); text-align: right; }
 
 /* ── Generic page + section scaffolding (inner pages) ─────────────────────────── */
-.page { padding: 4.5rem 0 6rem; }
+/* WHY: longhands, not the `padding` shorthand. `.page` sits on `main.wrap`, and a
+   shorthand here reset .wrap's side gutter to 0, so text ran edge-to-edge on phones. */
+.page { padding-top: 4.5rem; padding-bottom: 6rem; }
 .page-head { margin-bottom: 3rem; }
 .page-head h1 { font-size: clamp(2.2rem, 6vw, var(--fs-3xl)); margin-top: 0.6rem; }
 .lead { max-width: var(--maxw-prose); color: var(--text-2); font-size: var(--fs-md); line-height: 1.55; }
@@ -217,6 +219,7 @@ html.cmdk-open { overflow: hidden; }
 .ship-name:hover { color: var(--accent); }
 .ship-desc { color: var(--text-2); font-size: var(--fs-sm); flex: 1; min-width: 14ch; }
 .ship-meta { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--text-3); margin-left: auto; white-space: nowrap; }
+@media (max-width: 600px) { .ship-desc { flex-basis: 100%; order: 3; } }
 
 /* ── Drive mini-game ─────────────────────────────────────────────────────────── */
 .game-wrap { position: relative; border: 1px solid var(--border); border-radius: var(--radius); background: color-mix(in srgb, var(--bg-elev) 50%, transparent); overflow: hidden; }
