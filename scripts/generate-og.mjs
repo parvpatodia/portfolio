@@ -35,7 +35,7 @@ const svg = `<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http:/
   <text x="96" y="200" font-family="${mono}" font-size="23" letter-spacing="4" fill="#F2B33D">// PERCEPTION  ·  POLICY  ·  THE REAL WORLD</text>
   <text x="92" y="340" font-family="${font}" font-size="104" font-weight="700" fill="#ECEAE4">Parv Patodia</text>
   <text x="96" y="408" font-family="${font}" font-size="38" font-weight="600" fill="#A3A097">AI / ML &amp; Robotics Engineer</text>
-  <text x="96" y="560" font-family="${mono}" font-size="24" fill="#34D6C0">open // fall 2026 co-op</text>
+  <text x="96" y="560" font-family="${mono}" font-size="24" fill="#34D6C0">open // spring 2027 internship</text>
   <text x="96" y="596" font-family="${mono}" font-size="20" fill="#F2B33D">parvpatodia.vercel.app</text>
 </svg>`;
 
