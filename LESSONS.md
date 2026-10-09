@@ -33,3 +33,8 @@
 ## Retro metrics (2026-06-15, autonomous session)
 parv_corrections=0 (not yet reviewed by Parv) | repeat_mistakes=0 (no prior log) | bugs_found=1 (icon-button collapse, caught in visual QA pre-"done") | shipped_first_try=false (feature 2 needed a layout rework after visual QA) | rework_commits=1
 Adversarial diff review verdict: SHIP (0 blocking findings).
+2026-10-08 | Live site carried "~100x DDIM sampling", "loss 0.75->0.032", and other claims no repo supports | earlier sessions copied numbers from old resumes without opening the source | every metric on the site must trace to a repo file, log, or the current resume; re-audit against READMEs on each content sync
+2026-10-08 | I called the ViT F1 0.82 "false" from one session summary; repo README showed a second (teammate) run at 0.8236 | trusted a second-hand summary over the primary source | check the repo README/logs directly before declaring any number wrong
+2026-10-08 | Linked av-policy-lab PAPER.md on `main`; it 404s (default branch is frontier-upgrade) | assumed default branch = main | resolve links with `gh api .../contents/<path> --jq .html_url` and curl them before shipping
+2026-10-08 | `.page { padding: X 0 Y }` zeroed `.wrap` side gutter; text flush to edge on phones since v2 | shorthand on a utility class that co-occurs with .wrap | use padding-top/bottom longhands on classes that share an element with .wrap; check 375px gutter
+metrics 2026-10-08 | parv_corrections=0 repeat_mistakes=0 bugs_found=4 (feed repos, mobile gutter, paper 404, 6 overclaims via review) shipped_first_try=no rework_commits=0
